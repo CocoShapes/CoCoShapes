@@ -7,7 +7,7 @@ _Sistema multimedia, enfocado a estudiantes de jardín y transición, que permit
 * [Unity]
 * [C#]
 
-## Autores ✒️
+## Equipo de desarrollo ✒️
 
 * **Lina María Agudelo Garcés** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/lina-maría-agudelo-garcés-76123921a)
 * **María José Salazar Gómez** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/maría-josé-salazar-gómez-83758a1a4)
