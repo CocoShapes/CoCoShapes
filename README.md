@@ -1,6 +1,6 @@
-# CoCoShapes 🎨🔺🔢
+# CoCoShapes 🎨🔺🔢👩‍🏫
 
-_Sistema multimedia, enfocado a estudiantes de jardín y transición, que permite el aprendizaje y práctica de figuras, colores y conteo en el idioma inglés, por medio de objetos físicos y una tablet_👩‍🏫
+_Sistema multimedia, enfocado a estudiantes de jardín y transición, que permite el aprendizaje y práctica de figuras, colores y conteo en el idioma inglés, por medio de objetos físicos y una tablet_
 
 ## Construido con 🛠️
 
