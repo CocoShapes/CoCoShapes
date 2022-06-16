@@ -9,6 +9,6 @@ _Sistema multimedia, enfocado a estudiantes de jardín y transición, que permit
 
 ## Equipo de desarrollo ✒️
 
-* **Lina María Agudelo Garcés** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/lina-maría-agudelo-garcés-76123921a)
+* **Lina María Agudelo Garcés** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/lina-maria-agudelo)
 * **María José Salazar Gómez** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/maría-josé-salazar-gómez-83758a1a4)
 * **Juan Camilo Espinosa Dominguez** - *Estudiante de Ingeniería Multimedia* - (www.linkedin.com/in/juan-camilo-espinosa)
