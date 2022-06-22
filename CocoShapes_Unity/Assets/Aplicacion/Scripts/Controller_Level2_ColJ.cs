@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller_Level2_ColJ : MonoBehaviour
 {
@@ -14,10 +15,52 @@ public class Controller_Level2_ColJ : MonoBehaviour
     //Variable del color solicitado
     public string reqColor;
 
+    //PARA CANVAS
+    //Canvas en donde se va a cambiar todo
+    public GameObject canvas;
+    
+    //Imagenes
+    //Parte 1
+        //Parte 1_Incorrecto
+    public GameObject imgPart1_In;
+            //Sprite de parte 1 incorrecto
+    private Sprite imgPart1_In_SP;  
+
+
+    //Parte 2
+        //Parte 2 instrucción
+    public  GameObject imgPart2;
+            //Sprite de parte 2
+    private Sprite imgPart2_SP;  
+
+        //Parte 2 Incorrecto
+    public GameObject imgPart2_In;
+            //Sprite de parte 2 incorrecto
+    private Sprite imgPart2_In_SP;
+
+
+    //Parte 3
+        //Parte 3 instrucción
+    public GameObject imgPart3;
+            //Sprite de parte 3
+    private Sprite imgPart3_SP;
+
+        //Parte 3 Incorrecto
+    public GameObject imgPart3_In;
+            //Sprite de parte 3 incorrecto
+    private Sprite imgPart3_In_SP;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        //Para obtener todos los sprites
+        imgPart1_In_SP= imgPart1_In.GetComponent<Image>().sprite;
+        imgPart2_SP= imgPart2.GetComponent<Image>().sprite;
+        imgPart2_In_SP= imgPart2_In.GetComponent<Image>().sprite;
+        imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
+        imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
+
         level=1;
         reqColor="";
         //Aqui se realizaria lo de la conexión del Arduino
@@ -33,13 +76,15 @@ public class Controller_Level2_ColJ : MonoBehaviour
         
 
         //Aqui se realizaria lo de la conexión del Arduino
-        //Si no ha presionado ningun boton
-        if(pressColor==""){
-            
+        //Es necesario verificar que haya presionado alguno de los botones
+        if(pressColor=="red"||pressColor=="yellow"||pressColor=="blue"
+        ||pressColor=="orange"||pressColor=="green"||pressColor=="purple"
+        ||pressColor=="black"||pressColor=="white"){
+                colorButtonPress();
+        //Necesario indicar que ya no se esta presionando
+        pressColor="";
         }
-        else{
-            colorButtonPress();
-        }
+        
 
         Debug.Log("Level: " + level +" ___PressColor: "+ pressColor +" ___RequestedColor: "+ reqColor);
             
@@ -49,13 +94,19 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
+            //Cambio la imagen dependiendo del nivel
+            changeImg(level,1);
             //Aumento el nivel
             level++;  
         }
+        
 
         //Si presiona el incorrecto
         else{
-               Debug.Log("INCORRECTO"); 
+            
+            Debug.Log("INCORRECTO"); 
+            //Cambio la imagen dependiendo del nivel
+            changeImg(level,0);
         }
     }
 
@@ -75,5 +126,41 @@ public class Controller_Level2_ColJ : MonoBehaviour
             reqColor="";
         }
        
+    }
+
+    //Método que cambia la imagen de fondo
+        //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
+            //1 es correcto y 0 incorrecto
+    public void changeImg(int levelCI, int num){
+
+        if(levelCI==1){
+            if(num==1){
+                canvas.GetComponent<Image>().sprite=imgPart2_SP;
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
+            }
+            
+        }
+        else if (levelCI==2){
+            if(num==1){
+                canvas.GetComponent<Image>().sprite=imgPart3_SP;
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
+            }
+        }
+        else if(levelCI==3){
+            if(num==1){
+                Debug.Log("Cambio de pagina");
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart3_In_SP;
+            }
+        }
+        else{
+            Debug.Log("Cambio pagina");
+        }
+
     }
 }
