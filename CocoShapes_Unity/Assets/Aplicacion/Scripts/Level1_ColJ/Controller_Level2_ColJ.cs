@@ -51,6 +51,19 @@ public class Controller_Level2_ColJ : MonoBehaviour
     private Sprite imgPart3_In_SP;
 
 
+    //PARA MOVER OBJETOS
+    public GameObject fishingObj1;
+        //Animation del obj1
+    private Animator fishingObj1_AN;
+
+    public GameObject fishingObj2;
+        //Animation del obj2
+    private Animator fishingObj2_AN;
+
+    public GameObject fishingObj3;
+        //Animation del obj3
+    private Animator fishingObj3_AN;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +73,23 @@ public class Controller_Level2_ColJ : MonoBehaviour
         imgPart2_In_SP= imgPart2_In.GetComponent<Image>().sprite;
         imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
         imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
+        
+        //Para obtener las animaciones
+        fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
+        fishingObj2_AN= fishingObj2.gameObject.GetComponent<Animator>();
+        fishingObj3_AN= fishingObj3.gameObject.GetComponent<Animator>();
+
+        //Dejo todos los objetos abajo
+        fishingObj1_AN.Play("fishingObjectAnim_Stop");
+        fishingObj2_AN.Play("fishingObjectAnim_Stop");
+        fishingObj3_AN.Play("fishingObjectAnim_Stop");
+
+        //Desactivo el objeto 2 y 3
+        fishingObj2.SetActive(false);
+        fishingObj3.SetActive(false);
+
+        //Subo el primer objeto
+        fishingObj1_AN.Play("fishingObjectAnim");
 
         level=1;
         reqColor="";
@@ -136,6 +166,12 @@ public class Controller_Level2_ColJ : MonoBehaviour
         if(levelCI==1){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart2_SP;
+                //Desactivo el objeto que está arriba
+                fishingObj1.SetActive(false);
+                
+                //Activo y Subo el siguiente objeto
+                fishingObj2.SetActive(true);
+                fishingObj2_AN.Play("fishingObjectAnim");
             }
             else if(num==0){
                 canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
@@ -145,6 +181,12 @@ public class Controller_Level2_ColJ : MonoBehaviour
         else if (levelCI==2){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart3_SP;
+                //Desactivo el objeto que está arriba
+                fishingObj2.SetActive(false);
+
+                //Activo y Subo el siguiente objeto
+                fishingObj3.SetActive(true);
+                fishingObj3_AN.Play("fishingObjectAnim");
             }
             else if(num==0){
                 canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
