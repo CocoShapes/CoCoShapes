@@ -15,6 +15,11 @@ public class Controller_Level2_ColJ : MonoBehaviour
     //Variable del color solicitado
     public string reqColor;
 
+    //Contador de errores
+    private int errorCount;
+
+
+    ///-------------------------------------------
     //PARA CANVAS
     //Canvas en donde se va a cambiar todo
     public GameObject canvas;
@@ -51,6 +56,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
     private Sprite imgPart3_In_SP;
 
 
+    ///-------------------------------------------
     //PARA MOVER OBJETOS
     public GameObject fishingObj1;
         //Animation del obj1
@@ -91,8 +97,11 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Subo el primer objeto
         fishingObj1_AN.Play("fishingObjectAnim");
 
+        //Otras variables
         level=1;
         reqColor="";
+        errorCount=0;
+
         //Aqui se realizaria lo de la conexión del Arduino
         pressColor="";
 
@@ -115,8 +124,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
         pressColor="";
         }
         
-
-        Debug.Log("Level: " + level +" ___PressColor: "+ pressColor +" ___RequestedColor: "+ reqColor);
+        
+        Debug.Log("Level: " + level +" ___PressColor: "+ pressColor +" ___RequestedColor: "+ reqColor + "____ErrorCount: " + errorCount);
             
     }
 
@@ -128,6 +137,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
             changeImg(level,1);
             //Aumento el nivel
             level++;  
+            //Reseteo el numero de errores
+            errorCount=0;
         }
         
 
@@ -135,6 +146,13 @@ public class Controller_Level2_ColJ : MonoBehaviour
         else{
             
             Debug.Log("INCORRECTO"); 
+            //Aumento numero de errores
+            errorCount++;
+            //Si en algun momento llego a los 3 errores
+            if (errorCount==3){
+                Debug.Log("SE TE ACABARON LOS INTENTOS :(");
+            }
+
             //Cambio la imagen dependiendo del nivel
             changeImg(level,0);
         }
