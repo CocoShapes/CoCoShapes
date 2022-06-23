@@ -99,6 +99,22 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Sprite 
     private Sprite imgGrapes_SP;
 
+    //Audios de correcto o incorrecto y colores
+    private AudioSource[] sounds;
+    public GameObject obj_Audio;
+
+    private AudioSource correctAudio;
+    private AudioSource incorrectAudio;
+
+    private AudioSource redAudio;
+    private AudioSource blueAudio;
+    private AudioSource yellowAudio;
+    private AudioSource greenAudio;
+    private AudioSource orangeAudio;
+    private AudioSource purpleAudio;
+
+    private AudioSource audioColor;
+
 
    
 
@@ -121,7 +137,19 @@ public class Controller_Level2_ColJ : MonoBehaviour
         imgCarrot_SP = imgCarrot.GetComponent<Image>().sprite;
         imgFrog_SP = imgFrog.GetComponent<Image>().sprite;
         imgGrapes_SP = imgGrapes.GetComponent<Image>().sprite;
-            
+
+         //Audios
+        sounds= obj_Audio.GetComponents<AudioSource>();
+        correctAudio= sounds[0];
+        incorrectAudio= sounds[1];
+        redAudio = sounds[2];
+        blueAudio = sounds[3];
+        yellowAudio = sounds[4];
+        greenAudio = sounds[5];
+        orangeAudio = sounds[6];
+        purpleAudio = sounds[7];
+
+        audioColor= new AudioSource();
         
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
@@ -171,6 +199,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
+            //Activo audio
+             correctAudio.Play();
+
             //Vuelvo al objeto hacia abajo 
             //Cambio la imagen dependiendo del nivel
             changeImg(level,1);
@@ -180,14 +211,19 @@ public class Controller_Level2_ColJ : MonoBehaviour
             errorCount=0;
             //Devuelvo el objeto abajo
             fishingObj1_AN.Play("fishingObjectAnim_Stop");
-            //Vuelvo a generar un color solicitado
+            if(level<4){
+                //Vuelvo a generar un color solicitado
             requestedColor();
+            }
+            
         }
         
 
         //Si presiona el incorrecto
         else{
-            
+            //Activo audio
+            incorrectAudio.Play();
+
             Debug.Log("INCORRECTO"); 
             //Aumento numero de errores
             errorCount++;
@@ -197,6 +233,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
             }
             //Cambio la imagen dependiendo del nivel
             changeImg(level,0);
+            //Activamos sonido de color otra vez
+            audioColor.PlayDelayed(incorrectAudio.clip.length);
         }
     }
 
@@ -225,11 +263,10 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
         for (int n = 0; n < colorsArray.Length; n++)
         {
-            Debug.Log("entra");
             //Si encuentra la posición
             if(n == randomNumber ){
                 reqColor = colorsArray[n];
-               
+               Debug.Log ("RN: " + randomNumber + "CL: " + colorsArray[n]  );
             }
         }
 
@@ -241,33 +278,50 @@ public class Controller_Level2_ColJ : MonoBehaviour
         if(reqColor == "red"){
             //Le coloco la fresa
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgStrawberry_SP;
+            audioColor = redAudio;
         }
         //si es azul
         else if(reqColor == "blue"){
             //Le coloco la ballena
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgWhale_SP;
+            audioColor = blueAudio;
         }
         //si es amarillo
         else if(reqColor == "yellow"){
             //Le coloco el sol
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgSun_SP;
+            audioColor = yellowAudio;
         }
         //si es naranja
         else if(reqColor == "orange"){
             //Le coloco la zanahoria
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgCarrot_SP;
+            audioColor = orangeAudio;
+
         }
         //si es verde
         else if(reqColor == "green"){
             //Le coloco la rana
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgFrog_SP;
+            audioColor = greenAudio;
         }
         //si es purpura
         else if(reqColor == "purple"){
             //Le coloco las uvas
             fishingObj1.gameObject.GetComponent<Image>().sprite= imgGrapes_SP;
+            audioColor = purpleAudio;
+        }
+        //Activamos sonido de color
+
+            //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
+        if( level!=1){
+            audioColor.PlayDelayed(correctAudio.clip.length);
+        }else{
+            audioColor.Play();
         }
 
+        
+        
         //Ahora, hacemos la animación de subir el objeto
         fishingObj1_AN.Play("fishingObjectAnim");
         
