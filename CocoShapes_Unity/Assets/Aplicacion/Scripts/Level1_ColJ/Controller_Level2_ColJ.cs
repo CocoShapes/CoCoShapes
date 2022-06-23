@@ -149,10 +149,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
             //Aumento numero de errores
             errorCount++;
             //Si en algun momento llego a los 3 errores
-            if (errorCount==3){
-                Debug.Log("SE TE ACABARON LOS INTENTOS :(");
+             if (errorCount==3){
+                Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
             }
-
             //Cambio la imagen dependiendo del nivel
             changeImg(level,0);
         }
