@@ -18,6 +18,17 @@ public class Controller_Level2_ColJ : MonoBehaviour
     //Contador de errores
     private int errorCount;
 
+    //Numero aleatorio
+    private int randomNumber; 
+
+    //Arreglo de colores
+    private string[] colorsArray;
+    //Arreglo de numeros que ya salieron
+    private int[] colorsArrayCh;
+    //Numero que me permite saber el numero de iteraciones
+    private int iteration;
+
+    
 
     ///-------------------------------------------
     //PARA CANVAS
@@ -62,17 +73,39 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Animation del obj1
     private Animator fishingObj1_AN;
 
-    public GameObject fishingObj2;
-        //Animation del obj2
-    private Animator fishingObj2_AN;
 
-    public GameObject fishingObj3;
-        //Animation del obj3
-    private Animator fishingObj3_AN;
+    //IMAGENES DE LOS OBJETOS
+    public GameObject imgStrawberry;
+        //Sprite 
+    private Sprite imgStrawberry_SP;
+
+    public GameObject imgSun;
+        //Sprite 
+    private Sprite imgSun_SP;
+
+    public GameObject imgWhale;
+        //Sprite 
+    private Sprite imgWhale_SP;
+
+    public GameObject imgCarrot;
+        //Sprite 
+    private Sprite imgCarrot_SP;
+
+    public GameObject imgFrog;
+        //Sprite 
+    private Sprite imgFrog_SP;
+
+    public GameObject imgGrapes;
+        //Sprite 
+    private Sprite imgGrapes_SP;
+
+
+   
 
     // Start is called before the first frame update
     void Start()
     {
+        
         //Para obtener todos los sprites
         imgPart1_In_SP= imgPart1_In.GetComponent<Image>().sprite;
         imgPart2_SP= imgPart2.GetComponent<Image>().sprite;
@@ -80,27 +113,36 @@ public class Controller_Level2_ColJ : MonoBehaviour
         imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
         imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
         
+
+        //Objetos
+        imgStrawberry_SP = imgStrawberry.GetComponent<Image>().sprite; 
+        imgSun_SP = imgSun.GetComponent<Image>().sprite;
+        imgWhale_SP = imgWhale.GetComponent<Image>().sprite;
+        imgCarrot_SP = imgCarrot.GetComponent<Image>().sprite;
+        imgFrog_SP = imgFrog.GetComponent<Image>().sprite;
+        imgGrapes_SP = imgGrapes.GetComponent<Image>().sprite;
+            
+        
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
-        fishingObj2_AN= fishingObj2.gameObject.GetComponent<Animator>();
-        fishingObj3_AN= fishingObj3.gameObject.GetComponent<Animator>();
 
         //Dejo todos los objetos abajo
         fishingObj1_AN.Play("fishingObjectAnim_Stop");
-        fishingObj2_AN.Play("fishingObjectAnim_Stop");
-        fishingObj3_AN.Play("fishingObjectAnim_Stop");
-
-        //Desactivo el objeto 2 y 3
-        fishingObj2.SetActive(false);
-        fishingObj3.SetActive(false);
-
-        //Subo el primer objeto
-        fishingObj1_AN.Play("fishingObjectAnim");
 
         //Otras variables
         level=1;
-        reqColor="";
+        
         errorCount=0;
+        randomNumber=0;
+        iteration=0;
+       
+
+        colorsArray = new string []{ "red", "blue", "yellow", "green", "purple", "orange"};
+        //Colocar numeros muy altos que nunca saldran
+        colorsArrayCh = new int []{ 10, 10, 10};
+
+        //Aplico el método que me genera el color solicitado
+        requestedColor();
 
         //Aqui se realizaria lo de la conexión del Arduino
         pressColor="";
@@ -110,10 +152,6 @@ public class Controller_Level2_ColJ : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Método que me permite saber el color solicitado
-        requestedColor(level);
-        
-
         //Aqui se realizaria lo de la conexión del Arduino
         //Es necesario verificar que haya presionado alguno de los botones
         if(pressColor=="red"||pressColor=="yellow"||pressColor=="blue"
@@ -125,7 +163,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
         }
         
         
-        Debug.Log("Level: " + level +" ___PressColor: "+ pressColor +" ___RequestedColor: "+ reqColor + "____ErrorCount: " + errorCount);
+       // Debug.Log("Level: " + level +" ___PressColor: "+ pressColor +" ___RequestedColor: "+ reqColor + "____ErrorCount: " + errorCount);
             
     }
 
@@ -133,12 +171,17 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
+            //Vuelvo al objeto hacia abajo 
             //Cambio la imagen dependiendo del nivel
             changeImg(level,1);
             //Aumento el nivel
             level++;  
             //Reseteo el numero de errores
             errorCount=0;
+            //Devuelvo el objeto abajo
+            fishingObj1_AN.Play("fishingObjectAnim_Stop");
+            //Vuelvo a generar un color solicitado
+            requestedColor();
         }
         
 
@@ -158,21 +201,76 @@ public class Controller_Level2_ColJ : MonoBehaviour
     }
 
     //Método que me permite saber el color solicitado
-    public void requestedColor(int levelRQ){
-       
-        if(levelRQ==1){
-            reqColor ="red";
+    public void requestedColor(){
+       //Genero el número aleatorio
+
+        randomNumber = Random.Range(0, 5);
+        
+        //Este for me permite saber si ya salió ese número
+        for (int i = 0; i < colorsArrayCh.Length; i++)
+        {
+            //Si ya salió
+            if(randomNumber == colorsArrayCh[i] ){
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, 5);
+                
+            }
         }
-        else if (levelRQ==2){
-            reqColor ="yellow";
+        //Añado a mi array el número que acabo de sacar
+        colorsArrayCh[iteration]= randomNumber;
+        iteration++;
+
+        
+        //Recorremos el arreglo de colores para devolver el color solicitado
+
+        for (int n = 0; n < colorsArray.Length; n++)
+        {
+            Debug.Log("entra");
+            //Si encuentra la posición
+            if(n == randomNumber ){
+                reqColor = colorsArray[n];
+               
+            }
         }
-        else if(levelRQ==3){
-            reqColor ="green";
+
+        //Aqui vamos a asignar la imagen del color solicitado al objeto.
+        //    0       1        2        3         4        5
+        //{ "red", "blue", "yellow", "green", "purple", "orange"};
+
+        //Si es rojo
+        if(reqColor == "red"){
+            //Le coloco la fresa
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgStrawberry_SP;
         }
-        else{
-            reqColor="";
+        //si es azul
+        else if(reqColor == "blue"){
+            //Le coloco la ballena
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgWhale_SP;
         }
-       
+        //si es amarillo
+        else if(reqColor == "yellow"){
+            //Le coloco el sol
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgSun_SP;
+        }
+        //si es naranja
+        else if(reqColor == "orange"){
+            //Le coloco la zanahoria
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgCarrot_SP;
+        }
+        //si es verde
+        else if(reqColor == "green"){
+            //Le coloco la rana
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgFrog_SP;
+        }
+        //si es purpura
+        else if(reqColor == "purple"){
+            //Le coloco las uvas
+            fishingObj1.gameObject.GetComponent<Image>().sprite= imgGrapes_SP;
+        }
+
+        //Ahora, hacemos la animación de subir el objeto
+        fishingObj1_AN.Play("fishingObjectAnim");
+        
     }
 
     //Método que cambia la imagen de fondo
@@ -183,12 +281,6 @@ public class Controller_Level2_ColJ : MonoBehaviour
         if(levelCI==1){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart2_SP;
-                //Desactivo el objeto que está arriba
-                fishingObj1.SetActive(false);
-                
-                //Activo y Subo el siguiente objeto
-                fishingObj2.SetActive(true);
-                fishingObj2_AN.Play("fishingObjectAnim");
             }
             else if(num==0){
                 canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
@@ -198,12 +290,6 @@ public class Controller_Level2_ColJ : MonoBehaviour
         else if (levelCI==2){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart3_SP;
-                //Desactivo el objeto que está arriba
-                fishingObj2.SetActive(false);
-
-                //Activo y Subo el siguiente objeto
-                fishingObj3.SetActive(true);
-                fishingObj3_AN.Play("fishingObjectAnim");
             }
             else if(num==0){
                 canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
