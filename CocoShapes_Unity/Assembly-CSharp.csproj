@@ -39,7 +39,8 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\AudioController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\StartingLevel.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\LaunchBall.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Level2_ColJ\Controller_Level2_ColJ.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Level2_ColJ\Controller_Level2_ColJ.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\level2_ShaJ\Controller_Level2_ShaJ.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

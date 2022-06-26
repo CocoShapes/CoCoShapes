@@ -195,14 +195,14 @@ public class Controller_Level2_ColJ : MonoBehaviour
             
     }
 
-    //Método que se invoca cuando se presiona un boton de color, recibe la parte del nivel en la que se encuentra
+    //Método que se invoca cuando se presiona un boton de color
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
             //Activo audio
              correctAudio.Play();
 
-            //Vuelvo al objeto hacia abajo 
+            
             //Cambio la imagen dependiendo del nivel
             changeImg(level,1);
             //Aumento el nivel
