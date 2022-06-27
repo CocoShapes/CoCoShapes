@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller_Level2_ShaJ : MonoBehaviour
 {
@@ -75,6 +76,12 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     public GameObject shapeObjR;
         //Animation del obj2
     private Animator shapeObjR_AN;
+
+        //PESA
+    public GameObject weightObj;
+        //Animation de la pesa
+    private Animator weightObj_AN;
+
 
     //variable que me permite saber si es el lado izquierdo o derecho
     private int side;
@@ -151,15 +158,17 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         rectangleAudio = sounds[5];
         starAudio = sounds[6];
 
-        audioColor= new AudioSource();
+        audioShape= new AudioSource();
         
         //Para obtener las animaciones
         shapeObjL_AN= shapeObjL.gameObject.GetComponent<Animator>();
         shapeObjR_AN= shapeObjR.gameObject.GetComponent<Animator>();
+        weightObj_AN = weightObj.gameObject.GetComponent<Animator>();
 
-        //Dejo todas las figuras arriba
+        //Dejo todas las figuras y la pesa arriba
         shapeObjL_AN.Play("shape_Left_STOP");
         shapeObjR_AN.Play("shape_Right_STOP");
+        weightObj_AN.Play("weight_Stop");
 
 
         //Otras variables
@@ -175,7 +184,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
 
         shapesArray = new string []{ "circle", "square", "triangle", "rectangle", "star"};
         //Colocar numeros muy altos que nunca saldran
-        colorsArrayCh = new int []{ 10, 10, 10};
+        shapesArrayCh = new int []{ 10, 10, 10};
 
         //Aplico el método que me genera la figura solicitada
         requestedShape();
@@ -215,19 +224,6 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             
            
             if(level<4){
-                //Aqui debo verificar si es la figura de la izquierda o de la derecha 
-                //si esta en la izquierda
-                if(side==1){
-                    //Desaparezco el objeto de la izquierda
-                        shapeObjL.SetActive(false);
-                        //Indico que estoy al otro lado
-                        side=2;
-                }else{
-                    //Si esta a la derecha, desaparezco el de la derecha
-                    shapeObjR.SetActive(false);
-                    //Indico que estoy al otro lado
-                    side=1;
-                }
                 //Vuelvo a generar un una figura solicitada
             requestedShape();
             }
@@ -255,7 +251,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     }
 
     //Método que me permite saber la figura solicitada
-    public void requestedColor(){
+    public void requestedShape(){
        //Genero el número aleatorio
 
         randomNumber = Random.Range(0, 4);
@@ -287,59 +283,123 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         }
 
         //Aqui vamos a asignar la imagen de la figura solicitada al objeto.
-    
-
+        //Se va a asignar a ambos lados, la diferencia está en cual se muestra
+        
         //Si es circulo
         if(reqShape == "circle"){
             //Le coloco el circulo
-            obj.gameObject.GetComponent<Image>().sprite= imgStrawberry_SP;
-            audioColor = redAudio;
+            shapeObjL.gameObject.GetComponent<Image>().sprite= imgCircle_SP;
+            shapeObjR.gameObject.GetComponent<Image>().sprite= imgCircle_SP;
+            audioShape = circleAudio;
         }
-        //si es azul
-        else if(reqShape == "blue"){
-            //Le coloco la ballena
-            fishingObj1.gameObject.GetComponent<Image>().sprite= imgWhale_SP;
-            audioColor = blueAudio;
+        //si es cuadrado
+        else if(reqShape == "square"){
+            //Le coloco el cuadrado
+            shapeObjL.gameObject.GetComponent<Image>().sprite= imgSquare_SP;
+            shapeObjR.gameObject.GetComponent<Image>().sprite= imgSquare_SP;
+            audioShape = squareAudio;
         }
-        //si es amarillo
-        else if(reqColor == "yellow"){
-            //Le coloco el sol
-            fishingObj1.gameObject.GetComponent<Image>().sprite= imgSun_SP;
-            audioColor = yellowAudio;
+        //si es triangulo
+        else if(reqShape == "triangle"){
+            //Le coloco el triangulo
+            shapeObjL.gameObject.GetComponent<Image>().sprite= imgTriangle_SP;
+            shapeObjR.gameObject.GetComponent<Image>().sprite= imgTriangle_SP;
+            audioShape = triangleAudio;
         }
-        //si es naranja
-        else if(reqColor == "orange"){
-            //Le coloco la zanahoria
-            fishingObj1.gameObject.GetComponent<Image>().sprite= imgCarrot_SP;
-            audioColor = orangeAudio;
+        //si es rectangulo
+        else if(reqShape == "rectangle"){
+            //Le coloco el rectangulo
+            shapeObjL.gameObject.GetComponent<Image>().sprite= imgRectangle_SP;
+            shapeObjR.gameObject.GetComponent<Image>().sprite= imgRectangle_SP;
+            audioShape = rectangleAudio;
 
         }
-        //si es verde
-        else if(reqColor == "green"){
-            //Le coloco la rana
-            fishingObj1.gameObject.GetComponent<Image>().sprite= imgFrog_SP;
-            audioColor = greenAudio;
+        //si es estrella
+        else if(reqShape == "star"){
+            //Le coloco el rectangulo
+            shapeObjL.gameObject.GetComponent<Image>().sprite= imgStar_SP;
+            shapeObjR.gameObject.GetComponent<Image>().sprite= imgStar_SP;
+            audioShape = starAudio;
+
         }
-        //si es purpura
-        else if(reqColor == "purple"){
-            //Le coloco las uvas
-            fishingObj1.gameObject.GetComponent<Image>().sprite= imgGrapes_SP;
-            audioColor = purpleAudio;
-        }
+        
         //Activamos sonido de color
 
             //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
         if( level!=1){
-            audioColor.PlayDelayed(correctAudio.clip.length);
+            audioShape.PlayDelayed(correctAudio.clip.length);
         }else{
-            audioColor.Play();
+            audioShape.Play();
         }
+
+        //Aqui debo verificar si es la figura de la izquierda o de la derecha 
+        checkSide();
+        
+    }
+
+    public void checkSide(){
+        //si esta en la izquierda
+        if(side==2){
+            //Activo la figura de la izquierda
+            shapeObjL.SetActive(true);
+            //Desaparezco la otra
+            shapeObjR.SetActive(false);
+            //Ahora, hacemos la animación de bajar la figura
+            shapeObjL_AN.Play("shape_Left");
+            //Tambien la animación de la pesa inclinándose
+            weightObj_AN.Play("weight_Right");
+            //Indico que estoy al otro lado
+            side=1;
+        }else{
+            //Activo la figura de la derecha
+            shapeObjR.SetActive(true);
+            //Desaparezco la otra
+            shapeObjL.SetActive(false);
+            //Ahora, hacemos la animación de bajar la figura
+            shapeObjR_AN.Play("shape_Right");
+            //Tambien la animación de la pesa inclinándose
+            weightObj_AN.Play("weight_Left");
+            //Indico que estoy al otro lado
+            side=2;
+        }
+    }
+
+    public void changeImg(int levelCI, int num){
+
+        if(levelCI==1){
+            if(num==1){
+                canvas.GetComponent<Image>().sprite=imgPart2_SP;
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
+            }
+            
+        }
+        else if (levelCI==2){
+            if(num==1){
+                canvas.GetComponent<Image>().sprite=imgPart3_SP;
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
+            }
+        }
+        else if(levelCI==3){
+            if(num==1){
+                Debug.Log("Cambio de pagina");
+            }
+            else if(num==0){
+                canvas.GetComponent<Image>().sprite=imgPart3_In_SP;
+            }
+        }
+        else{
+            Debug.Log("Cambio pagina");
+        }
+
+    }
+        
+                
 
         
         
-        //Ahora, hacemos la animación de subir el objeto
-        fishingObj1_AN.Play("fishingObjectAnim");
-        
-    }
 
 }
