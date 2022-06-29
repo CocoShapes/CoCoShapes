@@ -10,7 +10,7 @@ public class StartingLevel : MonoBehaviour
     public Text txtColor;
     public Image imgMistake;
 
-    public AudioClip[] audios = new AudioClip[3]; //O = Red, 2 = Blue, 3 = Blue
+    public AudioClip[] audios = new AudioClip[3]; //O = Red, 2 = Blue, 3 = Yellow
     public AudioController audioSource;
 
     //GameObjects Variables
