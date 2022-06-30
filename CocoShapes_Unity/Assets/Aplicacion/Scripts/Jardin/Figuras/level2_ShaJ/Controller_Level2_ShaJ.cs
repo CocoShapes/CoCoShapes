@@ -69,13 +69,9 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     //PARA MOVER OBJETOS
         //FIGURA IZQUIERDA
     public GameObject shapeObjL;
-        //Animation del obj1
-    private Animator shapeObjL_AN;
 
           //FIGURA DERECHA
     public GameObject shapeObjR;
-        //Animation del obj2
-    private Animator shapeObjR_AN;
 
         //PESA
     public GameObject weightObj;
@@ -161,13 +157,9 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         audioShape= new AudioSource();
         
         //Para obtener las animaciones
-        shapeObjL_AN= shapeObjL.gameObject.GetComponent<Animator>();
-        shapeObjR_AN= shapeObjR.gameObject.GetComponent<Animator>();
         weightObj_AN = weightObj.gameObject.GetComponent<Animator>();
 
-        //Dejo todas las figuras y la pesa arriba
-        shapeObjL_AN.Play("shape_Left_STOP");
-        shapeObjR_AN.Play("shape_Right_STOP");
+        //Dejo la pesa arriba
         weightObj_AN.Play("weight_Stop");
 
 
@@ -254,7 +246,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     public void requestedShape(){
        //Genero el número aleatorio
 
-        randomNumber = Random.Range(0, 4);
+        randomNumber = Random.Range(0, 5);
         
         //Este for me permite saber si ya salió ese número
         for (int i = 0; i < shapesArrayCh.Length; i++)
@@ -262,13 +254,14 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             //Si ya salió
             if(randomNumber == shapesArrayCh[i] ){
                 //Vuelvalo a generar
-                randomNumber = Random.Range(0, 4);
+                randomNumber = Random.Range(0, 5);
                 
             }
         }
         //Añado a mi array el número que acabo de sacar
         shapesArrayCh[iteration]= randomNumber;
         iteration++;
+        Debug.Log(retornarArreglo());
 
         
         //Recorremos el arreglo de figuras para devolver la figura solicitada
@@ -344,8 +337,6 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             shapeObjL.SetActive(true);
             //Desaparezco la otra
             shapeObjR.SetActive(false);
-            //Ahora, hacemos la animación de bajar la figura
-            shapeObjL_AN.Play("shape_Left");
             //Tambien la animación de la pesa inclinándose
             weightObj_AN.Play("weight_Right");
             //Indico que estoy al otro lado
@@ -355,8 +346,6 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             shapeObjR.SetActive(true);
             //Desaparezco la otra
             shapeObjL.SetActive(false);
-            //Ahora, hacemos la animación de bajar la figura
-            shapeObjR_AN.Play("shape_Right");
             //Tambien la animación de la pesa inclinándose
             weightObj_AN.Play("weight_Left");
             //Indico que estoy al otro lado
@@ -395,6 +384,16 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             Debug.Log("Cambio pagina");
         }
 
+    }
+
+    public string retornarArreglo(){
+        string retorno= "Arreglo:";
+        for (int o = 0; o < shapesArrayCh.Length; o++)
+        {
+            retorno += (" " + shapesArrayCh[o]);
+        }
+
+        return retorno;
     }
         
                 
