@@ -60,8 +60,6 @@ public class Controller_Level2_CouJ : MonoBehaviour
         //Osito
     public GameObject cocoObj;
 
-          //Algodon de azucar
-    public GameObject cottonCandy;
 
         //Animation del osito
     private Animator cocoObj_AN;
@@ -117,8 +115,6 @@ public class Controller_Level2_CouJ : MonoBehaviour
         //Para obtener las animaciones
         cocoObj_AN = cocoObj.gameObject.GetComponent<Animator>();
 
-        //Desactivo el algodón de azucar
-        cottonCandy.SetActive(false);
 
         //Otras variables
         level=1;
@@ -142,20 +138,22 @@ public class Controller_Level2_CouJ : MonoBehaviour
         //Para cambiar imagen cuando finaliza la animacion
         if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoAnim_vanish") && notRepeat ==0){
             //Cambio la imagen dependiendo del nivel
-            Debug.Log(level + " " + decision);
+            
             changeImg(level,decision);
             
          //Subo nivel
         level++;
         notRepeat=1;
-            Debug.Log("ENTRO DONDE NO DEBIA");
+       
         }
 
-        Debug.Log("level: " + level);
+        
     }
 
     //Botón que se llama cuando se da click al boton correcto
     public void buttonCorrectClick(){
+        //Quito errores
+        errorCount=0;
         //Para el not repeat
         notRepeat =0;  
         //Indico que fue correcto
@@ -186,7 +184,7 @@ public class Controller_Level2_CouJ : MonoBehaviour
             //Aumento numero de errores
             errorCount++;
             //Si en algun momento llego a los 3 errores
-             if (errorCount==3){
+             if (errorCount==2){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
             }
 
@@ -201,6 +199,8 @@ public class Controller_Level2_CouJ : MonoBehaviour
             //Activo audio
             incorrectAudio.PlayDelayed(audioNumberFeedback.clip.length);
 
+            //Vuelvo a activar la instrucción
+            instruction.PlayDelayed(incorrectAudio.clip.length);
             
            
     }
@@ -214,7 +214,7 @@ public class Controller_Level2_CouJ : MonoBehaviour
 
         if(levelCI==1){
             if(num==1){
-                Debug.Log("Entra anim 1 C");
+                
                 //Si es correcto en el nivel 1
                 //Muevo al osito con la animacion correcta
                 cocoObj_AN.Play("cocoAnim_part1Correct");
@@ -223,7 +223,7 @@ public class Controller_Level2_CouJ : MonoBehaviour
                
             }
             else if(num==0){
-                Debug.Log("Entra anim 1 I");
+              
                 //Si es incorrecto en el nivel 1
                 //Muevo al osito con la animacion incorrecta
                 cocoObj_AN.Play("cocoAnim_part1Incorrect");
@@ -235,12 +235,19 @@ public class Controller_Level2_CouJ : MonoBehaviour
         }
         else if (levelCI==2){
             if(num==1){
-                Debug.Log("Entra anim 2 C");
+                //Si es correcto en el nivel 2
+                //Muevo al osito con la animacion correcta
+                cocoObj_AN.Play("cocoAnim_part2Correct");
+                //Las casillas correctas son 5
+                audioNumberFeedback = fiveAudio;
+              
                 
             }
             else if(num==0){
-                Debug.Log("Entra anim 2 I");
-                //Si es incorrecto en el nivel 2
+                
+                 //Si es incorrecto en el nivel 2
+                //Muevo al osito con la animacion incorrecta
+                cocoObj_AN.Play("cocoAnim_part2Incorrect");
                 //Las casillas incorrectas son 6
                 audioNumberFeedback = sixAudio;
                 
@@ -248,10 +255,18 @@ public class Controller_Level2_CouJ : MonoBehaviour
         }
         else if(levelCI==3){
             if(num==1){
+                //Si es correcto en el nivel 3
+                //Muevo al osito con la animacion correcta
+                cocoObj_AN.Play("cocoAnim_part3Correct");
+                //Las casillas correctas son 9
+                audioNumberFeedback = nineAudio;
+                
                 Debug.Log("Cambio de pagina");
             }
             else if(num==0){
                 //Si es incorrecto en el nivel 3
+                //Muevo al osito con la animacion incorrecta
+                cocoObj_AN.Play("cocoAnim_part3Incorrect");
                 //Las casillas incorrectas son 10
                 audioNumberFeedback = tenAudio;
                
@@ -268,6 +283,8 @@ public class Controller_Level2_CouJ : MonoBehaviour
         if(levelCI==1){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart2_SP;
+                 //Activo la instruccion
+                instruction.Play();
                
             }
             else if(num==0){
@@ -279,6 +296,8 @@ public class Controller_Level2_CouJ : MonoBehaviour
         else if (levelCI==2){
             if(num==1){
                 canvas.GetComponent<Image>().sprite=imgPart3_SP;
+                 //Activo la instruccion
+                    instruction.Play();
             }
             else if(num==0){
                 
