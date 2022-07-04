@@ -31,41 +31,10 @@ public class Controller_Level2_ColJ : MonoBehaviour
     
 
     ///-------------------------------------------
-    //PARA CANVAS
-    //Canvas en donde se va a cambiar todo
-    public GameObject canvas;
-    
-    //Imagenes
-    //Parte 1
-        //Parte 1_Incorrecto
-    public GameObject imgPart1_In;
-            //Sprite de parte 1 incorrecto
-    private Sprite imgPart1_In_SP;  
+    //PARA redCircle
 
-
-    //Parte 2
-        //Parte 2 instrucción
-    public  GameObject imgPart2;
-            //Sprite de parte 2
-    private Sprite imgPart2_SP;  
-
-        //Parte 2 Incorrecto
-    public GameObject imgPart2_In;
-            //Sprite de parte 2 incorrecto
-    private Sprite imgPart2_In_SP;
-
-
-    //Parte 3
-        //Parte 3 instrucción
-    public GameObject imgPart3;
-            //Sprite de parte 3
-    private Sprite imgPart3_SP;
-
-        //Parte 3 Incorrecto
-    public GameObject imgPart3_In;
-            //Sprite de parte 3 incorrecto
-    private Sprite imgPart3_In_SP;
-
+    //Circulo que permite ver el error
+    public GameObject redCircle;
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
@@ -122,13 +91,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
     void Start()
     {
         
-        //Para obtener todos los sprites
-        imgPart1_In_SP= imgPart1_In.GetComponent<Image>().sprite;
-        imgPart2_SP= imgPart2.GetComponent<Image>().sprite;
-        imgPart2_In_SP= imgPart2_In.GetComponent<Image>().sprite;
-        imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
-        imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
-        
+        //Quitamos el circulo rojo del error
+        redCircle.SetActive(false);
 
         //Objetos
         imgStrawberry_SP = imgStrawberry.GetComponent<Image>().sprite; 
@@ -327,34 +291,37 @@ public class Controller_Level2_ColJ : MonoBehaviour
         
     }
 
-    //Método que cambia la imagen de fondo
+    //Método que permite colocar o quitar el circulo rojo del error
         //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
             //1 es correcto y 0 incorrecto
+            //Si es correcto lo desactiva
+            //Si es incorrecto lo activa
     public void changeImg(int levelCI, int num){
 
         if(levelCI==1){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart2_SP;
+                redCircle.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
+                redCircle.SetActive(true);
             }
             
         }
         else if (levelCI==2){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart3_SP;
+               redCircle.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
+                redCircle.SetActive(true);
             }
         }
         else if(levelCI==3){
             if(num==1){
                 Debug.Log("Cambio de pagina");
+                redCircle.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart3_In_SP;
+                redCircle.SetActive(true);
             }
         }
         else{
