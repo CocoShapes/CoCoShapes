@@ -29,41 +29,12 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     private int iteration;
 
 ///-------------------------------------------
-    //PARA CANVAS
-    //Canvas en donde se va a cambiar todo
-    public GameObject canvas;
-    
-    //Imagenes
-    //Parte 1
-        //Parte 1_Incorrecto
-    public GameObject imgPart1_In;
-            //Sprite de parte 1 incorrecto
-    private Sprite imgPart1_In_SP;  
 
+     //PARA redCircle
 
-    //Parte 2
-        //Parte 2 instrucción
-    public  GameObject imgPart2;
-            //Sprite de parte 2
-    private Sprite imgPart2_SP;  
-
-        //Parte 2 Incorrecto
-    public GameObject imgPart2_In;
-            //Sprite de parte 2 incorrecto
-    private Sprite imgPart2_In_SP;
-
-
-    //Parte 3
-        //Parte 3 instrucción
-    public GameObject imgPart3;
-            //Sprite de parte 3
-    private Sprite imgPart3_SP;
-
-        //Parte 3 Incorrecto
-    public GameObject imgPart3_In;
-            //Sprite de parte 3 incorrecto
-    private Sprite imgPart3_In_SP;
-
+    //Circulo que permite ver el error
+    public GameObject redCircle_L;
+    public GameObject redCircle_R;
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
@@ -129,13 +100,10 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Para obtener todos los sprites
-        imgPart1_In_SP= imgPart1_In.GetComponent<Image>().sprite;
-        imgPart2_SP= imgPart2.GetComponent<Image>().sprite;
-        imgPart2_In_SP= imgPart2_In.GetComponent<Image>().sprite;
-        imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
-        imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
-        
+        //Quitamos el circulo rojo del error
+        redCircle_L.SetActive(false);
+        redCircle_R.SetActive(false);
+
 
         //Objetos
         imgCircle_SP = imgCircle.GetComponent<Image>().sprite; 
@@ -207,7 +175,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
 
             
             //Cambio la imagen dependiendo del nivel
-            changeImg(level,1);
+            redCirclePut(level,1);
             //Aumento el nivel
             level++;  
             //Reseteo el numero de errores
@@ -236,7 +204,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
             }
             //Cambio la imagen dependiendo del nivel
-            changeImg(level,0);
+            redCirclePut(level,0);
             //Activamos sonido de color otra vez
             audioShape.PlayDelayed(incorrectAudio.clip.length);
         }
@@ -261,7 +229,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         //Añado a mi array el número que acabo de sacar
         shapesArrayCh[iteration]= randomNumber;
         iteration++;
-        Debug.Log(retornarArreglo());
+        
 
         
         //Recorremos el arreglo de figuras para devolver la figura solicitada
@@ -353,47 +321,62 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         }
     }
 
-    public void changeImg(int levelCI, int num){
+        //Método que permite colocar o quitar el circulo rojo del error
+        //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
+            //1 es correcto y 0 incorrecto
+            //Si es correcto lo desactiva
+            //Si es incorrecto lo activa
+            //Se debe comprobar también el lado de la pesa en el que está 1 izquierda 2 derecha
+    public void redCirclePut(int levelCI, int num){
 
         if(levelCI==1){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart2_SP;
+                //Desactivo todo
+                    redCircle_L.SetActive(false);
+                    redCircle_R.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
+                if(side==1){
+                    redCircle_R.SetActive(true);
+                }else{
+                    redCircle_L.SetActive(true);
+                }
             }
             
         }
         else if (levelCI==2){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart3_SP;
+              //Desactivo todo
+                    redCircle_L.SetActive(false);
+                    redCircle_R.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
+                if(side==1){
+                    redCircle_R.SetActive(true);
+                }else{
+                    redCircle_L.SetActive(true);
+                }
             }
         }
         else if(levelCI==3){
             if(num==1){
                 Debug.Log("Cambio de pagina");
+                 //Desactivo todo
+                    redCircle_L.SetActive(false);
+                    redCircle_R.SetActive(false);
             }
             else if(num==0){
-                canvas.GetComponent<Image>().sprite=imgPart3_In_SP;
+                 if(side==1){
+                    redCircle_R.SetActive(true);
+                }else{
+                    redCircle_L.SetActive(true);
+                }
             }
         }
         else{
             Debug.Log("Cambio pagina");
         }
 
-    }
-
-    public string retornarArreglo(){
-        string retorno= "Arreglo:";
-        for (int o = 0; o < shapesArrayCh.Length; o++)
-        {
-            retorno += (" " + shapesArrayCh[o]);
-        }
-
-        return retorno;
     }
         
                 

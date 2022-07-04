@@ -168,7 +168,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
             
             //Cambio la imagen dependiendo del nivel
-            changeImg(level,1);
+            redCirclePut(level,1);
             //Aumento el nivel
             level++;  
             //Reseteo el numero de errores
@@ -196,7 +196,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
             }
             //Cambio la imagen dependiendo del nivel
-            changeImg(level,0);
+            redCirclePut(level,0);
             //Activamos sonido de color otra vez
             audioColor.PlayDelayed(incorrectAudio.clip.length);
         }
@@ -296,7 +296,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
             //1 es correcto y 0 incorrecto
             //Si es correcto lo desactiva
             //Si es incorrecto lo activa
-    public void changeImg(int levelCI, int num){
+    public void redCirclePut(int levelCI, int num){
 
         if(levelCI==1){
             if(num==1){
