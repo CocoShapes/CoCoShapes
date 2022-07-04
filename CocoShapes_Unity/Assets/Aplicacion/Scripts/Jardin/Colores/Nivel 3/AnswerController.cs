@@ -16,7 +16,7 @@ public class AnswerController : MonoBehaviour
 
     //Para lo de los sonidos
     public AudioClip[] sounds = new AudioClip[10];
-    public AudioController audioSource;
+    public AudioControl1 audioSource;
 
     public bool isPressing;
 
