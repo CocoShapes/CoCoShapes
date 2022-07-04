@@ -56,7 +56,7 @@
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\AudioController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\AudioControl1.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 3\Audio2.cs" />
