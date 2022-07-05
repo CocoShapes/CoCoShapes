@@ -10,6 +10,9 @@ public class LevelController : MonoBehaviour
     public Sprite[] spritesBubbles = new Sprite[5]; // Array of sprites for bubbles: Circle, Square, Triangle, Star, Rectangle
     public AudioClip[] audios = new AudioClip[2]; // Array of Audios to play: Good, Bad
 
+    // GameObject Variables
+    private GameObject canyon;
+
     private string answer; //Variable for answer of user
     private string correctAnswer; // Variable for correct answer
     private bool getResponse;
@@ -61,8 +64,11 @@ public class LevelController : MonoBehaviour
         isPlaying = true;
         getResponse = false;
         
+        canyon = GameObject.Find("Canyon");
+        
         launchShape = GameObject.Find("AnimationController").GetComponent<LaunchShape>();
         launchShape.Launch(selectShape());
+        canyon.GetComponent<Animator>().Play("Cañon", -1, 0f);
 
         audioControl = GameObject.Find("AudioController").GetComponent<AudioControlLev1FigJ>();
     }
@@ -96,6 +102,7 @@ public class LevelController : MonoBehaviour
             Debug.Log("Incorret answer ++");
             incorrectAnswers++;
             launchShape.Launch(selectShape());
+            canyon.GetComponent<Animator>().Play("Cañon", -1, 0f);
             isPlaying = true;
         }
 
@@ -113,6 +120,7 @@ public class LevelController : MonoBehaviour
                 }
     
                 launchShape.Launch(selectShape());
+                canyon.GetComponent<Animator>().Play("Cañon", -1, 0f);
                 Debug.Log("Correct answer");
             }else{
                 //Wrong answer
@@ -122,6 +130,7 @@ public class LevelController : MonoBehaviour
                 audioControl.playAudio(audios[1]);
 
                 launchShape.Launch(spritesShapes[randomShape]);
+                canyon.GetComponent<Animator>().Play("Cañon", -1, 0f);
                 Debug.Log("Wrong answer");
             }
             getResponse = false;

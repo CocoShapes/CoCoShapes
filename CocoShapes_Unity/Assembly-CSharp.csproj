@@ -36,13 +36,18 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\UIFunctions.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\AudioController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LevelController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AudioControlLev1FigJ.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\StartingLevel.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\AnimationControllerCon1J.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\LevelControllerCont1J.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AnimationEvents.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\LaunchBall.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\ConstructMountain.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LaunchShape.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AudioControlLev1FigJ.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\AudioControllerCon1J.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
