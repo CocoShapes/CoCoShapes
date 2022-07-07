@@ -4,47 +4,45 @@ using UnityEngine;
 
 public class ShowText : MonoBehaviour
 {
-
+    //Para llamar al código denominado AnswerController para que pueda usar allá la variable AnswerCorrect
     public AnswersController answerController;
 
     //Para mostrar las instrucciones de manera aleatoria
     public Transform position;
-    public GameObject[] Texts;
+    public GameObject[] Texts;//Las instrucciones (son imágenes)
 
-    public GameObject[] Shapes;
+    //Las figuras
+    public GameObject[] Shapes;//Son imágenes
 
-    //Para lo de los sonidos
-    public AudioClip[] sounds = new AudioClip[6];
+    //Para los audios
+    public AudioClip[] sounds = new AudioClip[9];
     public Audio2 audioSource;
 
     //Para la respuestas
-
     public string AnswerCorrect;//la que el usuario deberia presionar
-
 
     void Start()
     {
 
     }
 
-
     void Update()
     {
-
+        //Para que se muestren las instrucciones
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            //Para que se desactiven
             foreach (GameObject text in Texts)
             {
                 text.SetActive(false);
             }
-
             //Para que las instrucciones se muestren aleatoriamente
             int n = Random.Range(0, Texts.Length);
-
-            Texts[n].SetActive(true);
+            Texts[n].SetActive(true);//Para que se activen
 
             //Para los audios de las instrucciones
-            StartCoroutine(audioSource.PlayAudio(sounds[n]));
+            AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
+            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
 
             //Para definir las respuestas correctas
             if (n == 0)

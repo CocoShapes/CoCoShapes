@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WheelController : MonoBehaviour
 {
-    public GameObject Wheel;
-    public GameObject Wheel2;
-
+    public GameObject Wheel;//Ruleta 1
+    public GameObject Wheel2;//Ruleta 2
 
     void Update()
     {
+        //Para que se vuelva a activar la rotación de la ruleta
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Wheel.SetActive(Wheel.activeSelf ? false : true);

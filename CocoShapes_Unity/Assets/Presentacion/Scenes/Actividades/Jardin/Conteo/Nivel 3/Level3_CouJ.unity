@@ -6118,27 +6118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c5160d255d64bc4eba66af2348fd90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnswerChild: 
-  AnswerCorrect: 
-  ButtonIceCream: {fileID: 1344293408}
-  ButtonPopcorn: {fileID: 1709391496}
-  isPressing: 0
-  speed: 2
-  Car: {fileID: 1197224731}
-  sounds:
-  - {fileID: 8300000, guid: e3dd13e3273980c49a5bc72d778e18dc, type: 3}
-  - {fileID: 8300000, guid: dd909bef843f9054cafca05713b0d869, type: 3}
-  - {fileID: 8300000, guid: e99ca56faa99ee94e9e3a442a68e557b, type: 3}
-  - {fileID: 8300000, guid: 73c4bbd9d9a531e44beeeba9abe5761d, type: 3}
-  - {fileID: 8300000, guid: dff18620a511df44699f7647b658733b, type: 3}
-  - {fileID: 8300000, guid: 6e7799e2c27ee6f488a259620b25c97b, type: 3}
-  - {fileID: 8300000, guid: b96305d7a727b9d43a918d5db22b5860, type: 3}
-  - {fileID: 8300000, guid: e54cd9ba31848a74d9d270ffce1efe1d, type: 3}
-  - {fileID: 8300000, guid: a2f052520245acf429c789eeb0d3a7c5, type: 3}
-  - {fileID: 8300000, guid: 2250c4279ea7fb045b999223be38f334, type: 3}
-  - {fileID: 8300000, guid: 80fe8c2690d2d32448dd191067cd1725, type: 3}
-  - {fileID: 8300000, guid: 039b85628aaf28742858791bf0881f3b, type: 3}
-  audioSource: {fileID: 758295609}
+  animationCar: {fileID: 1197224735}
 --- !u!1 &857267502
 GameObject:
   m_ObjectHideFlags: 0
@@ -7429,7 +7409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad9b5a6ecfd85c243864a54d1ddc441a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  answerController: {fileID: 856848800}
+  animationCar: {fileID: 1197224735}
   Scenes:
   - {fileID: 409143736}
   - {fileID: 393609719}
@@ -7465,8 +7445,11 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2250c4279ea7fb045b999223be38f334, type: 3}
   - {fileID: 8300000, guid: 80fe8c2690d2d32448dd191067cd1725, type: 3}
   - {fileID: 8300000, guid: 039b85628aaf28742858791bf0881f3b, type: 3}
+  - {fileID: 8300000, guid: f3dcd7f7f0a445942b0643299b7641f9, type: 3}
+  - {fileID: 8300000, guid: e7a4fa9aa0447504697e910c34ff13b8, type: 3}
   audioSource: {fileID: 758295609}
   AnswerCorrect: 
+  n: 0
 --- !u!1 &1044068357
 GameObject:
   m_ObjectHideFlags: 0
@@ -8152,6 +8135,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1197224733}
   - component: {fileID: 1197224732}
+  - component: {fileID: 1197224734}
+  - component: {fileID: 1197224735}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -8217,13 +8202,65 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197224731}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.29, y: 0.02, z: -9.39}
+  m_LocalRotation: {x: 0, y: 0, z: -0.040890373, w: 0.9991636}
+  m_LocalPosition: {x: -6.31, y: 0.2, z: -9.39}
   m_LocalScale: {x: 1.11, y: 1.11, z: 1.11}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.687}
+--- !u!95 &1197224734
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197224731}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1ce0a6d9459c5cf439f50b393c39cfa9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1197224735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1197224731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09aa306c3ba03f24ab78338fefadf5fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 0}
+  AnswerChild: 
+  AnswerCorrect: 
+  isPressing: 0
+  n: 0
+  sounds:
+  - {fileID: 8300000, guid: e3dd13e3273980c49a5bc72d778e18dc, type: 3}
+  - {fileID: 8300000, guid: dd909bef843f9054cafca05713b0d869, type: 3}
+  - {fileID: 8300000, guid: e99ca56faa99ee94e9e3a442a68e557b, type: 3}
+  - {fileID: 8300000, guid: 73c4bbd9d9a531e44beeeba9abe5761d, type: 3}
+  - {fileID: 8300000, guid: dff18620a511df44699f7647b658733b, type: 3}
+  - {fileID: 8300000, guid: 6e7799e2c27ee6f488a259620b25c97b, type: 3}
+  - {fileID: 8300000, guid: b96305d7a727b9d43a918d5db22b5860, type: 3}
+  - {fileID: 8300000, guid: e54cd9ba31848a74d9d270ffce1efe1d, type: 3}
+  - {fileID: 8300000, guid: a2f052520245acf429c789eeb0d3a7c5, type: 3}
+  - {fileID: 8300000, guid: 2250c4279ea7fb045b999223be38f334, type: 3}
+  - {fileID: 8300000, guid: 80fe8c2690d2d32448dd191067cd1725, type: 3}
+  - {fileID: 8300000, guid: 039b85628aaf28742858791bf0881f3b, type: 3}
+  - {fileID: 8300000, guid: f3dcd7f7f0a445942b0643299b7641f9, type: 3}
+  - {fileID: 8300000, guid: e7a4fa9aa0447504697e910c34ff13b8, type: 3}
+  audioSource: {fileID: 758295609}
 --- !u!1 &1232498435
 GameObject:
   m_ObjectHideFlags: 0
@@ -9536,7 +9573,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1344293409}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 856848800}
+        m_TargetAssemblyTypeName: AnsController, Assembly-CSharp
+        m_MethodName: updateIsPressing
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: IceCream
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1344293409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10916,7 +10965,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1709391497}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 856848800}
+        m_TargetAssemblyTypeName: AnsController, Assembly-CSharp
+        m_MethodName: updateIsPressing
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Popcorn
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1709391497
 MonoBehaviour:
   m_ObjectHideFlags: 0

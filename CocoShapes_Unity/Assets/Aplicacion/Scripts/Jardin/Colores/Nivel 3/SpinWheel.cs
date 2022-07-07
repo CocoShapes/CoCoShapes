@@ -4,19 +4,20 @@ using UnityEngine;
 
 public class SpinWheel : MonoBehaviour
 {
+    //Para llamar al código denominado WheelController para la rotación.
     public WheelController wheelController;
-
+    //Para llamar al código denominado AnswerController para poder usar el answerCorrect en ese código.
     public AnswerController answerController;
 
-    //Para array de colores
+    //Para el array de los objetos vacíos que ayudan a obtener la distancia de cada color.
     public GameObject[] ObjectColors;
+
+    //Para la rotación
     private float angle;
     private float speed;
-
     private float rotationTime;
     private float recorredTime;
-
-    public GameObject Wheel2;
+    public GameObject Wheel2;//La ruleta 2 
 
     //Variable selector
     public GameObject Selector;
@@ -24,14 +25,14 @@ public class SpinWheel : MonoBehaviour
     //Para calcular la distancia más cercana al selector
     float distanceMin;
 
-    public string AnswerCorrect; //la que el usuario deberia presionar
+    //Para las respuestas
+    public string AnswerCorrect; //la que el usuario debería presionar
 
-
-
-    //Para lo de los sonidos
-    public AudioClip[] sounds = new AudioClip[10];
+    //Para los audios
+    public AudioClip[] sounds = new AudioClip[12];
     public AudioControl1 audioSource;
 
+    //Método para la rotación de la ruleta.
     public IEnumerator Rotate()
     {
         //El while se ejecuta mientras el tiempo que debe girarse la ruleta no halla terminado
@@ -44,46 +45,43 @@ public class SpinWheel : MonoBehaviour
         //Esto es lo que pasa despues de que la ruleta se detiene
         Debug.Log("After rotation, Time: " + recorredTime);
 
-        //Ruleta 2 tome el mismo angulo de la ruleta que gira (ruleta 1)
+        //Para que la Ruleta 2 tome el mismo angulo de la ruleta que gira (ruleta 1)
         Wheel2.SetActive(true);
         Wheel2.transform.rotation = transform.rotation;
 
-        //Para el array de colores SABER QUE COLOR ESTÁ MÁS CERCA
-
-
+        //PARA SABER QUE COLOR ESTÁ MÁS CERCA DEL SELECTOR
         for (int i = 0; i < ObjectColors.Length; i++)
         {
-            //Calculo la distancia entre el color y el selector
+            //Para calcular la distancia entre el color y el selector
             float distance = Vector3.Distance(Selector.transform.position, ObjectColors[i].transform.position);
             Debug.Log("Color" + ObjectColors[i] + "Distance: " + distance);
 
-            //Calcular de distance la mas pequeña
-
+            //Para calcular la distancia más pequeña
             if (i == 0)
             {
                 distanceMin = distance;
-
             }
             else
             {
                 if (distance < distanceMin)
                 {
                     distanceMin = distance;
-                    StartCoroutine(audioSource.PlayAudio(sounds[i]));
+                    //Para saber el nombre del color que está más cerca del selector
                     answerController.AnswerCorrect = ObjectColors[i].name;
-
+                    //Para que se reproduzcan los audios de los colores
+                    AudioClip[] soundsToPlay = new AudioClip[1] { sounds[i] };
+                    StartCoroutine(audioSource.PlayAudio(soundsToPlay));
                 }
             }
-
         }
-
         Debug.Log("DistanceMin: " + distanceMin);
 
-        //Desactiva la ruleta que gira
+        //Para desactivar la ruleta que gira
         this.gameObject.SetActive(false);
         yield return null;
     }
 
+    //Para la rotación de la ruleta.
     void OnEnable()
     {
         speed = Random.Range(250f, 280f);
@@ -95,7 +93,6 @@ public class SpinWheel : MonoBehaviour
         transform.Rotate(0, 0, angle);
 
         StartCoroutine(Rotate());
-
     }
 }
 
