@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour
     // Logic Variables
     public Sprite[] spritesShapes = new Sprite[10]; // Array of sprites for shapes: Circle, Square, Triangle, Star, Rectangle
     public Sprite[] spritesBubbles = new Sprite[5]; // Array of sprites for bubbles: Circle, Square, Triangle, Star, Rectangle
-    public AudioClip[] audios = new AudioClip[2]; // Array of Audios to play: Good, Bad
+    public AudioClip[] audios = new AudioClip[4]; // Array of Audios to play: Good, Bad, Good Job, Keep Trying
 
     // GameObject Variables
     private GameObject canyon;
@@ -112,7 +112,8 @@ public class LevelController : MonoBehaviour
                 correctAnswers++;
 
                 //Play Audio
-                audioControl.playAudio(audios[0]);
+                AudioClip[] audiosToPlay = new AudioClip[2]{audios[0], audios[2]};
+                StartCoroutine(audioControl.PlayAudio(audiosToPlay));
 
                 //Remove the shape from the array
                 if(spritesShapes.Length > 1){
@@ -127,7 +128,8 @@ public class LevelController : MonoBehaviour
                 incorrectAnswers++;
 
                 //Play Audio
-                audioControl.playAudio(audios[1]);
+                AudioClip[] audiosToPlay = new AudioClip[2]{audios[1], audios[3]};
+                StartCoroutine(audioControl.PlayAudio(audiosToPlay));
 
                 launchShape.Launch(spritesShapes[randomShape]);
                 canyon.GetComponent<Animator>().Play("Cañon", -1, 0f);

@@ -414,6 +414,8 @@ MonoBehaviour:
   audios:
   - {fileID: 8300000, guid: a8f216b2b9e32473f87e3dde0ac7d951, type: 3}
   - {fileID: 8300000, guid: 372922b10b84d43cc82a6275c04b6cb4, type: 3}
+  - {fileID: 8300000, guid: 3d1e5de8774c045fca0615bf6dfa0c69, type: 3}
+  - {fileID: 8300000, guid: 8799edcf224ad42cc95b3f6a90822273, type: 3}
   isPlaying: 0
 --- !u!4 &743753522
 Transform:
