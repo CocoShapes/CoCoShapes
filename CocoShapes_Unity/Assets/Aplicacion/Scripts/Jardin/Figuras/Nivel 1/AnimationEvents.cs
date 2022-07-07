@@ -6,7 +6,7 @@ public class AnimationEvents : MonoBehaviour
 {
     public LevelController levelController;
     public GameObject bubbleShape;
-
+    
     public void AnimationLaunchShapeFinish()
     {
         levelController.isPlaying = false;

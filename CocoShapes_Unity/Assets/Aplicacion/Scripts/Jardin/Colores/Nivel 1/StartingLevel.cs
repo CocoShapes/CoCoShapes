@@ -35,11 +35,14 @@ public class StartingLevel : MonoBehaviour
             random = Random.Range(0, colors.Length);
 
             if(colors[random] == "RED"){
-                StartCoroutine(audioSource.playAudio(audios[0]));
+                AudioClip[] audiosToPlay = new AudioClip[] {audios[0]};
+                StartCoroutine(audioSource.playAudio(audiosToPlay));
             } else if(colors[random] == "BLUE"){
-                StartCoroutine(audioSource.playAudio(audios[1]));
+                AudioClip[] audiosToPlay = new AudioClip[] {audios[1]};
+                StartCoroutine(audioSource.playAudio(audiosToPlay));
             } else if(colors[random] == "YELLOW"){
-                StartCoroutine(audioSource.playAudio(audios[2]));
+                AudioClip[] audiosToPlay = new AudioClip[] {audios[2]};
+                StartCoroutine(audioSource.playAudio(audiosToPlay));
             }
 
             return colors[random];
@@ -54,7 +57,6 @@ public class StartingLevel : MonoBehaviour
         homeYellow.transform.Rotate(new Vector3(0, 0, 0));
         
         if(answerColor == txtColor.text){
-            Debug.Log("Correct, selected color: " + answerColor);
             List<string> colorsList = colors.ToList();
             colorsList.RemoveAt(random);
             colors = colorsList.ToArray();
@@ -62,8 +64,6 @@ public class StartingLevel : MonoBehaviour
             score++;
             txtColor.text = asignColor();
         } else {
-            Debug.Log("Incorrect, selected color: " + answerColor);
-
             mistakes++;
             imgMistake.gameObject.SetActive(true);
         }
@@ -92,10 +92,13 @@ public class StartingLevel : MonoBehaviour
             imgMistake.gameObject.SetActive(false);
             gameObjectBall.transform.position = ballPosition;
             
-            launchBall.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             launchBall.color = "Red";
             launchBall.playedSound = false;
-            StartCoroutine(audioSource.playAudio(audios[0]));
+
+            StartCoroutine(launchBall.launch());
+
+            AudioClip[] audiosToPlay = new AudioClip[] {audios[0]}; 
+            StartCoroutine(audioSource.playAudio(audiosToPlay));
 
             answerColor = "RED";
             checkAnswer();
@@ -105,10 +108,13 @@ public class StartingLevel : MonoBehaviour
             imgMistake.gameObject.SetActive(false);
             gameObjectBall.transform.position = ballPosition;
             
-            launchBall.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             launchBall.color = "Blue";
             launchBall.playedSound = false;
-            StartCoroutine(audioSource.playAudio(audios[1]));
+
+            StartCoroutine(launchBall.launch());
+
+            AudioClip[] audiosToPlay = new AudioClip[] {audios[1]};
+            StartCoroutine(audioSource.playAudio(audiosToPlay));
 
             answerColor = "BLUE";
             checkAnswer();
@@ -118,10 +124,13 @@ public class StartingLevel : MonoBehaviour
             imgMistake.gameObject.SetActive(false);
             gameObjectBall.transform.position = ballPosition;
             
-            launchBall.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             launchBall.color = "Yellow";
             launchBall.playedSound = false;
-            StartCoroutine(audioSource.playAudio(audios[2]));
+
+            StartCoroutine(launchBall.launch());
+
+            AudioClip[] audiosToPlay = new AudioClip[] {audios[2]};
+            StartCoroutine(audioSource.playAudio(audiosToPlay));
 
             answerColor = "YELLOW";
             checkAnswer();

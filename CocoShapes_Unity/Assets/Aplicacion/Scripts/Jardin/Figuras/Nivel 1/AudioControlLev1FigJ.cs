@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class AudioControlLev1FigJ : MonoBehaviour
 {
-    private AudioSource audioSource;
-
-    void Start() 
+    public IEnumerator PlayAudio(AudioClip[] audioClips)
     {
-        audioSource = GetComponent<AudioSource>();
-    }
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
 
-    public void playAudio(AudioClip audioClip){
-        audioSource.clip = audioClip;
-        audioSource.Play();
+        for (int i = 0; i < audioClips.Length; i++)
+        {
+            float playedTime = 0;
+
+            audioSource.clip = audioClips[i];
+            audioSource.Play();
+
+            while(playedTime < audioClips[i].length)
+            {
+                playedTime += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
 }
