@@ -212,7 +212,7 @@ public class Controller_Level1_ColT : MonoBehaviour
     }
 
      //Método que permite lanzar el balón
-        //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
+        //Recibe un color y también una variable que le indica si fue correcto o incorrecto
             //1 es correcto y 0 incorrecto
             //Si es correcto hace gol
             //Si es incorrecto no hace gol
