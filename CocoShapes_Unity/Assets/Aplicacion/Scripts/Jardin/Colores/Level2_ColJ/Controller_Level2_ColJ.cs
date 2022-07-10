@@ -206,7 +206,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void requestedColor(){
        //Genero el número aleatorio
 
-        randomNumber = Random.Range(0, 5);
+        randomNumber = Random.Range(0, 6);
         
         //Este for me permite saber si ya salió ese número
         for (int i = 0; i < colorsArrayCh.Length; i++)
@@ -214,7 +214,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
             //Si ya salió
             if(randomNumber == colorsArrayCh[i] ){
                 //Vuelvalo a generar
-                randomNumber = Random.Range(0, 5);
+                randomNumber = Random.Range(0, 6);
                 
             }
         }
