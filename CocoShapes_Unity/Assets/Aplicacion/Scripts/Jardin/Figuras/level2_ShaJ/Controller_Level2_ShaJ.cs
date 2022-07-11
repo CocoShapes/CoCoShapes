@@ -212,26 +212,11 @@ public class Controller_Level2_ShaJ : MonoBehaviour
 
     //Método que me permite saber la figura solicitada
     public void requestedShape(){
-       //Genero el número aleatorio
-
-        randomNumber = Random.Range(0, 5);
-        
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < shapesArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber == shapesArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber = Random.Range(0, 5);
-                
-            }
-        }
-        //Añado a mi array el número que acabo de sacar
-        shapesArrayCh[iteration]= randomNumber;
-        iteration++;
-        
-
-        
+       //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+       shapesArrayCh[iteration]= randomGenerate(shapesArrayCh, 5);
+       iteration++;
+    
         //Recorremos el arreglo de figuras para devolver la figura solicitada
 
         for (int n = 0; n < shapesArray.Length; n++)
@@ -296,6 +281,33 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         //Aqui debo verificar si es la figura de la izquierda o de la derecha 
         checkSide();
         
+    }
+
+    public int randomGenerate(int [] array, int number){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            
+            //Si ya salió
+            while(randomNumber == array[i] ){
+                
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                //Doble confirmación
+                for (int o = 0; o < array.Length; o++)
+                {
+                    while(randomNumber == array[i] ){
+                       
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                    }
+                }
+            }
+        }
+        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+        return(randomNumber);
     }
 
     public void checkSide(){

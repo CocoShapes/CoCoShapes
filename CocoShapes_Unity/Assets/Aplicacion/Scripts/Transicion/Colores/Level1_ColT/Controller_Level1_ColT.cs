@@ -156,24 +156,10 @@ public class Controller_Level1_ColT : MonoBehaviour
     }
         //Método que me permite saber el color solicitado
     public void requestedColor(){
-       
-       //Genero el número aleatorio
-
-        randomNumber = Random.Range(0, 3);
-        
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < colorsArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber == colorsArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber = Random.Range(0, 3);
-                Debug.Log("Volvio a generar" + randomNumber);
-            }
-        }
-        //Añado a mi array el número que acabo de sacar
-        colorsArrayCh[iteration]= randomNumber;
-        iteration++;
+       //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+       colorsArrayCh[iteration]= randomGenerate(colorsArrayCh, 3);
+       iteration++;
 
         
         //Recorremos el arreglo de colores para devolver el color solicitado
@@ -209,6 +195,33 @@ public class Controller_Level1_ColT : MonoBehaviour
             audioColor.Play();
         }
         
+    }
+
+    public int randomGenerate(int [] array, int number){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            
+            //Si ya salió
+            while(randomNumber == array[i] ){
+                
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                //Doble confirmación
+                for (int o = 0; o < array.Length; o++)
+                {
+                    while(randomNumber == array[i] ){
+                       
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                    }
+                }
+            }
+        }
+        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+        return(randomNumber);
     }
 
      //Método que permite lanzar el balón

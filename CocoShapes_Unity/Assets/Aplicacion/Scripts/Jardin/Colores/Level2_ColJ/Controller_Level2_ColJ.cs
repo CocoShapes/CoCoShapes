@@ -204,24 +204,11 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
     //Método que me permite saber el color solicitado
     public void requestedColor(){
-       //Genero el número aleatorio
 
-        randomNumber = Random.Range(0, 6);
-        
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < colorsArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber == colorsArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber = Random.Range(0, 6);
-                
-            }
-        }
-        //Añado a mi array el número que acabo de sacar
-        colorsArrayCh[iteration]= randomNumber;
-        iteration++;
-
+        //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+       colorsArrayCh[iteration]= randomGenerate(colorsArrayCh, 6);
+       iteration++;
         
         //Recorremos el arreglo de colores para devolver el color solicitado
 
@@ -289,6 +276,34 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Ahora, hacemos la animación de subir el objeto
         fishingObj1_AN.Play("fishingObjectAnim");
         
+    }
+
+    //Método para generar los aleatorios y confirmar que no salgan
+    public int randomGenerate(int [] array, int number){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            
+            //Si ya salió
+            while(randomNumber == array[i] ){
+                
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                //Doble confirmación
+                for (int o = 0; o < array.Length; o++)
+                {
+                    while(randomNumber == array[i] ){
+                       
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                    }
+                }
+            }
+        }
+        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+        return(randomNumber);
     }
 
     //Método que permite colocar o quitar el circulo rojo del error

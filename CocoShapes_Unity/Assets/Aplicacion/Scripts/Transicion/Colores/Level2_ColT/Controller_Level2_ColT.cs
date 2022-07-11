@@ -161,6 +161,7 @@ public class Controller_Level2_ColT : MonoBehaviour
 
         //Aplico el método que me genera el color solicitado
         requestedColor();
+    
 
         //Aqui se realizaria lo de la conexión del Arduino
         pressColor="";
@@ -183,11 +184,10 @@ public class Controller_Level2_ColT : MonoBehaviour
         pressColor="";
         }
 
-        Debug.Log("Y: "+ yellowPress + ", B: " + bluePress +", R: " + redPress + ", Comb: " + combNumber);
+      
+
+       
     }
-
-
-
 
 
     //Método que se invoca cuando se presiona un boton de color
@@ -245,6 +245,9 @@ public class Controller_Level2_ColT : MonoBehaviour
                 //Vuelvo a generar un color solicitado
                  requestedColor();
                 }
+                else{
+                    Debug.Log("Pasa pagina");
+                }
                  //Reinicio el contador de la combinación
                 combNumber=0;
                 //Reseteo el numero de errores
@@ -253,6 +256,7 @@ public class Controller_Level2_ColT : MonoBehaviour
                 yellowPress=0;
                 bluePress = 0;
                 redPress=0;
+                Debug.Log("level " + level);
             }
             
         }
@@ -278,30 +282,13 @@ public class Controller_Level2_ColT : MonoBehaviour
     }
 
 
-
-
-
     //Método que me permite saber el color solicitado y los colores que lo generan
     public void requestedColor(){
-       //Genero el número aleatorio
-
-        randomNumber = Random.Range(0, 3);
         
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < colorsArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber == colorsArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber = Random.Range(0, 3);
-                
-            }
-        }
-
-        colorsArrayCh[iteration]= randomNumber;
+        //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+        colorsArrayCh[iteration] = randomGenerate(colorsArrayCh, 3);
         iteration++;
-
-        
         //Recorremos el arreglo de colores para devolver el color solicitado
 
         for (int n = 0; n < colorsArray.Length; n++)
@@ -312,9 +299,6 @@ public class Controller_Level2_ColT : MonoBehaviour
                Debug.Log ("RN: " + randomNumber + "CL: " + colorsArray[n]  );
             }
         }
-
-
-       
         //si es naranja
         if(reqColor == "orange"){
          
@@ -349,29 +333,15 @@ public class Controller_Level2_ColT : MonoBehaviour
     }
 
 
-
-
     //Método que permite animar el dardo
         //Recibe un color y también una variable que le indica si fue correcto o incorrecto
             //1 es correcto y 0 incorrecto
             //Si es correcto explota un globo del color
             //Si es incorrecto falla
     public void throwDart(string color, int num){
-        //Genero un número aleatorio para las animaciones
-        randomNumber2 = Random.Range(0, 4);
-        
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < animArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber2 == animArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber2 = Random.Range(0, 4);
-                
-            }
-        }
-        //Añado a mi array el número que acabo de sacar
-        animArrayCh[iteration2]= randomNumber2;
+        //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+        animArrayCh[iteration2] = randomGenerate(animArrayCh, 4);
         iteration2++;
 
 
@@ -400,13 +370,40 @@ public class Controller_Level2_ColT : MonoBehaviour
                     
                 }
 
-                else if (level==3){
-                    Debug.Log("Pasa pagina");
-                }
+                
                  
             }
             else if (num==0){
                dartObj_AN.Play(wrongAnimations[randomNumber2]);
             }
     }
+
+    //Método para generar los aleatorios y confirmar que no salgan
+    public int randomGenerate(int [] array, int number){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            
+            //Si ya salió
+            while(randomNumber == array[i] ){
+                
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                //Doble confirmación
+                for (int o = 0; o < array.Length; o++)
+                {
+                    while(randomNumber == array[i] ){
+                       
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                    }
+                }
+            }
+        }
+        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+        return(randomNumber);
+    }
+
 }
