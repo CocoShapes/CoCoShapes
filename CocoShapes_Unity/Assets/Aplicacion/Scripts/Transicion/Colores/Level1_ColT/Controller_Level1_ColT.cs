@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Controller_Level1_ColT : MonoBehaviour
 {
@@ -31,6 +32,15 @@ public class Controller_Level1_ColT : MonoBehaviour
 ///-------------------------------------------
     //PARA CANVAS
 
+    //Imagenes de instrucciones
+    public GameObject instructionsRB_OBJ;
+    public GameObject instructionsRY_OBJ;
+    public GameObject instructionsYB_OBJ;
+
+    //Animacion de las instrucciones
+    public Animator instructionsRB_AN;
+    public Animator instructionsRY_AN;
+    public Animator instructionsYB_AN;
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
@@ -72,7 +82,10 @@ public class Controller_Level1_ColT : MonoBehaviour
         
         //Para obtener las animaciones
         ballObj_AN = ballObj.gameObject.GetComponent<Animator>();
-
+        //De las instrucciones
+        instructionsRB_AN = instructionsRB_OBJ.GetComponent<Animator>();
+        instructionsRY_AN = instructionsRY_OBJ.GetComponent<Animator>();
+        instructionsYB_AN = instructionsYB_OBJ.GetComponent<Animator>();
 
         //Otras variables
         level=1;
@@ -90,6 +103,7 @@ public class Controller_Level1_ColT : MonoBehaviour
 
         //Aqui se realizaria lo de la conexión del Arduino
         pressColor="";
+
     }
 
     // Update is called once per frame
@@ -176,16 +190,20 @@ public class Controller_Level1_ColT : MonoBehaviour
          if(reqColor == "orange"){
     
             audioColor = orangeAudio;
+            putInstruction(instructionsRY_AN);
 
         }
         //si es verde
         else if(reqColor == "green"){
            
             audioColor = greenAudio;
+            putInstruction(instructionsYB_AN);
         }
         //si es purpura
         else if(reqColor == "purple"){
             audioColor = purpleAudio;
+            putInstruction(instructionsRB_AN);
+            
         }
 
             //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
@@ -220,8 +238,14 @@ public class Controller_Level1_ColT : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
         return(randomNumber);
+    }
+
+    //Metodo que me permite dejar la instrucción cierta cantidad de tiempo
+    public void putInstruction(Animator instruction_AN){
+        //Activo la animación de ese objeto
+        instruction_AN.Play("instruction_appear");
+
     }
 
      //Método que permite lanzar el balón
