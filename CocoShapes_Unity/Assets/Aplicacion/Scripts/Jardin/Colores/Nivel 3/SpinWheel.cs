@@ -92,6 +92,9 @@ public class SpinWheel : MonoBehaviour
 
         transform.Rotate(0, 0, angle);
 
+        //Para que no se repitan los colores
+
+
         StartCoroutine(Rotate());
     }
 }

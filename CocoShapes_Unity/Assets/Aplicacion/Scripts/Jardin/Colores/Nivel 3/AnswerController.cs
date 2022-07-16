@@ -8,14 +8,14 @@ public class AnswerController : MonoBehaviour
     private SpinWheel spinWheel;
 
     //Para los círculos rojos cuando es incorrecta la respuesta.
-    //public GameObject RedIncorrect;
-    //public GameObject GreenIncorrect;
-    // public GameObject YellowIncorrect;
-    // public GameObject BlackIncorrect;
-    // public GameObject OrangeIncorrect;
-    // public GameObject BlueIncorrect;
-    // public GameObject PurpleIncorrect;
-    // public GameObject WhiteIncorrect;
+    public GameObject RedIncorrect;
+    public GameObject GreenIncorrect;
+    public GameObject YellowIncorrect;
+    public GameObject BlackIncorrect;
+    public GameObject OrangeIncorrect;
+    public GameObject BlueIncorrect;
+    public GameObject PurpleIncorrect;
+    public GameObject WhiteIncorrect;
 
     //Para lo de las respuestas
     public string AnswerCorrect; //la que el usuario debería presionar
@@ -107,39 +107,39 @@ public class AnswerController : MonoBehaviour
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
             {
-                //OJO: FALTA QUE SE ACOMODE DONDE QUEDÓ EL COLOR con los círculos rojos
-                // if (AnswerCorrect == "Red")
-                // {
-                //     RedIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Green")
-                // {
-                //     GreenIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Yellow")
-                // {
-                //     YellowIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Black")
-                // {
-                //     BlackIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Orange")
-                // {
-                //     OrangeIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Blue")
-                // {
-                //     BlueIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "Purple")
-                // {
-                //     PurpleIncorrect.SetActive(true);
-                // }
-                // if (AnswerCorrect == "White")
-                // {
-                //     WhiteIncorrect.SetActive(true);
-                // }
+                //Para que aparezcan los círculos rojos
+                if (AnswerCorrect == "Red")
+                {
+                    RedIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Green")
+                {
+                    GreenIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Yellow")
+                {
+                    YellowIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Black")
+                {
+                    BlackIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Orange")
+                {
+                    OrangeIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Blue")
+                {
+                    BlueIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "Purple")
+                {
+                    PurpleIncorrect.SetActive(true);
+                }
+                if (AnswerCorrect == "White")
+                {
+                    WhiteIncorrect.SetActive(true);
+                }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");

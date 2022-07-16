@@ -26,6 +26,8 @@ public class AnimationCar : MonoBehaviour
     public AudioClip[] sounds = new AudioClip[14];
     public AudioControl audioSource;
 
+    //Para mostrar las instrucciones(son imágenes)
+    public GameObject[] Instructions;
     void Start()
     {
         //En un inicio no se está presionando ningún botón
@@ -49,41 +51,13 @@ public class AnimationCar : MonoBehaviour
                 if (n == 0)
                 {
                     //Se ejecuta la animación
-                    animator.Play("Rail1");
+                    animator.Play("Rail4");
                 }
                 if (n == 1)
                 {
-                    animator.Play("Rail2");
-                }
-                if (n == 2)
-                {
-                    animator.Play("Rail3");
-                }
-                if (n == 3)
-                {
-                    animator.Play("Rail4");
-                }
-                if (n == 4)
-                {
-                    animator.Play("Rail5");
-                }
-                if (n == 5)
-                {
-                    animator.Play("Rail6");
-                }
-                if (n == 6)
-                {
                     animator.Play("Rail7");
                 }
-                if (n == 7)
-                {
-                    animator.Play("Rail8");
-                }
-                if (n == 8)
-                {
-                    animator.Play("Rail9");
-                }
-                if (n == 9)
+                if (n == 2)
                 {
                     animator.Play("Rail10");
                 }
@@ -91,25 +65,38 @@ public class AnimationCar : MonoBehaviour
                 AnswerCorrects++;
                 Debug.Log("Correct");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { rollerCoster.sounds[12], rollerCoster.sounds[10] };
+                AudioClip[] audios = new AudioClip[2] { rollerCoster.sounds[3], rollerCoster.sounds[4] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
             }
             if (AnswerChild != AnswerCorrect)
             {
+                //Para poner de color rojo la instrucción
+                if (n == 0)
+                {
+                    Instructions[0].GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                if (n == 1)
+                {
+                    Instructions[1].GetComponent<SpriteRenderer>().color = Color.red;
+                }
+                if (n == 2)
+                {
+                    Instructions[2].GetComponent<SpriteRenderer>().color = Color.red;
+                }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { sounds[13], sounds[11] };
+                AudioClip[] audios = new AudioClip[2] { sounds[5], sounds[6] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
             }
         }
-        //Para que cuando ya se hayan realizado las 10 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 10 || AnswerIncorrects == 3)
+        //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas
+        if (AnswerCorrects >= 3 || AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
         }

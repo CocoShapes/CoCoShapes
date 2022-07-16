@@ -14,7 +14,7 @@ public class RollerCoster : MonoBehaviour
     public GameObject[] Instructions;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[14];
+    public AudioClip[] sounds = new AudioClip[7];
     public AudioControl audioSource;
 
     //Para la respuestas
@@ -68,39 +68,11 @@ public class RollerCoster : MonoBehaviour
             }
             if (n == 1)
             {
-                animationCar.AnswerCorrect = "IceCream";
+                animationCar.AnswerCorrect = "Popcorn";
             }
             if (n == 2)
             {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 3)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 4)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 5)
-            {
                 animationCar.AnswerCorrect = "IceCream";
-            }
-            if (n == 6)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 7)
-            {
-                animationCar.AnswerCorrect = "IceCream";
-            }
-            if (n == 8)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 9)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
             }
         }
     }
