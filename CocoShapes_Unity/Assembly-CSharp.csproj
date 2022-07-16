@@ -36,7 +36,10 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\MouseMovement.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\SoundControl2.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\SoundStartSha.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
@@ -50,15 +53,20 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AudioControlLev1FigJ.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\SoundStart.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\StartingLevel.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\WheelController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\AnswerControlCol.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark04.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\AudioControl1.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\AnswerControlSha.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\AnswerCouT.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ChatController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\SceneControllerCouT.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 3\Audio2.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexJitter.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshProFloatingText.cs" />
@@ -70,6 +78,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\AnswerController.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_UiFrameRateCounter.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 3\RollerCoster.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\MouseMovementSha.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 3\AudioControl.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\level2_ShaJ\Controller_Level2_ShaJ.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
