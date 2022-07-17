@@ -36,6 +36,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
     //Circulo que permite ver el error
     public GameObject redCircle;
 
+    //Animation
+    public Animator redCircle_AN;
+
     ///-------------------------------------------
     //PARA MOVER OBJETOS
     public GameObject fishingObj1;
@@ -90,9 +93,6 @@ public class Controller_Level2_ColJ : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
-        //Quitamos el circulo rojo del error
-        redCircle.SetActive(false);
 
         //Objetos
         imgStrawberry_SP = imgStrawberry.GetComponent<Image>().sprite; 
@@ -117,9 +117,12 @@ public class Controller_Level2_ColJ : MonoBehaviour
         
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
+        redCircle_AN =redCircle.gameObject.GetComponent<Animator>();
 
         //Dejo todos los objetos abajo
         fishingObj1_AN.Play("fishingObjectAnim_Stop");
+        //Quito circulo
+        redCircle_AN.Play("red circle_disappear");
 
         //Otras variables
         level=1;
@@ -312,36 +315,22 @@ public class Controller_Level2_ColJ : MonoBehaviour
             //Si es correcto lo desactiva
             //Si es incorrecto lo activa
     public void redCirclePut(int levelCI, int num){
-
-        if(levelCI==1){
-            if(num==1){
-                redCircle.SetActive(false);
-            }
-            else if(num==0){
-                redCircle.SetActive(true);
-            }
-            
-        }
-        else if (levelCI==2){
-            if(num==1){
-               redCircle.SetActive(false);
-            }
-            else if(num==0){
-                redCircle.SetActive(true);
-            }
-        }
-        else if(levelCI==3){
+        //Solo si estoy en el nivel 3 verifico lo de cambiar pagina
+         if(levelCI==3){
             if(num==1){
                 Debug.Log("Cambio de pagina");
-                redCircle.SetActive(false);
             }
             else if(num==0){
-                redCircle.SetActive(true);
+                redCircle_AN.Play("red circle");
             }
         }
         else{
-            Debug.Log("Cambio pagina");
+            if(num==0){
+                     redCircle_AN.Play("red circle");
+            }
         }
-
+          
     }
+
+    
 }
