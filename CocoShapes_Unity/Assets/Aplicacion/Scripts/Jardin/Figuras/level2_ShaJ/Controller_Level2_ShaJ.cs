@@ -36,6 +36,10 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     public GameObject redCircle_L;
     public GameObject redCircle_R;
 
+    //Animation de los circulos
+    private Animator redCircle_L_AN;
+    private Animator redCircle_R_AN;
+
     ///-------------------------------------------
     //PARA MOVER OBJETOS
         //FIGURA IZQUIERDA
@@ -100,9 +104,6 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //Quitamos el circulo rojo del error
-        redCircle_L.SetActive(false);
-        redCircle_R.SetActive(false);
 
 
         //Objetos
@@ -126,9 +127,15 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         
         //Para obtener las animaciones
         weightObj_AN = weightObj.gameObject.GetComponent<Animator>();
+        redCircle_L_AN = redCircle_L.gameObject.GetComponent<Animator>();
+        redCircle_R_AN = redCircle_R.gameObject.GetComponent<Animator>();
 
         //Dejo la pesa arriba
         weightObj_AN.Play("weight_Stop");
+
+        //Desaparecer circulos
+        redCircle_L_AN.Play("red circle_disappear");
+        redCircle_R_AN.Play("red circle_disappear");
 
 
         //Otras variables
@@ -317,8 +324,16 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             shapeObjL.SetActive(true);
             //Desaparezco la otra
             shapeObjR.SetActive(false);
+            //SI EL NIVEL ES EL PRIMERO NO TENGO QUE BAJAR LA PESA
+            if(level==1){
+                //Inclino solamente la pesa
+                weightObj_AN.Play("weight_Right");
+            }else{
+                //Hago la animación completa
+                weightObj_AN.Play("weight_Left_DOWN");
+            }
             //Tambien la animación de la pesa inclinándose
-            weightObj_AN.Play("weight_Right");
+            
             //Indico que estoy al otro lado
             side=1;
         }else{
@@ -326,8 +341,15 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             shapeObjR.SetActive(true);
             //Desaparezco la otra
             shapeObjL.SetActive(false);
-            //Tambien la animación de la pesa inclinándose
-            weightObj_AN.Play("weight_Left");
+            //SI EL NIVEL ES EL PRIMERO NO TENGO QUE BAJAR LA PESA
+            if(level==1){
+                 //Inclino solamente la pesa
+                weightObj_AN.Play("weight_Left");
+            }else{
+                //Hago la animación completa
+                weightObj_AN.Play("weight_Right_DOWN");
+            }
+            
             //Indico que estoy al otro lado
             side=2;
         }
@@ -335,58 +357,41 @@ public class Controller_Level2_ShaJ : MonoBehaviour
 
         //Método que permite colocar o quitar el circulo rojo del error
         //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
-            //1 es correcto y 0 incorrecto
-            //Si es correcto lo desactiva
-            //Si es incorrecto lo activa
-            //Se debe comprobar también el lado de la pesa en el que está 1 izquierda 2 derecha
+            //Se debe comprobar el lado de la pesa en el que está 1 izquierda 2 derecha
+            //El num es para el final, si fue correcto cambio la pagina
     public void redCirclePut(int levelCI, int num){
 
-        if(levelCI==1){
+        //Solo si estoy en el nivel 3 verifico lo de cambiar pagina
+         if(levelCI==3){
             if(num==1){
-                //Desactivo todo
-                    redCircle_L.SetActive(false);
-                    redCircle_R.SetActive(false);
-            }
-            else if(num==0){
+                //Bajo la pesa y desactivo la figura
                 if(side==1){
-                    redCircle_R.SetActive(true);
+                    weightObj_AN.Play("weight_Right_DOWN_EXIT");
+                    
                 }else{
-                    redCircle_L.SetActive(true);
+                    weightObj_AN.Play("weight_Left_DOWN_EXIT");
+                    
                 }
-            }
-            
-        }
-        else if (levelCI==2){
-            if(num==1){
-              //Desactivo todo
-                    redCircle_L.SetActive(false);
-                    redCircle_R.SetActive(false);
-            }
-            else if(num==0){
-                if(side==1){
-                    redCircle_R.SetActive(true);
-                }else{
-                    redCircle_L.SetActive(true);
-                }
-            }
-        }
-        else if(levelCI==3){
-            if(num==1){
+                shapeObjR.SetActive(false);
+                shapeObjL.SetActive(false);
                 Debug.Log("Cambio de pagina");
-                 //Desactivo todo
-                    redCircle_L.SetActive(false);
-                    redCircle_R.SetActive(false);
             }
             else if(num==0){
                  if(side==1){
-                    redCircle_R.SetActive(true);
+                     redCircle_R_AN.Play("red circle");
                 }else{
-                    redCircle_L.SetActive(true);
+                    redCircle_L_AN.Play("red circle");
                 }
             }
         }
         else{
-            Debug.Log("Cambio pagina");
+            if(num==0){
+                 if(side==1){
+                     redCircle_R_AN.Play("red circle");
+                }else{
+                    redCircle_L_AN.Play("red circle");
+                }
+            }
         }
 
     }
