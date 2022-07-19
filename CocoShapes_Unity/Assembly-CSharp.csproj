@@ -46,12 +46,15 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\AnimationControllerCon1J.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 1\AnimationControllerSha1T.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\LevelControllerCont1J.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\AnimationControllerExpT.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AnimationEvents.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\LaunchBall.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\ConstructMountain.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LaunchShape.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\LevelController_ExpT.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\AnimationControllerExpT.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\LevelController_Con1T.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\UIControllerCon1T.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\AnimationControllerCon1T.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
