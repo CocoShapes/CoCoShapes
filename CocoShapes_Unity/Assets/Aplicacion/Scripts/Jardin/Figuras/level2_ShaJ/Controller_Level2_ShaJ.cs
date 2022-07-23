@@ -90,9 +90,6 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     private AudioSource[] sounds;
     public GameObject obj_Audio;
 
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
-
     private AudioSource squareAudio;
     private AudioSource triangleAudio;
     private AudioSource circleAudio;
@@ -100,6 +97,16 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     private AudioSource starAudio;
 
     private AudioSource audioShape;
+
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -115,14 +122,20 @@ public class Controller_Level2_ShaJ : MonoBehaviour
 
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        circleAudio = sounds[2];
-        squareAudio = sounds[3];
-        triangleAudio = sounds[4];
-        rectangleAudio = sounds[5];
-        starAudio = sounds[6];
+        circleAudio = sounds[0];
+        squareAudio = sounds[1];
+        triangleAudio = sounds[2];
+        rectangleAudio = sounds[3];
+        starAudio = sounds[4];
 
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
+
+        correctAudio = new AudioSource();
+        incorrectAudio = new AudioSource();
         audioShape= new AudioSource();
         
         //Para obtener las animaciones
@@ -177,7 +190,8 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     public void shapeInserted(){
         //Si el estudiante inserta la figura correcta  
         if(insertedShape == reqShape){
-            //Activo audio
+            //Activo audio correcto
+             correctAudio = correctSounds[ Random.Range(0, 5)];
              correctAudio.Play();
 
             
@@ -201,6 +215,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         //Si presiona el incorrecto
         else{
             //Activo audio
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
 
             Debug.Log("INCORRECTO"); 
