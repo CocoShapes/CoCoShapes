@@ -38,9 +38,12 @@ public class Controller_Level1_ColT : MonoBehaviour
     public GameObject instructionsYB_OBJ;
 
     //Animacion de las instrucciones
-    public Animator instructionsRB_AN;
-    public Animator instructionsRY_AN;
-    public Animator instructionsYB_AN;
+    private Animator instructionsRB_AN;
+    private Animator instructionsRY_AN;
+    private Animator instructionsYB_AN;
+
+    //Animacion de instruccion
+    private Animator instruction_AN;
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
@@ -49,7 +52,7 @@ public class Controller_Level1_ColT : MonoBehaviour
 
 
         //Animation del balon
-    public Animator ballObj_AN;
+    private Animator ballObj_AN;
 
 
 
@@ -57,14 +60,21 @@ public class Controller_Level1_ColT : MonoBehaviour
     private AudioSource[] sounds;
     public GameObject obj_Audio;
 
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
-
     private AudioSource greenAudio;
     private AudioSource orangeAudio;
     private AudioSource purpleAudio;
 
     private AudioSource audioColor;
+
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
 
     // Start is called before the first frame update
     void Start()
@@ -72,12 +82,19 @@ public class Controller_Level1_ColT : MonoBehaviour
 
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        greenAudio= sounds[2];
-        orangeAudio= sounds[3];
-        purpleAudio= sounds[4];
+        
+        greenAudio= sounds[0];
+        orangeAudio= sounds[1];
+        purpleAudio= sounds[2];
 
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
+
+        correctAudio = new AudioSource();
+        incorrectAudio = new AudioSource();
         audioColor= new AudioSource();
         
         //Para obtener las animaciones
@@ -86,6 +103,7 @@ public class Controller_Level1_ColT : MonoBehaviour
         instructionsRB_AN = instructionsRB_OBJ.GetComponent<Animator>();
         instructionsRY_AN = instructionsRY_OBJ.GetComponent<Animator>();
         instructionsYB_AN = instructionsYB_OBJ.GetComponent<Animator>();
+        instruction_AN = new Animator();
 
         //Otras variables
         level=1;
@@ -124,7 +142,8 @@ public class Controller_Level1_ColT : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
-            //Activo audio
+            //Activo audio correcto
+             correctAudio = correctSounds[ Random.Range(0, 5)];
              correctAudio.Play();
 
             
@@ -149,7 +168,10 @@ public class Controller_Level1_ColT : MonoBehaviour
         //Si presiona el incorrecto
         else{
             //Activo audio
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
+            //NO Hago gol
+            throwBall(reqColor,0);
 
             Debug.Log("INCORRECTO"); 
             //Aumento numero de errores
@@ -157,12 +179,14 @@ public class Controller_Level1_ColT : MonoBehaviour
             //Si en algun momento llego a los 2 errores
              if (errorCount==2){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
-            }
-            //Activamos sonido de color otra vez
+            } else{
+                    //Activamos sonido de color otra vez y la animación
             audioColor.PlayDelayed(incorrectAudio.clip.length);
-
-            //NO Hago gol
-            throwBall(reqColor,0);
+            instruction_AN.Play("instruction_appear");
+            }
+            
+            
+            
            
         }
 
@@ -190,19 +214,22 @@ public class Controller_Level1_ColT : MonoBehaviour
          if(reqColor == "orange"){
     
             audioColor = orangeAudio;
-            putInstruction(instructionsRY_AN);
+            instruction_AN =  instructionsRY_AN;
+          
 
         }
         //si es verde
         else if(reqColor == "green"){
            
             audioColor = greenAudio;
-            putInstruction(instructionsYB_AN);
+            instruction_AN =  instructionsYB_AN;
+            
         }
         //si es purpura
         else if(reqColor == "purple"){
             audioColor = purpleAudio;
-            putInstruction(instructionsRB_AN);
+            instruction_AN =  instructionsRB_AN;
+            
             
         }
 
@@ -212,7 +239,7 @@ public class Controller_Level1_ColT : MonoBehaviour
         }else{
             audioColor.Play();
         }
-        
+        instruction_AN.Play("instruction_appear");
     }
 
     public int randomGenerate(int [] array, int number){
@@ -241,12 +268,7 @@ public class Controller_Level1_ColT : MonoBehaviour
         return(randomNumber);
     }
 
-    //Metodo que me permite dejar la instrucción cierta cantidad de tiempo
-    public void putInstruction(Animator instruction_AN){
-        //Activo la animación de ese objeto
-        instruction_AN.Play("instruction_appear");
-
-    }
+  
 
      //Método que permite lanzar el balón
         //Recibe un color y también una variable que le indica si fue correcto o incorrecto
