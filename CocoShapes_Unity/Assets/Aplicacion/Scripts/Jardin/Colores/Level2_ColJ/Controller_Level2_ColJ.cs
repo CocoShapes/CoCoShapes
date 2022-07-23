@@ -36,6 +36,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
     //Circulo que permite ver el error
     public GameObject redCircle;
 
+    //Animation
+    private Animator redCircle_AN;
+
     ///-------------------------------------------
     //PARA MOVER OBJETOS
     public GameObject fishingObj1;
@@ -68,12 +71,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Sprite 
     private Sprite imgGrapes_SP;
 
-    //Audios de correcto o incorrecto y colores
+    //Audios de Colores
     private AudioSource[] sounds;
     public GameObject obj_Audio;
-
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
 
     private AudioSource redAudio;
     private AudioSource blueAudio;
@@ -84,15 +84,26 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
     private AudioSource audioColor;
 
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
+
+    
+   
+   
+
 
    
 
     // Start is called before the first frame update
     void Start()
     {
-        
-        //Quitamos el circulo rojo del error
-        redCircle.SetActive(false);
 
         //Objetos
         imgStrawberry_SP = imgStrawberry.GetComponent<Image>().sprite; 
@@ -104,22 +115,30 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        redAudio = sounds[2];
-        blueAudio = sounds[3];
-        yellowAudio = sounds[4];
-        greenAudio = sounds[5];
-        orangeAudio = sounds[6];
-        purpleAudio = sounds[7];
+        redAudio = sounds[0];
+        blueAudio = sounds[1];
+        yellowAudio = sounds[2];
+        greenAudio = sounds[3];
+        orangeAudio = sounds[4];
+        purpleAudio = sounds[5];
+
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
 
         audioColor= new AudioSource();
-        
+        correctAudio = new AudioSource();
+        incorrectAudio = new AudioSource();
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
+        redCircle_AN =redCircle.gameObject.GetComponent<Animator>();
 
         //Dejo todos los objetos abajo
         fishingObj1_AN.Play("fishingObjectAnim_Stop");
+        //Quito circulo
+        redCircle_AN.Play("red circle_disappear");
 
         //Otras variables
         level=1;
@@ -163,7 +182,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
-            //Activo audio
+            //Activo audio correcto
+             correctAudio = correctSounds[ Random.Range(0, 5)];
              correctAudio.Play();
 
             
@@ -186,6 +206,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Si presiona el incorrecto
         else{
             //Activo audio
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
 
             Debug.Log("INCORRECTO"); 
@@ -204,24 +225,11 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
     //Método que me permite saber el color solicitado
     public void requestedColor(){
-       //Genero el número aleatorio
 
-        randomNumber = Random.Range(0, 5);
-        
-        //Este for me permite saber si ya salió ese número
-        for (int i = 0; i < colorsArrayCh.Length; i++)
-        {
-            //Si ya salió
-            if(randomNumber == colorsArrayCh[i] ){
-                //Vuelvalo a generar
-                randomNumber = Random.Range(0, 5);
-                
-            }
-        }
-        //Añado a mi array el número que acabo de sacar
-        colorsArrayCh[iteration]= randomNumber;
-        iteration++;
-
+        //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+       colorsArrayCh[iteration]= randomGenerate(colorsArrayCh, 6);
+       iteration++;
         
         //Recorremos el arreglo de colores para devolver el color solicitado
 
@@ -291,42 +299,56 @@ public class Controller_Level2_ColJ : MonoBehaviour
         
     }
 
+    //Método para generar los aleatorios y confirmar que no salgan
+    public int randomGenerate(int [] array, int number){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            
+            //Si ya salió
+            while(randomNumber == array[i] ){
+                
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                //Doble confirmación
+                for (int o = 0; o < array.Length; o++)
+                {
+                    while(randomNumber == array[i] ){
+                       
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                    }
+                }
+            }
+        }
+        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+        return(randomNumber);
+    }
+
     //Método que permite colocar o quitar el circulo rojo del error
         //Recibe el nivel y también una variable que le indica si fue correcto o incorrecto
             //1 es correcto y 0 incorrecto
             //Si es correcto lo desactiva
             //Si es incorrecto lo activa
     public void redCirclePut(int levelCI, int num){
-
-        if(levelCI==1){
-            if(num==1){
-                redCircle.SetActive(false);
-            }
-            else if(num==0){
-                redCircle.SetActive(true);
-            }
-            
-        }
-        else if (levelCI==2){
-            if(num==1){
-               redCircle.SetActive(false);
-            }
-            else if(num==0){
-                redCircle.SetActive(true);
-            }
-        }
-        else if(levelCI==3){
+        //Solo si estoy en el nivel 3 verifico lo de cambiar pagina
+         if(levelCI==3){
             if(num==1){
                 Debug.Log("Cambio de pagina");
-                redCircle.SetActive(false);
             }
             else if(num==0){
-                redCircle.SetActive(true);
+                redCircle_AN.Play("red circle");
             }
         }
         else{
-            Debug.Log("Cambio pagina");
+            if(num==0){
+                     redCircle_AN.Play("red circle");
+            }
         }
-
+          
     }
+
+    
 }
