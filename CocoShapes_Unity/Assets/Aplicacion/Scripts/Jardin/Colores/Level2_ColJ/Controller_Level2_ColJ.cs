@@ -37,7 +37,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public GameObject redCircle;
 
     //Animation
-    public Animator redCircle_AN;
+    private Animator redCircle_AN;
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
@@ -71,12 +71,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Sprite 
     private Sprite imgGrapes_SP;
 
-    //Audios de correcto o incorrecto y colores
+    //Audios de Colores
     private AudioSource[] sounds;
     public GameObject obj_Audio;
-
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
 
     private AudioSource redAudio;
     private AudioSource blueAudio;
@@ -86,6 +83,20 @@ public class Controller_Level2_ColJ : MonoBehaviour
     private AudioSource purpleAudio;
 
     private AudioSource audioColor;
+
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
+
+    
+   
+   
 
 
    
@@ -104,17 +115,22 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        redAudio = sounds[2];
-        blueAudio = sounds[3];
-        yellowAudio = sounds[4];
-        greenAudio = sounds[5];
-        orangeAudio = sounds[6];
-        purpleAudio = sounds[7];
+        redAudio = sounds[0];
+        blueAudio = sounds[1];
+        yellowAudio = sounds[2];
+        greenAudio = sounds[3];
+        orangeAudio = sounds[4];
+        purpleAudio = sounds[5];
+
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
 
         audioColor= new AudioSource();
-        
+        correctAudio = new AudioSource();
+        incorrectAudio = new AudioSource();
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
         redCircle_AN =redCircle.gameObject.GetComponent<Animator>();
@@ -166,7 +182,8 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public void colorButtonPress(){
         //Si el estudiante presionó el color correcto   
         if(pressColor == reqColor){
-            //Activo audio
+            //Activo audio correcto
+             correctAudio = correctSounds[ Random.Range(0, 5)];
              correctAudio.Play();
 
             
@@ -189,6 +206,7 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Si presiona el incorrecto
         else{
             //Activo audio
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
 
             Debug.Log("INCORRECTO"); 
