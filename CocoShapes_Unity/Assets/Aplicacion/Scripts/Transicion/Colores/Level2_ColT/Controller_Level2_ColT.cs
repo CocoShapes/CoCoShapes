@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Controller_Level2_ColT : MonoBehaviour
 {
     //Variables necesarias
@@ -31,12 +32,13 @@ public class Controller_Level2_ColT : MonoBehaviour
     private string[] colorsArray;
     //Arreglo de numeros que ya salieron
     private int[] colorsArrayCh;
-     //Arreglo de numeros que ya salieron en animaciones
-    private int[] animArrayCh;
+ 
     //Numero que me permite saber el numero de iteraciones
     private int iteration;
-    //Numero 2 que me permite saber el numero de iteraciones
-    private int iteration2;
+    //Iteraciones por colores
+    private int iterationY;
+    private int iterationR;
+    private int iterationB;
 
     //Variable que llega del arduino con el nombre del color presionado
     public string pressColor; 
@@ -50,10 +52,22 @@ public class Controller_Level2_ColT : MonoBehaviour
 
     //Arreglo de animaciones para los globos rojos
     private string[] redAnimations;
+    //Arreglo de las que ya salieron
+    private string[] redAnimationsDone;
+
     //Arreglo de animaciones para los globos azules
     private string[] blueAnimations;
+    //Arreglo de las que ya salieron
+    private string[] blueAnimationsDone;
+
     //Arreglo de animaciones para los globos amarillos
     private string[] yellowAnimations;
+    //Arreglo de las que ya salieron
+    private string[] yellowAnimationsDone;
+
+    //Variable animacion
+    private string animationRandom;
+
     //Arreglo de animaciones erroneas
     private string[] wrongAnimations;
 
@@ -96,9 +110,6 @@ public class Controller_Level2_ColT : MonoBehaviour
     private AudioSource[] sounds;
     public GameObject obj_Audio;
 
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
-
     private AudioSource redAudio;
     private AudioSource blueAudio;
     private AudioSource yellowAudio;
@@ -108,6 +119,16 @@ public class Controller_Level2_ColT : MonoBehaviour
 
     private AudioSource audioColor;
 
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
+
 
 
     // Start is called before the first frame update
@@ -115,15 +136,20 @@ public class Controller_Level2_ColT : MonoBehaviour
     {
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        redAudio = sounds[2];
-        blueAudio = sounds[3];
-        yellowAudio = sounds[4];
-        greenAudio = sounds[5];
-        orangeAudio = sounds[6];
-        purpleAudio = sounds[7];
+        
+        
+        greenAudio = sounds[0];
+        orangeAudio = sounds[1];
+        purpleAudio = sounds[2];
 
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
+
+        correctAudio = new AudioSource();
+        incorrectAudio = new AudioSource();
         audioColor= new AudioSource();
         
         //Para obtener las animaciones
@@ -134,6 +160,11 @@ public class Controller_Level2_ColT : MonoBehaviour
         blueAnimations = new string []{"dart_blue_throw_1", "dart_blue_throw_2", "dart_blue_throw_3", "dart_blue_throw_4"};
         yellowAnimations = new string []{"dart_yellow_throw_1", "dart_yellow_throw_2", "dart_yellow_throw_3", "dart_yellow_throw_4"};
         wrongAnimations = new string []{"dart_wrong_throw_1", "dart_wrong_throw_2", "dart_wrong_throw_3", "dart_wrong_throw_4"};
+
+        //Arreglo de las animaciones que ya salieron
+        redAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
+        blueAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
+        yellowAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
 
         //Arreglo de globos
         redBallonObj_ARR = new Animator []{redBallonObj1.gameObject.GetComponent<Animator>(), redBallonObj2.gameObject.GetComponent<Animator>(), redBallonObj3.gameObject.GetComponent<Animator>(), redBallonObj4.gameObject.GetComponent<Animator>()};       
@@ -147,7 +178,9 @@ public class Controller_Level2_ColT : MonoBehaviour
         randomNumber=0;
         randomNumber2=0;
         iteration=0;
-        iteration2=0;
+        iterationB =0;
+        iterationY =0;
+        iterationR =0;
         combNumber =0;
 
         yellowPress =0;
@@ -157,7 +190,6 @@ public class Controller_Level2_ColT : MonoBehaviour
         colorsArray = new string []{"green", "purple", "orange"};
         //Colocar numeros muy altos que nunca saldran
         colorsArrayCh = new int []{ 10, 10, 10};
-        animArrayCh = new int []{ 10, 10, 10, 10, 10, 10};
 
         //Aplico el método que me genera el color solicitado
         requestedColor();
@@ -183,10 +215,7 @@ public class Controller_Level2_ColT : MonoBehaviour
         //Necesario indicar que ya no se esta presionando
         pressColor="";
         }
-
-      
-
-       
+   
     }
 
 
@@ -198,7 +227,8 @@ public class Controller_Level2_ColT : MonoBehaviour
             //Si presionó el amarillo y no lo ha presionado
 
             if(pressColor== "yellow" && yellowPress==0){
-                //Activo audio
+                //Activo audio correcto
+                correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
 
                 
@@ -211,7 +241,8 @@ public class Controller_Level2_ColT : MonoBehaviour
             }
 
             else if(pressColor== "blue" && bluePress==0){
-                //Activo audio
+               //Activo audio correcto
+                correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
 
                 
@@ -224,7 +255,8 @@ public class Controller_Level2_ColT : MonoBehaviour
             }
 
             else if(pressColor== "red" && redPress==0){
-                //Activo audio
+                //Activo audio correcto
+                correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
 
                 
@@ -264,7 +296,8 @@ public class Controller_Level2_ColT : MonoBehaviour
 
         //Si presiona el incorrecto
         else{
-            //Activo audio
+            //Activo audio incorrecto
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
 
             Debug.Log("INCORRECTO"); 
@@ -339,31 +372,46 @@ public class Controller_Level2_ColT : MonoBehaviour
             //Si es correcto explota un globo del color
             //Si es incorrecto falla
     public void throwDart(string color, int num){
-        //Este método me permite saber si ya salió ese número
-        //Recibe el arreglo, y la cantidad de numeros a generar
-        animArrayCh[iteration2] = randomGenerate(animArrayCh, 4);
-        iteration2++;
 
 
          if(num==1){
                 //Si presionó el amarillo y no lo ha presionado
                 if(color == "yellow" && yellowPress==0){
+                    //Busco aleatorio
+                    randomNumber2 = randomGenerateString(yellowAnimations, 4,yellowAnimationsDone );
                     //Hago una animación aleatoria
                     dartObj_AN.Play(yellowAnimations[randomNumber2]);    
+                    //Asigno que ya se utilizó
+                    yellowAnimationsDone[iterationY]= yellowAnimations[randomNumber2];
+                    //Aumento iteración
+                    iterationY++;
                     //Desaparezco el globo
                     yellowBallonObj_ARR[randomNumber2].Play("disappear");  
                     yellowPress++;  
                  
                 }
                 else if(color == "blue" && bluePress==0){
+                    //Busco aleatorio
+                    randomNumber2 = randomGenerateString(blueAnimations, 4, blueAnimationsDone);
+                    //Reproduzco la animación del dardo a ese globo
                     dartObj_AN.Play(blueAnimations[randomNumber2]);  
+                    //Asigno que ya se utilizó
+                    blueAnimationsDone[iterationB]= blueAnimations[randomNumber2];
+                    //Aumento iteración
+                    iterationB++;
                     //Desaparezco el globo
                     blueBallonObj_ARR[randomNumber2].Play("disappear"); 
                     bluePress++; 
                     
                 }
                 else if(color=="red" && redPress==0){
+                    //Busco aleatorio
+                    randomNumber2 = randomGenerateString(redAnimations, 4, redAnimationsDone);
                     dartObj_AN.Play(redAnimations[randomNumber2]);  
+                    //Asigno que ya se utilizó
+                    redAnimationsDone[iterationR]= redAnimations[randomNumber2];
+                    //Aumento iteración
+                    iterationR++;
                     //Desaparezco el globo
                     redBallonObj_ARR[randomNumber2].Play("disappear");
                     redPress++;     
@@ -402,7 +450,44 @@ public class Controller_Level2_ColT : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Arreglo: "+ array[0] + " " + array[1] + " " +array[2]);
+       
+        return(randomNumber);
+    }
+
+    //Método para generar aleatorios y confirmar que no salgan CON STRING
+    public int randomGenerateString(string [] array, int number, string [] arrayCH){
+         //Genero el número aleatorio
+        randomNumber = Random.Range(0, number);
+        //Guardo esa animacion
+        animationRandom = array[randomNumber];
+        //Busco en el arreglo de animaciones esa
+        Debug.Log(animationRandom);
+
+        for (int i = 0; i < arrayCH.Length; i++)
+        {
+            
+            
+            //Si ya salió
+           while(string.Equals(animationRandom, arrayCH[i] )){
+                Debug.Log("LLEGO AL IGUAL");
+                //Vuelvalo a generar
+                randomNumber = Random.Range(0, number);
+                animationRandom = array[randomNumber];
+                //Doble confirmación
+                for (int o = 0; o < arrayCH.Length; o++)
+                {
+                    while(string.Equals(animationRandom, arrayCH[i])){
+                       Debug.Log("LLEGO AL WHILE");
+                        //Vuelvalo a generar
+                        randomNumber = Random.Range(0, number);
+                        animationRandom = array[randomNumber];
+                    }
+                }
+            }
+            Debug.Log(i + " " + animationRandom);
+        }
+
+
         return(randomNumber);
     }
 
