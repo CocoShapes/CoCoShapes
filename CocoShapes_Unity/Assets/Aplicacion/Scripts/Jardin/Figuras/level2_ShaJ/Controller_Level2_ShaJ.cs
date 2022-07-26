@@ -108,6 +108,10 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     public GameObject correct_Obj;
     private AudioSource correctAudio;
 
+     //Para coco
+    public GameObject cocoOBJ;
+    private Animator cocoOBJ_AN;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -142,6 +146,8 @@ public class Controller_Level2_ShaJ : MonoBehaviour
         weightObj_AN = weightObj.gameObject.GetComponent<Animator>();
         redCircle_L_AN = redCircle_L.gameObject.GetComponent<Animator>();
         redCircle_R_AN = redCircle_R.gameObject.GetComponent<Animator>();
+        //De coco
+        cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
 
         //Dejo la pesa arriba
         weightObj_AN.Play("weight_Stop");
@@ -343,9 +349,13 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             if(level==1){
                 //Inclino solamente la pesa
                 weightObj_AN.Play("weight_Right");
+                //Oso
+                cocoOBJ_AN.Play("cocoRight");
             }else{
                 //Hago la animación completa
                 weightObj_AN.Play("weight_Left_DOWN");
+                //Oso
+                cocoOBJ_AN.Play("cocoLeftRev");
             }
             //Tambien la animación de la pesa inclinándose
             
@@ -360,9 +370,12 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             if(level==1){
                  //Inclino solamente la pesa
                 weightObj_AN.Play("weight_Left");
+                //Oso
+                cocoOBJ_AN.Play("cocoLeft");
             }else{
                 //Hago la animación completa
                 weightObj_AN.Play("weight_Right_DOWN");
+                cocoOBJ_AN.Play("cocoRightRev");
             }
             
             //Indico que estoy al otro lado
@@ -382,9 +395,13 @@ public class Controller_Level2_ShaJ : MonoBehaviour
                 //Bajo la pesa y desactivo la figura
                 if(side==1){
                     weightObj_AN.Play("weight_Right_DOWN_EXIT");
+                    //Oso
+                    cocoOBJ_AN.Play("cocoRightRev");
                     
                 }else{
                     weightObj_AN.Play("weight_Left_DOWN_EXIT");
+                    //Oso
+                    cocoOBJ_AN.Play("cocoLeftRev");
                     
                 }
                 shapeObjR.SetActive(false);

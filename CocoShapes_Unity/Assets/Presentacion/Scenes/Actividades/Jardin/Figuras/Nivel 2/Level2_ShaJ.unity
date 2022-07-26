@@ -1362,6 +1362,7 @@ MonoBehaviour:
   obj_Audio: {fileID: 3562243890099905849}
   incorrect_Obj: {fileID: 2110885317}
   correct_Obj: {fileID: 260407041}
+  cocoOBJ: {fileID: 8821005294927123606}
 --- !u!4 &1932915788
 Transform:
   m_ObjectHideFlags: 0
@@ -2023,7 +2024,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 6336f2ce5f776d14ebaa391415c5d8eb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c3e0534104192c4ba9592ff42a234ac, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -2042,15 +2043,15 @@ RectTransform:
   m_GameObject: {fileID: 8821005294927123606}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6.6473336, y: 6.6473336, z: 6.6473336}
+  m_LocalScale: {x: 0.66821855, y: 0.66821855, z: 0.66821855}
   m_Children: []
   m_Father: {fileID: 1046158432}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.3826875, y: 0.026388891}
-  m_AnchorMax: {x: 0.6275625, y: 0.6916668}
-  m_AnchoredPosition: {x: -2.5, y: 1.5}
-  m_SizeDelta: {x: -266.55762, y: -406.41998}
+  m_AnchorMin: {x: 0.1764375, y: 0}
+  m_AnchorMax: {x: 0.84356254, y: 0.65000004}
+  m_AnchoredPosition: {x: -2, y: -7}
+  m_SizeDelta: {x: 426, y: 252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &8821005294927123606
 GameObject:
@@ -2063,6 +2064,7 @@ GameObject:
   - component: {fileID: 8821005294927123605}
   - component: {fileID: 8821005294927123611}
   - component: {fileID: 8821005294927123604}
+  - component: {fileID: 8821005294927123607}
   m_Layer: 5
   m_Name: coco
   m_TagString: Untagged
@@ -2070,6 +2072,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &8821005294927123607
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8821005294927123606}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c95aa7ce5bc072f419fb56719129a7b0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!222 &8821005294927123611
 CanvasRenderer:
   m_ObjectHideFlags: 0
