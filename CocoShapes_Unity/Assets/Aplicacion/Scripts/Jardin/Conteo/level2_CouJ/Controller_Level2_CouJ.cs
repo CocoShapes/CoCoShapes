@@ -19,40 +19,25 @@ public class Controller_Level2_CouJ : MonoBehaviour
     private int notRepeat;
 
 ///-------------------------------------------
-    //PARA CANVAS
-    //Canvas en donde se va a cambiar todo
-    public GameObject canvas;
+    //PARA imgPart1
+    //imgPart1 en donde se va a cambiar todo
+    public GameObject imgPart1;
     
     //Imagenes
     //Parte 1
-        //Parte 1_Incorrecto
-    public GameObject imgPart1_In;
-            //Sprite de parte 1 incorrecto
-    private Sprite imgPart1_In_SP;  
 
 
     //Parte 2
         //Parte 2 instrucción
     public  GameObject imgPart2;
-            //Sprite de parte 2
-    private Sprite imgPart2_SP;  
+         
 
-        //Parte 2 Incorrecto
-    public GameObject imgPart2_In;
-            //Sprite de parte 2 incorrecto
-    private Sprite imgPart2_In_SP;
 
 
     //Parte 3
         //Parte 3 instrucción
     public GameObject imgPart3;
-            //Sprite de parte 3
-    private Sprite imgPart3_SP;
 
-        //Parte 3 Incorrecto
-    public GameObject imgPart3_In;
-            //Sprite de parte 3 incorrecto
-    private Sprite imgPart3_In_SP;
 
 
     ///-------------------------------------------
@@ -70,47 +55,52 @@ public class Controller_Level2_CouJ : MonoBehaviour
     private AudioSource[] sounds;
     public GameObject obj_Audio;
 
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
-
     private AudioSource twoAudio;
     private AudioSource threeAudio;
     private AudioSource fiveAudio;
     private AudioSource sixAudio;
     private AudioSource nineAudio;
     private AudioSource tenAudio;
-    private AudioSource heartAudio;
-    private AudioSource starAudio;
+
 
 
     private AudioSource instruction;
 
     private AudioSource audioNumberFeedback;
+
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        //Para obtener todos los sprites
-        imgPart1_In_SP= imgPart1_In.GetComponent<Image>().sprite;
-        imgPart2_SP= imgPart2.GetComponent<Image>().sprite;
-        imgPart2_In_SP= imgPart2_In.GetComponent<Image>().sprite;
-        imgPart3_SP= imgPart3.GetComponent<Image>().sprite;
-        imgPart3_In_SP= imgPart3_In.GetComponent<Image>().sprite;
+     
 
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        twoAudio= sounds[2];
-        threeAudio= sounds[3];
-        fiveAudio= sounds[4];
-        sixAudio= sounds[5];
-        nineAudio= sounds[6];
-        tenAudio= sounds[7];
-        starAudio= sounds[8];
-        heartAudio= sounds[9];
-        instruction= sounds[10];
+        twoAudio= sounds[0];
+        threeAudio= sounds[1];
+        fiveAudio= sounds[2];
+        sixAudio= sounds[3];
+        nineAudio= sounds[4];
+        tenAudio= sounds[5];
+        instruction= sounds[6];
 
         audioNumberFeedback= new AudioSource();
+
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
         
         //Para obtener las animaciones
         cocoObj_AN = cocoObj.gameObject.GetComponent<Animator>();
@@ -129,6 +119,11 @@ public class Controller_Level2_CouJ : MonoBehaviour
 
         //Activo la instruccion
         instruction.Play();
+
+        //Desactivo las otras 2 imagenes
+        imgPart2.SetActive(false);
+        imgPart3.SetActive(false);
+
       
     }
 
@@ -150,61 +145,34 @@ public class Controller_Level2_CouJ : MonoBehaviour
         
     }
 
-    //Botón que se llama cuando se da click al boton correcto
-    public void buttonCorrectClick(){
-        //Quito errores
-        errorCount=0;
-        //Para el not repeat
-        notRepeat =0;  
-        //Indico que fue correcto
-        decision = 1;
-        //Animacion
-            animations(level,decision);
-        //Indico la retroalimentacion
-            audioNumberFeedback.Play();
-            
-        
-        //Activo audio
-            correctAudio.PlayDelayed(audioNumberFeedback.clip.length);
-          
-        
+    //Método cuando toca un botón
+    //1 es corazón, 2 es estrella
+    public void buttonClick(int option){
+        //Todo dependende del nivel
+        //Si es el primero, la opción correcta es corazón
+        //Si le dió al corazón
+        //Solo es correcto en el nivel 1
+        if(option==1){
+            if(level==1){
+                correctOption();
+            }else{
+                incorrectOption();
+            }
+        }
+        //Si le dió a la estrella, es correcta en nivel 2 y 3
+        else{
+            //Incorrecto solo en nivel 1
+            if(level==1){
+                incorrectOption();
+            }else{
+                correctOption();
+            }
+        }
+
     }
 
     
-    //Botón que se llama cuando se da click al boton incorrecto
-    public void buttonIncorrectClick(){
-        //Para el not repeat
-             notRepeat =1;    
-        //Indico que fue incorrecto
-        decision = 0;
-        //Se debe verificar en qué nivel se encuentra
-        
-
-            Debug.Log("INCORRECTO"); 
-            //Aumento numero de errores
-            errorCount++;
-            //Si en algun momento llego a los 3 errores
-             if (errorCount==2){
-                Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
-            }
-
-            //Animacion
-            animations(level,decision);
-            //Cambio la imagen dependiendo del nivel
-            changeImg(level,decision);
-
-            //Indico la retroalimentacion
-            audioNumberFeedback.Play();
-
-            //Activo audio
-            incorrectAudio.PlayDelayed(audioNumberFeedback.clip.length);
-
-            //Vuelvo a activar la instrucción
-            instruction.PlayDelayed(incorrectAudio.clip.length);
-            
-           
-    }
-
+ 
     
 
     //Método que cambia la imagen de fondo
@@ -282,35 +250,30 @@ public class Controller_Level2_CouJ : MonoBehaviour
 
         if(levelCI==1){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart2_SP;
+                //Desactivo la 1 activo la 2
+                imgPart1.SetActive(false);
+                imgPart2.SetActive(true);
                  //Activo la instruccion
-                instruction.Play();
+                 
+                instruction.PlayDelayed(correctAudio.clip.length + audioNumberFeedback.clip.length);
                
-            }
-            else if(num==0){
-               
-                canvas.GetComponent<Image>().sprite=imgPart1_In_SP;
             }
             
         }
         else if (levelCI==2){
             if(num==1){
-                canvas.GetComponent<Image>().sprite=imgPart3_SP;
+                //Activo la tercera imagen y desativo la 2
+                imgPart2.SetActive(false);
+                imgPart3.SetActive(true);
+               
                  //Activo la instruccion
-                    instruction.Play();
+                   instruction.PlayDelayed(correctAudio.clip.length + audioNumberFeedback.clip.length);
             }
-            else if(num==0){
-                
-                canvas.GetComponent<Image>().sprite=imgPart2_In_SP;
-            }
+        
         }
         else if(levelCI==3){
             if(num==1){
                 Debug.Log("Cambio de pagina");
-            }
-            else if(num==0){
-                
-                canvas.GetComponent<Image>().sprite=imgPart3_In_SP;
             }
         }
         else{
@@ -318,6 +281,56 @@ public class Controller_Level2_CouJ : MonoBehaviour
         }
 
 
+    }
+
+    public void correctOption(){
+        //Si es correcto
+                //Quito errores
+                errorCount=0;
+                //Para el not repeat
+                notRepeat =0;  
+                //Indico que fue correcto
+                decision = 1;
+                //Animacion
+                animations(level,decision);
+                //Indico la retroalimentacion
+                audioNumberFeedback.Play();
+                //Activo audio
+                correctAudio = correctSounds[ Random.Range(0, 5)];
+                correctAudio.PlayDelayed(audioNumberFeedback.clip.length);
+    }
+
+    public void incorrectOption(){
+        //Para el not repeat
+        notRepeat =1;    
+        //Indico que fue incorrecto
+        decision = 0;
+        //Se debe verificar en qué nivel se encuentra
+        
+
+            Debug.Log("INCORRECTO"); 
+            //Aumento numero de errores
+            errorCount++;
+            //Si en algun momento llego a los 3 errores
+             if (errorCount==2){
+                Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
+            }
+
+            //Animacion
+            animations(level,decision);
+            //Cambio la imagen dependiendo del nivel
+            changeImg(level,decision);
+
+            //Indico la retroalimentacion
+            audioNumberFeedback.Play();
+
+            //Activo audio
+            //Activo audio
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+            incorrectAudio.PlayDelayed(audioNumberFeedback.clip.length);
+
+            //Vuelvo a activar la instrucción
+            instruction.PlayDelayed(incorrectAudio.clip.length + audioNumberFeedback.clip.length);
     }
 
 }

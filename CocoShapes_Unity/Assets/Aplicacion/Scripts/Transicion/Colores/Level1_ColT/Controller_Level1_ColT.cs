@@ -76,6 +76,14 @@ public class Controller_Level1_ColT : MonoBehaviour
     public GameObject correct_Obj;
     private AudioSource correctAudio;
 
+    //Para el arquero
+    public GameObject goalkeeperOBJ;
+    private Animator goalkeeperOBJ_AN;
+
+    //Para coco
+    public GameObject cocoOBJ;
+    private Animator cocoOBJ_AN;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -104,6 +112,10 @@ public class Controller_Level1_ColT : MonoBehaviour
         instructionsRY_AN = instructionsRY_OBJ.GetComponent<Animator>();
         instructionsYB_AN = instructionsYB_OBJ.GetComponent<Animator>();
         instruction_AN = new Animator();
+        //Del portero
+        goalkeeperOBJ_AN = goalkeeperOBJ.GetComponent<Animator>();
+        //De coco
+        cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
 
         //Otras variables
         level=1;
@@ -172,12 +184,14 @@ public class Controller_Level1_ColT : MonoBehaviour
             incorrectAudio.Play();
             //NO Hago gol
             throwBall(reqColor,0);
+            //Muestro animación del portero
+            goalkeeperAnimation(reqColor);
 
             Debug.Log("INCORRECTO"); 
             //Aumento numero de errores
             errorCount++;
             //Si en algun momento llego a los 2 errores
-             if (errorCount==2){
+             if (errorCount==3){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
             } else{
                     //Activamos sonido de color otra vez y la animación
@@ -277,7 +291,8 @@ public class Controller_Level1_ColT : MonoBehaviour
             //Si es incorrecto no hace gol
     public void throwBall(string color, int num){
         Debug.Log("ENTRA METODO" +  color + " "+ num);
-
+        //Patea Coco
+        cocoOBJ_AN.Play("cocothrow");
         
             if(num==1){
                 if(reqColor == "orange"){
@@ -308,6 +323,17 @@ public class Controller_Level1_ColT : MonoBehaviour
          
      
 
+    }
+
+    //Metodo para las animaciones del goalkeeper
+    public void goalkeeperAnimation(string colorReq){
+        if(colorReq == "orange"){
+            goalkeeperOBJ_AN.Play("goalKeep2");
+        }else if(colorReq == "purple"){
+            goalkeeperOBJ_AN.Play("goalKeep1");
+        }else{
+            goalkeeperOBJ_AN.Play("goalKeep3");
+        }
     }
 }
 

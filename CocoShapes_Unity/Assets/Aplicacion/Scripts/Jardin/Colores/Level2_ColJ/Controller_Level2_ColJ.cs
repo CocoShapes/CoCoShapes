@@ -94,8 +94,13 @@ public class Controller_Level2_ColJ : MonoBehaviour
     public GameObject correct_Obj;
     private AudioSource correctAudio;
 
-    
-   
+    //Para coco
+    public GameObject cocoOBJ;
+    private Animator cocoOBJ_AN;
+
+    //Para la caña de pescar
+    public GameObject rodOBJ;
+    private Animator rodOBJ_AN;
    
 
 
@@ -134,6 +139,10 @@ public class Controller_Level2_ColJ : MonoBehaviour
         //Para obtener las animaciones
         fishingObj1_AN= fishingObj1.gameObject.GetComponent<Animator>();
         redCircle_AN =redCircle.gameObject.GetComponent<Animator>();
+        //De coco
+        cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
+        //De la caña de pescar
+        rodOBJ_AN= rodOBJ.GetComponent<Animator>();
 
         //Dejo todos los objetos abajo
         fishingObj1_AN.Play("fishingObjectAnim_Stop");
@@ -296,6 +305,10 @@ public class Controller_Level2_ColJ : MonoBehaviour
         
         //Ahora, hacemos la animación de subir el objeto
         fishingObj1_AN.Play("fishingObjectAnim");
+        //La animación de coco pescando
+        cocoOBJ_AN.Play("fishingCoco");
+        //La animación de la caña de pescar
+        rodOBJ_AN.Play("fishing");
         
     }
 
