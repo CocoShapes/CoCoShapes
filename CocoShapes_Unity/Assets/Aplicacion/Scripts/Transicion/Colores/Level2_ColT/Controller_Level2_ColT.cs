@@ -130,6 +130,10 @@ public class Controller_Level2_ColT : MonoBehaviour
     private AudioSource correctAudio;
 
 
+    //Para coco
+    public GameObject cocoOBJ;
+    private Animator cocoOBJ_AN;
+
 
     // Start is called before the first frame update
     void Start()
@@ -154,6 +158,8 @@ public class Controller_Level2_ColT : MonoBehaviour
         
         //Para obtener las animaciones
         dartObj_AN= dartObj.gameObject.GetComponent<Animator>();
+        //De coco
+        cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
 
         //Arreglo de animaciones
         redAnimations = new string []{"dart_red_throw_1", "dart_red_throw_2", "dart_red_throw_3", "dart_red_throw_4"};
@@ -215,17 +221,20 @@ public class Controller_Level2_ColT : MonoBehaviour
         //Necesario indicar que ya no se esta presionando
         pressColor="";
         }
+
+     
    
     }
 
 
     //Método que se invoca cuando se presiona un boton de color
     public void colorButtonPress(){
+       
         //Si el estudiante presionó uno de los colores necesarios para la combinación
         if(pressColor == reqColorComb1 || pressColor == reqColorComb2){
                    
             //Si presionó el amarillo y no lo ha presionado
-
+             
             if(pressColor== "yellow" && yellowPress==0){
                 //Activo audio correcto
                 correctAudio = correctSounds[ Random.Range(0, 5)];
@@ -237,6 +246,8 @@ public class Controller_Level2_ColT : MonoBehaviour
                 
                 //Aumento el numero de la combinación
                 combNumber++;
+                //Hago la animación de Coco
+                cocoOBJ_AN.Play("cocoDartThrowHappy");
                
             }
 
@@ -251,6 +262,8 @@ public class Controller_Level2_ColT : MonoBehaviour
                 
                 //Aumento el numero de la combinación
                 combNumber++;
+                //Hago la animación de Coco
+                cocoOBJ_AN.Play("cocoDartThrowHappy");
                
             }
 
@@ -265,6 +278,8 @@ public class Controller_Level2_ColT : MonoBehaviour
                 
                 //Aumento el numero de la combinación
                 combNumber++;
+                //Hago la animación de Coco
+                cocoOBJ_AN.Play("cocoDartThrowHappy");
              
             }
             
@@ -290,12 +305,16 @@ public class Controller_Level2_ColT : MonoBehaviour
                 redPress=0;
                 Debug.Log("level " + level);
             }
+
+            
             
         }
         
 
         //Si presiona el incorrecto
         else{
+             //Hago la animación de Coco
+            cocoOBJ_AN.Play("cocoDartThrowSad");
             //Activo audio incorrecto
             incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
@@ -311,6 +330,8 @@ public class Controller_Level2_ColT : MonoBehaviour
             throwDart(pressColor,0);
             //Activamos sonido de color otra vez
             audioColor.PlayDelayed(incorrectAudio.clip.length);
+
+          
         }
     }
 

@@ -84,6 +84,9 @@ public class Controller_Level1_ColT : MonoBehaviour
     public GameObject cocoOBJ;
     private Animator cocoOBJ_AN;
 
+
+    //Numero audio (para que no repita)
+    private int numAudio;
     // Start is called before the first frame update
     void Start()
     {
@@ -122,6 +125,7 @@ public class Controller_Level1_ColT : MonoBehaviour
         randomNumber=0;
         errorCount=0;
         iteration=0;
+        numAudio=0;
 
 
         colorsArray = new string []{ "green", "purple", "orange"};
@@ -147,6 +151,20 @@ public class Controller_Level1_ColT : MonoBehaviour
                 colorButtonPress();
         //Necesario indicar que ya no se esta presionando
         pressColor="";
+        }
+
+        //Animacion de triste o feliz cuando se encuentra en una animación especifica
+        if(ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_green_out")||ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_purple_out")
+            || ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_orange_out")){
+            cocoOBJ_AN.Play("happy");
+        }else if(ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_wrong_out")){
+            cocoOBJ_AN.Play("sad");
+        }
+
+        //Audio de la instrucción, si aparece en ese momento la animación coloco la instrucción
+        if(instruction_AN.GetCurrentAnimatorStateInfo(0).IsName("instruction_appear") && numAudio==0){
+            audioColor.Play();
+            numAudio++;
         }
     }
 
@@ -196,7 +214,7 @@ public class Controller_Level1_ColT : MonoBehaviour
             } else{
                     //Activamos sonido de color otra vez y la animación
             audioColor.PlayDelayed(incorrectAudio.clip.length);
-            instruction_AN.Play("instruction_appear");
+            instruction_AN.Play("instruction_wait");
             }
             
             
@@ -208,6 +226,7 @@ public class Controller_Level1_ColT : MonoBehaviour
     }
         //Método que me permite saber el color solicitado
     public void requestedColor(){
+      
        //Este método me permite saber si ya salió ese número
         //Recibe el arreglo, y la cantidad de numeros a generar
        colorsArrayCh[iteration]= randomGenerate(colorsArrayCh, 3);
@@ -249,11 +268,15 @@ public class Controller_Level1_ColT : MonoBehaviour
 
             //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
         if( level!=1){
-            audioColor.PlayDelayed(correctAudio.clip.length);
+            
+            instruction_AN.Play("instruction_wait");
         }else{
-            audioColor.Play();
+            instruction_AN.Play("instruction_appear");
         }
-        instruction_AN.Play("instruction_appear");
+
+          //Numero audio
+        numAudio=0;
+       
     }
 
     public int randomGenerate(int [] array, int number){
