@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Controller_Level2_ColT : MonoBehaviour
 {
+     public GameObject gameOver_OBJ;
     //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
@@ -330,6 +331,7 @@ public class Controller_Level2_ColT : MonoBehaviour
                 }
                 else{
                     Debug.Log("Pasa pagina");
+                     gameOver_OBJ.SetActive(true);
                 }
                  //Reinicio el contador de la combinación
                 combNumber=0;
@@ -361,6 +363,7 @@ public class Controller_Level2_ColT : MonoBehaviour
             //Si en algun momento llego a los 3 errores
              if (errorCount==3){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
+                 gameOver_OBJ.SetActive(true);
             }
             //Cambio la imagen dependiendo del nivel
             throwDart(pressColor,0);

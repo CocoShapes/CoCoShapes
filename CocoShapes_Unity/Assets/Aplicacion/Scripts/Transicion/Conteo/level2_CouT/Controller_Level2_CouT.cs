@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Controller_Level2_CouT : MonoBehaviour
 {
+     public GameObject gameOver_OBJ;
      //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
@@ -171,6 +172,7 @@ public class Controller_Level2_CouT : MonoBehaviour
         //Si ya se fue de la parte 3
         else if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Leave")&& n==1){
             Debug.Log("CAMBIO PAGINA");
+            gameOver_OBJ.SetActive(true);
             n=2;
         }
     }
@@ -269,6 +271,7 @@ public class Controller_Level2_CouT : MonoBehaviour
         //Si ya llegó a los 3 errores
         if (errorCount==3){
             Debug.Log("Se acabaron los intentos");
+            gameOver_OBJ.SetActive(true);
         }
     }
 }

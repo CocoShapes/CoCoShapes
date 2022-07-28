@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Controller_Level1_ColT : MonoBehaviour
 {
+    public GameObject gameOver_OBJ;
      //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
@@ -247,6 +248,7 @@ public class Controller_Level1_ColT : MonoBehaviour
             //Si en algun momento llego a los 2 errores
              if (errorCount==3){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
+                 gameOver_OBJ.SetActive(true);
             } else{
                     //Activamos sonido de color otra vez y la animación
             audioColor.PlayDelayed(incorrectAudio.clip.length);
@@ -359,6 +361,7 @@ public class Controller_Level1_ColT : MonoBehaviour
                     ballObj_AN.Play("ball_orange_throw");
                     if(level==3){
                         Debug.Log("Cambio pagina");
+                         gameOver_OBJ.SetActive(true);
                     }
                 }
                 else if(reqColor == "green"){
@@ -366,12 +369,14 @@ public class Controller_Level1_ColT : MonoBehaviour
                     ballObj_AN.Play("ball_green_throw");
                      if(level==3){
                         Debug.Log("Cambio pagina");
+                         gameOver_OBJ.SetActive(true);
                     }
                 }else if(reqColor == "purple"){
                     
                     ballObj_AN.Play("ball_purple_throw");
                      if(level>3){
                         Debug.Log("Cambio pagina");
+                         gameOver_OBJ.SetActive(true);
                     }
                 }
                 

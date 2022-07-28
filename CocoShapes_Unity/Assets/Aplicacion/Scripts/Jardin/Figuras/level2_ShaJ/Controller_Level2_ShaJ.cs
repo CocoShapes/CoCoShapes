@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Controller_Level2_ShaJ : MonoBehaviour
 {
+    //
+    public GameObject gameOver_OBJ;
+
     //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
@@ -255,6 +258,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
             //Si en algun momento llego a los 3 errores
              if (errorCount==3){
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
+                gameOver_OBJ.SetActive(true);
             }
             //Cambio la imagen dependiendo del nivel
             redCirclePut(level,0);
@@ -432,6 +436,7 @@ public class Controller_Level2_ShaJ : MonoBehaviour
                 shapeObjR.SetActive(false);
                 shapeObjL.SetActive(false);
                 Debug.Log("Cambio de pagina");
+                gameOver_OBJ.SetActive(true);
             }
             else if(num==0){
                  if(side==1){
