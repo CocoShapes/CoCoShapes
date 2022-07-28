@@ -7,6 +7,7 @@ public class AnimationCar : MonoBehaviour
     //Para llamar al código denominado RollerCoster para los audios.
     private RollerCoster rollerCoster;
 
+
     //Para las animaciones
     public Animator animator;
 
@@ -23,7 +24,7 @@ public class AnimationCar : MonoBehaviour
     public int n;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[14];
+    public AudioClip[] sounds = new AudioClip[8];
     public AudioControl audioSource;
 
     //Para mostrar las instrucciones(son imágenes)
@@ -36,6 +37,7 @@ public class AnimationCar : MonoBehaviour
         animator = GetComponent<Animator>();
         //Para obtener variables del código denominado RollerCoster para los audios.
         rollerCoster = GameObject.Find("Background").GetComponent<RollerCoster>();
+
 
     }
 
@@ -65,10 +67,12 @@ public class AnimationCar : MonoBehaviour
                 AnswerCorrects++;
                 Debug.Log("Correct");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { rollerCoster.sounds[3], rollerCoster.sounds[4] };
+                AudioClip[] audios = new AudioClip[2] { rollerCoster.sounds[4], rollerCoster.sounds[5] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
+                //rollerCoster.RandomScene();
+
             }
             if (AnswerChild != AnswerCorrect)
             {
@@ -89,10 +93,11 @@ public class AnimationCar : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { sounds[5], sounds[6] };
+                AudioClip[] audios = new AudioClip[2] { sounds[6], sounds[7] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
+
             }
         }
         //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas

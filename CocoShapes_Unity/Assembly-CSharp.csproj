@@ -39,7 +39,6 @@
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\MouseMovement.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\SoundControl2.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\SoundStartSha.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\WarpTextExample.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SimpleScript.cs" />
@@ -50,7 +49,6 @@
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\ButtonControllerCouT.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TextMeshSpawner.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\SoundStart.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_A.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 3\AnimationCar.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\SoundControl.cs" />

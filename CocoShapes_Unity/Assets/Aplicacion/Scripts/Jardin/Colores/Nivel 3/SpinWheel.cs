@@ -29,8 +29,18 @@ public class SpinWheel : MonoBehaviour
     public string AnswerCorrect; //la que el usuario debería presionar
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[12];
+    public AudioClip[] sounds = new AudioClip[13];
     public AudioControl1 audioSource;
+
+    //Para guardar los colores que ya aparecieron
+    public List<string> colors = new List<string>();
+
+    void Start()
+    {
+        //Para que se reproduzca el audio del inicio (la instrucción)
+        AudioClip[] audios = new AudioClip[1] { sounds[8] };
+        StartCoroutine(audioSource.PlayAudio(audios));
+    }
 
     //Método para la rotación de la ruleta.
     public IEnumerator Rotate()
@@ -71,6 +81,9 @@ public class SpinWheel : MonoBehaviour
                     //Para que se reproduzcan los audios de los colores
                     AudioClip[] soundsToPlay = new AudioClip[1] { sounds[i] };
                     StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+
+                    //Para guardar el color que ya apareció
+                    colors.Add(ObjectColors[i].name);
                 }
             }
         }
@@ -87,13 +100,10 @@ public class SpinWheel : MonoBehaviour
         speed = Random.Range(250f, 280f);
         angle = Random.Range(0f, 360f);
 
-        rotationTime = Random.Range(4f, 5f);
+        rotationTime = Random.Range(6f, 7f);
         recorredTime = 0f;
 
         transform.Rotate(0, 0, angle);
-
-        //Para que no se repitan los colores
-
 
         StartCoroutine(Rotate());
     }
