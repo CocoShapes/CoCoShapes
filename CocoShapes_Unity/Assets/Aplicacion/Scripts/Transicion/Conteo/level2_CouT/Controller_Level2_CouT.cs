@@ -23,6 +23,7 @@ public class Controller_Level2_CouT : MonoBehaviour
 
     public GameObject imgCanvas1;
     public GameObject imgCanvas2;
+    public GameObject imgCanvas3;
     ///-------------------------------------------
     //PARA MOVER OBJETOS
         //Coco
@@ -36,10 +37,7 @@ public class Controller_Level2_CouT : MonoBehaviour
     //Audios de correcto o incorrecto, instrucciones
     private AudioSource[] sounds;
     public GameObject obj_Audio;
-
-    private AudioSource correctAudio;
-    private AudioSource incorrectAudio;
-    private AudioSource instructionAudio;
+    
     private AudioSource part1Audio;
     private AudioSource part2Audio;
     private AudioSource part3Audio;
@@ -71,17 +69,31 @@ public class Controller_Level2_CouT : MonoBehaviour
     private Sprite img_seventeenObj;
 
 
+    //Audio de incorrecto
+    private AudioSource[] incorrectSounds;
+    public GameObject incorrect_Obj;
+    private AudioSource incorrectAudio;
+
+    //Audio de correcto
+    private AudioSource[] correctSounds;
+    public GameObject correct_Obj;
+    private AudioSource correctAudio;
+
     // Start is called before the first frame update
     void Start()
     {
          //Audios
         sounds= obj_Audio.GetComponents<AudioSource>();
-        correctAudio= sounds[0];
-        incorrectAudio= sounds[1];
-        instructionAudio = sounds[2];
-        part1Audio = sounds[3];
-        part2Audio = sounds[4];
-        part3Audio = sounds[5];
+        part1Audio = sounds[0];
+        part2Audio = sounds[1];
+        part3Audio = sounds[2];
+
+        
+        //Audio de incorrecto
+        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+
+        //Audio de correcto
+        correctSounds= correct_Obj.GetComponents<AudioSource>();
         
         //Para obtener las animaciones
         cocoObj_AN= cocoObj.gameObject.GetComponent<Animator>();
@@ -109,10 +121,11 @@ public class Controller_Level2_CouT : MonoBehaviour
 
         //Quito los otros rieles
         imgCanvas2.SetActive(false);
+        imgCanvas3.SetActive(false);
         //Inicia la primera instrucción
-        instructionAudio.Play();
+        
         //Luego la parte 1
-        part1Audio.PlayDelayed(instructionAudio.clip.length);
+        part1Audio.Play();
         n=1;
     }
 
@@ -140,8 +153,11 @@ public class Controller_Level2_CouT : MonoBehaviour
         }
         //Si empezó la parte 3
         else if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Start")&& n==1){
+            //Cambio la imagen de fondo
+            imgCanvas2.SetActive(false);
+            imgCanvas3.SetActive(true);
             //Activo la instrucción
-            part3Audio.Play();
+            part3Audio.PlayDelayed(correctAudio.clip.length);
             //Activo los botones
             buttonOptionONE.SetActive(true);
             buttonOptionTWO.SetActive(true);
@@ -167,7 +183,8 @@ public class Controller_Level2_CouT : MonoBehaviour
         //Si el nivel es el primero, la opción correcta es la 2
         if(level==1){
             if(option==2){
-                //Activo el audio correcto
+                //Activo audio correcto
+                correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
                 //Activo la animación de Coco
                 cocoObj_AN.Play("cocoPart1Leave");
@@ -182,7 +199,8 @@ public class Controller_Level2_CouT : MonoBehaviour
                 //reinicio el contador de errores
                 errorCount=0;
             }else{
-                //Sonido incorrecto
+                //Activo audio
+                incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
                 incorrectAudio.Play();
                 //Repito la instrucción
                 part1Audio.PlayDelayed(incorrectAudio.clip.length);
@@ -193,7 +211,8 @@ public class Controller_Level2_CouT : MonoBehaviour
         //Si el nivel es el segundo, la opción correcta en la 1
         else if(level==2){
             if(option==1){
-                //Activo el audio correcto
+                //Activo audio correcto
+                 correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
                 //Activo la animación de Coco
                 cocoObj_AN.Play("cocoPart2Leave");
@@ -209,7 +228,8 @@ public class Controller_Level2_CouT : MonoBehaviour
                 errorCount=0;
                 
             }else{
-                //Sonido incorrecto
+                //Activo audio
+                incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
                 incorrectAudio.Play();
                 //Repito la instrucción
                 part2Audio.PlayDelayed(incorrectAudio.clip.length);
@@ -220,7 +240,8 @@ public class Controller_Level2_CouT : MonoBehaviour
         //Si es el tercer nivel la opción correcta es la 3
         else if(level==3){
             if(option==3){
-                //Activo el audio correcto
+                //Activo audio correcto
+                correctAudio = correctSounds[ Random.Range(0, 5)];
                 correctAudio.Play();
                 //Activo la animación de Coco
                 cocoObj_AN.Play("cocoPart3Leave");
@@ -235,8 +256,9 @@ public class Controller_Level2_CouT : MonoBehaviour
                 //reinicio el contador de errores
                 errorCount=0;
             }else{
-                //Sonido incorrecto
-                incorrectAudio.Play();
+                //Activo audio
+                 incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+                  incorrectAudio.Play();
                 //Repito la instrucción
                 part3Audio.PlayDelayed(incorrectAudio.clip.length);
                 //Aumento contador de errores
