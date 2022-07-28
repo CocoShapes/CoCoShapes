@@ -182,10 +182,35 @@ public class Controller_Level2_ShaJ : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //Aqui se realizaria lo de la conexión del Arduino
         //Es necesario verificar que haya insertado alguna de las figuras
-        if(insertedShape=="circle"||insertedShape=="square"||insertedShape=="triangle"
-        ||insertedShape=="rectangle"||insertedShape=="star"){
+        /*
+
+        Niveles de Figuras:
+        Circle --> DownArrow
+        Square --> RightArrow
+        Triangle --> LeftArrow
+        Rectangle --> Backspace
+        Star --> Tab
+        */
+        if(Input.GetKeyDown(KeyCode.DownArrow)||Input.GetKeyDown(KeyCode.RightArrow)||Input.GetKeyDown(KeyCode.LeftArrow)
+        ||Input.GetKeyDown(KeyCode.Backspace)||Input.GetKeyDown(KeyCode.Tab)){
+            if(Input.GetKeyDown(KeyCode.DownArrow)){
+                insertedShape="circle";
+            }
+            else if(Input.GetKeyDown(KeyCode.RightArrow)){
+                insertedShape="square";
+            }
+            else if(Input.GetKeyDown(KeyCode.LeftArrow)){
+                insertedShape="triangle";
+            }
+            else if(Input.GetKeyDown(KeyCode.Backspace)){
+                insertedShape="circle";
+            }
+            else if(Input.GetKeyDown(KeyCode.Tab)){
+                insertedShape="star";
+            }
                 shapeInserted();
         //Necesario indicar que ya no se esta insertando
         insertedShape="";

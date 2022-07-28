@@ -144,10 +144,46 @@ public class Controller_Level1_ColT : MonoBehaviour
     void Update()
     {
         //Aqui se realizaria lo de la conexión del Arduino
+        /*Niveles de Colores:
+            Yellow --> F1
+            Blue --> F2
+            Red --> F3
+            Green --> F4
+            Orange --> F5
+            Purple --> F6
+            Black --> F7
+            White --> F8*/
         //Es necesario verificar que haya presionado alguno de los botones
-        if(pressColor=="red"||pressColor=="yellow"||pressColor=="blue"
-        ||pressColor=="orange"||pressColor=="green"||pressColor=="purple"
-        ||pressColor=="black"||pressColor=="white"){
+        
+        if(Input.GetKeyDown(KeyCode.F1)||Input.GetKeyDown(KeyCode.F2)||Input.GetKeyDown(KeyCode.F3)
+            ||Input.GetKeyDown(KeyCode.F4)||Input.GetKeyDown(KeyCode.F5)||Input.GetKeyDown(KeyCode.F6)
+            ||Input.GetKeyDown(KeyCode.F7)||Input.GetKeyDown(KeyCode.F8)){
+
+                //Asigno variable
+                if(Input.GetKeyDown(KeyCode.F1)){
+                        pressColor="yellow";
+                }
+                else if(Input.GetKeyDown(KeyCode.F2)){
+                        pressColor="blue";
+                }
+                else if(Input.GetKeyDown(KeyCode.F3)){
+                        pressColor="red";
+                }
+                else if(Input.GetKeyDown(KeyCode.F4)){
+                        pressColor="green";
+                }
+                else if(Input.GetKeyDown(KeyCode.F5)){
+                        pressColor="orange";
+                }
+                else if(Input.GetKeyDown(KeyCode.F6)){
+                        pressColor="purple";
+                }
+                else if(Input.GetKeyDown(KeyCode.F7)){
+                        pressColor="white";
+                }
+                else if(Input.GetKeyDown(KeyCode.F8)){
+                        pressColor="yellow";
+                }
                 colorButtonPress();
         //Necesario indicar que ya no se esta presionando
         pressColor="";
