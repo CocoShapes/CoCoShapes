@@ -16,26 +16,24 @@ public class LaunchShape : MonoBehaviour
         Animator animator = animatedShape.GetComponent<Animator>();
     
         SpriteRenderer spriteRenderer = animatedShape.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = spriteShape;
+        //spriteRenderer.sprite = spriteShape;
 
         switch(spriteRenderer.sprite.name){
             case "Circle":
-                spriteRenderer.color = Color.red;
+                animator.Play("LaunchCircle");
                 break;
             case "Square":
-                spriteRenderer.color = Color.green;
+                animator.Play("LaunchSquare");
                 break;
             case "Triangle":
-                spriteRenderer.color = Color.blue;
+                animator.Play("LaunchTriangle");
                 break;
             case "Star":
-                spriteRenderer.color = Color.yellow;
+                animator.Play("LaunchStar");
                 break;
             case "Rectangle":
-                spriteRenderer.color = Color.magenta;
+            animator.Play("LaunchRectangle");
                 break;
         }
-
-        animator.Play("LaunchShape", -1, 0f);
     }
 }

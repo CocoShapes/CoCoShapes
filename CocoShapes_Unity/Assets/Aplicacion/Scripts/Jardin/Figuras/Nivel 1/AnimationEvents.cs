@@ -14,30 +14,7 @@ public class AnimationEvents : MonoBehaviour
 
     public void ActivateBubble()
     {
-        string actualShape = gameObject.GetComponent<SpriteRenderer>().sprite.name;
-        
-        switch(actualShape){
-            case "Circle":
-                bubbleShape.SetActive(true);
-                bubbleShape.GetComponent<SpriteRenderer>().sprite = levelController.spritesBubbles[0];
-                break;
-            case "Square":
-                bubbleShape.SetActive(true);
-                bubbleShape.GetComponent<SpriteRenderer>().sprite = levelController.spritesBubbles[1];
-                break;
-            case "Triangle":
-                bubbleShape.SetActive(true);
-                bubbleShape.GetComponent<SpriteRenderer>().sprite = levelController.spritesBubbles[2];
-                break;
-            case "Star":
-                bubbleShape.SetActive(true);
-                bubbleShape.GetComponent<SpriteRenderer>().sprite = levelController.spritesBubbles[3];
-                break;
-            case "Rectangle":
-                bubbleShape.SetActive(true);
-                bubbleShape.GetComponent<SpriteRenderer>().sprite = levelController.spritesBubbles[4];
-                break;
-        }
+        bubbleShape.SetActive(true);
     }
 
     public void deactivateBubble()
