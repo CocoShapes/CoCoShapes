@@ -15,7 +15,8 @@ public class SceneControllerCouT : MonoBehaviour
     public int n;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[7];
+    public AudioClip[] sounds = new AudioClip[8];
+
     public SoundControl2 audioSource;
 
     //Para el tiempo
@@ -37,26 +38,50 @@ public class SceneControllerCouT : MonoBehaviour
     //Para desactivar los círculos rojos
     public GameObject[] IncorrectsCircles;
 
-    void Update()
+    public Animator animator;
+
+    public GameObject Character;
+
+    void Start()
+    {
+        //Audio de la instrucción del inicio
+        AudioClip[] audios = new AudioClip[1] { sounds[3] };
+        StartCoroutine(audioSource.PlayAudio(audios));
+        //Debug.Log("AUDIO");
+
+        //Para la animación
+        animator = Character.gameObject.GetComponent<Animator>();
+
+        //Para que aparezcan las escenas sin presionar la barra espaciadora
+        SceneNew();
+
+        //Para que no se repitan las escenas
+
+    }
+    public void SceneNew()
     {
         //Para que aparezcan las primeras opciones
-        if (Input.GetKeyDown(KeyCode.Space))
+        //Para que se desactiven los círculos rojos 
+        foreach (GameObject incorrects in IncorrectsCircles)
         {
-            answerCouT.isPressing = false;
-            //Para que se desactiven los círculos rojos
-            foreach (GameObject incorrects in IncorrectsCircles)
-            {
-                incorrects.SetActive(false);
-            }
-            //Para desactivar la pantalla que se está mostrando
-            Screens3[n].SetActive(false);
-            StartCoroutine(Screen1());
-            Debug.Log("Aparece la primera pantalla");
+            incorrects.SetActive(false);
         }
+        //Para desactivar la pantalla que se está mostrando
+        Screens3[n].SetActive(false);
+        //Para activar la pantalla 1
+        StartCoroutine(Screen1());
+        Debug.Log("Aparece la primera pantalla");
     }
+
     //OPCIONES 1
     public IEnumerator Screen1()
     {
+        foreach (GameObject incorrects in IncorrectsCircles)
+        {
+            incorrects.SetActive(false);
+        }
+        //Para desactivar la pantalla que se está mostrando
+        Screens3[n].SetActive(false);
         while (tiempoRecorrido1 < tiempoShow1)
         {
             tiempoRecorrido1 += Time.deltaTime;
@@ -72,7 +97,7 @@ public class SceneControllerCouT : MonoBehaviour
         AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
         StartCoroutine(audioSource.PlayAudio(soundsToPlay));
         tiempoRecorrido1 = 0;
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(3.1f);
         StartCoroutine(Screen2());
 
     }
@@ -81,6 +106,7 @@ public class SceneControllerCouT : MonoBehaviour
     {
         //Para desactivar la pantalla que se está mostrando
         Screens1[n].SetActive(false);
+        animator.Play("Saludando");
         while (tiempoRecorrido2 < tiempoShow2)
         {
             tiempoRecorrido2 += Time.deltaTime;
@@ -104,7 +130,7 @@ public class SceneControllerCouT : MonoBehaviour
         }
         tiempoRecorrido2 = 0;
         Debug.Log("Se cambió a la segunda pantalla");
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(3.1f);
         StartCoroutine(Screen3());
     }
     //OPCIONES 3
@@ -149,7 +175,7 @@ public class SceneControllerCouT : MonoBehaviour
         {
             answerCouT.AnswerCorrect = "9";
         }
-        yield return new WaitForSeconds(2.3f);
+        yield return new WaitForSeconds(3.1f);
     }
 }
 

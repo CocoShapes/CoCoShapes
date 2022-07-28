@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnswerControlCol : MonoBehaviour
 {
+    private MouseMovement mouseMovement;
     //Para lo de las respuestas
     public string AnswerCorrect; //la que el usuario debería presionar
     private string AnswerChild;//la que el usuario presionó realmente
@@ -37,42 +38,42 @@ public class AnswerControlCol : MonoBehaviour
     {
         //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
         //Butterfly (yellow)
-        if (Input.GetKeyDown(KeyCode.Y))
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             AnswerChild = "Yellow";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Flower(purple)
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.F6))
         {
             AnswerChild = "Purple";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Star(white)
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.F8))
         {
             AnswerChild = "White";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Bird(red)
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             AnswerChild = "Red";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Cat(black)
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.F7))
         {
             AnswerChild = "Black";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Fish(green)
-        if (Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             AnswerChild = "Green";
             Debug.Log("AnswerChild: " + AnswerChild);
@@ -80,14 +81,14 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Heart(blue)
         //Para BLUE como se repite por black
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             AnswerChild = "Blue";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Bear(orange)
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             AnswerChild = "White";
             Debug.Log("AnswerChild: " + AnswerChild);
@@ -108,6 +109,8 @@ public class AnswerControlCol : MonoBehaviour
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
+                //Para que se muestre otra instrucción
+                mouseMovement.sceneNewCol();
             }
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
@@ -160,6 +163,5 @@ public class AnswerControlCol : MonoBehaviour
         {
             Debug.Log("Game Over");
         }
-
     }
 }

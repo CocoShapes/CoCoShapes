@@ -17,7 +17,7 @@ public class AnswerCouT : MonoBehaviour
     public bool isPressing;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[7];
+    public AudioClip[] sounds = new AudioClip[8];
     public SoundControl2 audioSource;
 
     //Para las respuestas incorrectas
@@ -43,9 +43,13 @@ public class AnswerCouT : MonoBehaviour
                 Debug.Log("Correct");
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
+                //Animación de celebrar
+                sceneControllerCouT.animator.Play("Celebrando");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[3], sceneControllerCouT.sounds[4] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                // AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[4], sceneControllerCouT.sounds[5] };
+                // StartCoroutine(audioSource.PlayAudio(audios));
+                //Debug.Log("AUDIO");
+                sceneControllerCouT.SceneNew();
             }
             else
             {
@@ -68,8 +72,9 @@ public class AnswerCouT : MonoBehaviour
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[5], sceneControllerCouT.sounds[6] };
+                AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[6], sceneControllerCouT.sounds[7] };
                 StartCoroutine(audioSource.PlayAudio(audios));
+                sceneControllerCouT.animator.Play("Triste");
             }
         }
         //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas

@@ -33,28 +33,28 @@ public class AnswerControlSha : MonoBehaviour
     {
         //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
         //Balón(circle)
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             AnswerChild = "Circle";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Pizza(Triangle)
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             AnswerChild = "Triangle";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Windows(Square)
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             AnswerChild = "Square";
             Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Chocolate(Rectangle)
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             AnswerChild = "Rectangle";
             Debug.Log("AnswerChild: " + AnswerChild);
@@ -62,7 +62,7 @@ public class AnswerControlSha : MonoBehaviour
         }
         //Star(star)
         ////Para star no pude repetir s por eso se usó la tecla w
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             AnswerChild = "Star";
             Debug.Log("AnswerChild: " + AnswerChild);

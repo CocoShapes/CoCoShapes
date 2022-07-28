@@ -14,7 +14,7 @@ public class RollerCoster : MonoBehaviour
     public GameObject[] Instructions;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[7];
+    public AudioClip[] sounds = new AudioClip[8];
     public AudioControl audioSource;
 
     //Para la respuestas
@@ -29,6 +29,9 @@ public class RollerCoster : MonoBehaviour
     {
         //Para obtener el GameObject Car para reacomodar el carro al inicio
         car = GameObject.Find("Car");
+        //Para que se reproduzca el audio del inicio (la instrucción)
+        AudioClip[] audios = new AudioClip[1] { sounds[3] };
+        StartCoroutine(audioSource.PlayAudio(audios));
     }
     void Update()
     {
@@ -72,8 +75,9 @@ public class RollerCoster : MonoBehaviour
             }
             if (n == 2)
             {
-                animationCar.AnswerCorrect = "IceCream";
+                animationCar.AnswerCorrect = "Icecream";
             }
         }
     }
 }
+

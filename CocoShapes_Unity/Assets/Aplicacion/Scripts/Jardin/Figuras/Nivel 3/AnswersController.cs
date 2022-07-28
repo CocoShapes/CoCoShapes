@@ -96,7 +96,7 @@ public class AnswersController : MonoBehaviour
                 {
                     //animator.Play("Square");
                     Shapes[2].SetActive(true);
-                    float step = speed * Time.deltaTime;
+                    float step = speed;
                     Shapes[2].transform.position = Vector3.MoveTowards(Shapes[2].transform.position, target.position, step);
                 }
                 if (AnswerChild == "Triangle")
@@ -118,9 +118,11 @@ public class AnswersController : MonoBehaviour
                 Debug.Log("Correct");
                 isPressing = false;
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { showText.sounds[5], showText.sounds[6] };
+                AudioClip[] audios = new AudioClip[2] { showText.sounds[6], showText.sounds[7] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
+
+                //showText.beginScene();
 
 
             }
@@ -152,7 +154,7 @@ public class AnswersController : MonoBehaviour
                 Debug.Log("Incorrect");
                 isPressing = false;
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { showText.sounds[7], showText.sounds[8] };
+                AudioClip[] audios = new AudioClip[2] { showText.sounds[8], showText.sounds[9] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
 

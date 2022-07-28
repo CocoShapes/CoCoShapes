@@ -15,7 +15,7 @@ public class ShowText : MonoBehaviour
     public GameObject[] Shapes;//Son imágenes
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[9];
+    public AudioClip[] sounds = new AudioClip[10];
     public Audio2 audioSource;
 
     //Para la respuestas
@@ -25,9 +25,14 @@ public class ShowText : MonoBehaviour
     public GameObject[] IncorrectsCircles;
 
     int n;
-    List<int> numerosGuardados = new List<int>();
+
+    //Para que no se repitan las instrucciones FALTA
+    //List<int> numerosGuardados = new List<int>();
     void Start()
     {
+        //Para que se reproduzca el audio del inicio (la instrucción)
+        AudioClip[] audios = new AudioClip[1] { sounds[5] };
+        StartCoroutine(audioSource.PlayAudio(audios));
     }
 
     void Update()
@@ -55,16 +60,7 @@ public class ShowText : MonoBehaviour
             Texts[n].SetActive(true);//Para que se activen
 
             //Para que NO SE REPITAN LAS INSTRUCCIONES
-            //  for (int i = 0; i < Texts.Length; i++)
-            // {
-            //    n = Random.Range(0, Texts.Length);
-            //     while (numerosGuardados.Contains(n))
-            //     {
-            //         n = Random.Range(0, Texts.Length);
-            //     }
-            //     numerosGuardados.Add(n);
-            //     Texts[n].SetActive(true);
-            // }
+
 
             //Para los audios de las instrucciones
             AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };

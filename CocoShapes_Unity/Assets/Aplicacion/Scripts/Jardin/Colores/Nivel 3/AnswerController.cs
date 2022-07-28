@@ -99,10 +99,12 @@ public class AnswerController : MonoBehaviour
                 AnswerCorrects++;
                 Debug.Log("Correct");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[8], spinWheel.sounds[9] };
+                AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[9], spinWheel.sounds[10] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
+
+                //StartCoroutine(Rotate());
             }
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
@@ -144,7 +146,7 @@ public class AnswerController : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[10], spinWheel.sounds[11] };
+                AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[11], spinWheel.sounds[12] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
