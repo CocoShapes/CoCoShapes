@@ -7,40 +7,51 @@ public class LaunchBall : MonoBehaviour
     public string color;
     public bool playedSound = false;
 
-    Vector3 ballPosition = new Vector3(-5.52f, -0.45f, 0); 
+    private Animator ballAnimator;
+
+    private Animator homeRedAnimator;
+    private Animator homeBlueAnimator;
+    private Animator homeYellowAnimator;
+
+    void Start()
+    {
+        ballAnimator = GetComponent<Animator>();
+
+        homeRedAnimator = GameObject.Find("HomeRed").GetComponent<Animator>();
+        homeBlueAnimator = GameObject.Find("HomeBlue").GetComponent<Animator>();
+        homeYellowAnimator = GameObject.Find("HomeYellow").GetComponent<Animator>();
+    }
     
     public IEnumerator launch()
     {
-        float timeElapsed = 0;
-        float lerpDuration = 0.8f;
+        float recorredTime = 0;
 
-        //Activar Sprite Renderer de la bola
-        GetComponent<SpriteRenderer>().enabled = true;
-        transform.position = ballPosition;
-
-        string colorGameObject = "Home" + color;
-        Transform colorTransform = GameObject.Find(colorGameObject).transform;
-
-        float dist = Vector2.Distance(transform.position, colorTransform.position);
-        float step = dist / (lerpDuration * 50);
-
-        while (timeElapsed < lerpDuration)
+        switch(color){
+            case "Red":
+                ballAnimator.Play("BallRed");
+                homeRedAnimator.Play("HomeRed");
+                break;
+            case "Blue":
+                ballAnimator.Play("BallBlue");
+                homeBlueAnimator.Play("HomeBlue");
+                break;
+            case "Yellow":
+                ballAnimator.Play("BallYellow");
+                homeYellowAnimator.Play("HomeYellow");
+                break;
+        }
+        
+        while (recorredTime < 1.1f)
         {
-            transform.position = Vector3.Lerp(transform.position, colorTransform.position, step);
-            timeElapsed += Time.deltaTime;
+            recorredTime += Time.deltaTime;
             yield return null;
         }
+    }
 
-        //Desactivar Sprite Renderer de la bola
-        GetComponent<SpriteRenderer>().enabled = false;
-        
-        if (!playedSound)
-            {
-                playedSound = true;
-                GetComponent<AudioSource>().Play();
-            }
+    public void PlayMetalAudio()
+    {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
 
-        //Activar Animación de la casa
-
+        audioSource.Play();
     }
 }

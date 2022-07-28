@@ -34,10 +34,23 @@ public class LevelController_Con1T : MonoBehaviour
     //GameObject Variables
     private GameObject carrito;
     public AudioClip[] numbersSounds = new AudioClip[10];
-    public AudioClip[] sounds = new AudioClip[6];
-    // Start is called before the first frame update
+    public AudioClip[] sounds = new AudioClip[7];
+
+    //Variables to send data to database
+    private DatabaseController database;
+    private float gameTotalTime = 0f;
+    private string subject = "Count";
+    private int level = 1;
+
+    //Variables of Game Finished
+    private bool gameFinished = false;
+    public GameObject panelGameFinished;
+
     void Start()
     {
+        //Database
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
+
         numberToEvaluate = 0;
         correctAnswers = 0;
         wrongAnswers = 0;
@@ -53,13 +66,19 @@ public class LevelController_Con1T : MonoBehaviour
 
     void Update()
     {
-        if(correctAnswers == 5)
+        gameTotalTime += Time.deltaTime;
+
+        if(correctAnswers == 5 && !gameFinished)
         {
-            Debug.Log("Nivel Completado");
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
-        if(wrongAnswers == 3)
+        if(wrongAnswers == 3 && !gameFinished)
         {
-            Debug.Log("Nivel Fallado");
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
     }
 

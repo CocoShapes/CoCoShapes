@@ -14,7 +14,7 @@ public class LevelController : MonoBehaviour
     private GameObject canyon;
 
     private string answer; //Variable for answer of user
-    private string correctAnswer; // Variable for correct answer
+    public string correctAnswer; // Variable for correct answer
     private bool getResponse;
 
     public bool isPlaying;
@@ -27,6 +27,15 @@ public class LevelController : MonoBehaviour
     //Other Scripts Variables
     private LaunchShape launchShape;
     private AudioControlLev1FigJ audioControl;
+
+    //Database and Game Finished
+    private DatabaseController database;
+    private string subject = "Shapes";
+    private int level = 1;
+
+    public GameObject panelGameFinished;
+    private bool gameFinished = false;
+    private float totalGameTime;
 
     private Sprite selectShape()
     {
@@ -61,6 +70,9 @@ public class LevelController : MonoBehaviour
     
     void Start()
     {
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        
         isPlaying = true;
         getResponse = false;
         
@@ -75,6 +87,8 @@ public class LevelController : MonoBehaviour
 
     void Update()
     {
+        totalGameTime += Time.deltaTime;
+
         if(isPlaying){
             //When the system is waiting for the answer of student
             if(Input.GetKeyDown(KeyCode.C)){
@@ -140,12 +154,16 @@ public class LevelController : MonoBehaviour
 
         if(correctAnswers >= 10){
             //When the student has finished the level
-            Debug.Log("Level finished");
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            //database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime);
         }
         
         if(incorrectAnswers >= 3){
             //Game Over
-            Debug.Log("Game Over");
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            //database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime);
         }
     }
 }

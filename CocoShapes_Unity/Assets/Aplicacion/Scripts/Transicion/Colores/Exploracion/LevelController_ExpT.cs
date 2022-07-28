@@ -27,8 +27,10 @@ public class LevelController_ExpT : MonoBehaviour
 
     private GameObject noAvailableColor;
 
+    private Animator CocoAnimator;
+
     //logic Variables
-    public AudioClip[] audioClips = new AudioClip[10]; //Green, Orange, Purple, GM Red, GM Blue, GM Yellow. Good Job, Keep Trying, Good, Wrong, Doesn't have that color.
+    public AudioClip[] audioClips = new AudioClip[13]; //Instruction, makegreen, makeorange, makepurple, coolgreen, coolorange, coolpurple, firstred, firstblue, firstyellow, not color, good, wrong
     private string[] possibleColors = new string[3] {"green", "orange", "purple" };
     
     private string correctColor;
@@ -37,6 +39,17 @@ public class LevelController_ExpT : MonoBehaviour
 
     private int finishColors = 0;
     private int correctAnswers = 0;
+    private int incorrectAnswers = 0;
+
+    //Variables to send data to database
+    private DatabaseController database;
+    private float gameTotalTime = 0f;
+    private string subject = "Colors";
+    private int level = 0;
+
+    //Variables of Game Finished
+    private bool gameFinished = false;
+    public GameObject panelGameFinished;
 
     public static void RemoveAt<T>(ref T[] arr, int index)
     {
@@ -49,6 +62,20 @@ public class LevelController_ExpT : MonoBehaviour
         return possibleColors[randomColor];
     }
 
+    private IEnumerator startGame(){
+        float recorredTime = 0;
+
+        AudioClip[] audios = new AudioClip[]{audioClips[0]};
+        StartCoroutine(audioController.playAudio(audios));
+
+        while(recorredTime < 7f){
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
+        StartCoroutine(assignColor());
+    }
+    
     private IEnumerator assignColor(){
         string color = colorToPrepare();
         bubble.SetActive(true);
@@ -59,25 +86,25 @@ public class LevelController_ExpT : MonoBehaviour
             case "green":
                 correctColor = "green";
                 cottomCandy.GetComponent<SpriteRenderer>().color = new Color(0.4182863f, 0.6792453f, 0.3043788f);
-                audios[0] = audioClips[0];
+                audios[0] = audioClips[1];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
             case "orange":
                 correctColor = "orange";
                 cottomCandy.GetComponent<SpriteRenderer>().color = new Color(1f, 0.6070782f, 0.3349057f);
-                audios[0] = audioClips[1];
+                audios[0] = audioClips[2];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
             case "purple":
                 correctColor = "purple";
                 cottomCandy.GetComponent<SpriteRenderer>().color = new Color(0.7988421f, 0.3803922f, 1f);
-                audios[0] = audioClips[2];
+                audios[0] = audioClips[3];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
         }
 
         float recorredTime = 0;
-        while(recorredTime < 2f){
+        while(recorredTime < 4f){
             recorredTime += Time.deltaTime;
             yield return null;
         }
@@ -111,19 +138,19 @@ public class LevelController_ExpT : MonoBehaviour
             case "yellow":
                 txtColorSolicited.text = "yellow";
                 txtColorSolicited.color = Color.yellow;
-                audios[0] = audioClips[5];
+                audios[0] = audioClips[9];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
             case "blue":
                 txtColorSolicited.text = "blue";
                 txtColorSolicited.color = Color.blue;
-                audios[0] = audioClips[4];
+                audios[0] = audioClips[8];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
             case "red":
                 txtColorSolicited.text = "red";
                 txtColorSolicited.color = Color.red;
-                audios[0] = audioClips[3];
+                audios[0] = audioClips[7];
                 StartCoroutine(audioController.playAudio(audios));
                 break;
         }
@@ -132,10 +159,11 @@ public class LevelController_ExpT : MonoBehaviour
     
     private IEnumerator checkColor(){
         if(pressedColor == orderOfColors[0]){
-            Debug.Log("Correct, pressed color " + pressedColor);
             correctAnswers++;
 
-            AudioClip[] audios = new AudioClip[2]{audioClips[8], audioClips[6]};
+            CocoAnimator.Play("CocoFelizChef");
+
+            AudioClip[] audios = new AudioClip[1]{audioClips[11]};
             StartCoroutine(audioController.playAudio(audios));
 
             float recorredTime = 0;
@@ -161,20 +189,35 @@ public class LevelController_ExpT : MonoBehaviour
             }
 
             if(correctAnswers == 2){
+                float waitTime = 0;
+                
                 correctCottomCandy.SetActive(true);
+
+                AudioClip[] audios2 = new AudioClip[1];
 
                 switch(correctColor){
                     case "green":
                         correctCottomCandy.GetComponent<SpriteRenderer>().color = new Color(0.4182863f, 0.6792453f, 0.3043788f);
+                        audios2[0] = audioClips[4];
                         break;
                     case "orange":
                         correctCottomCandy.GetComponent<SpriteRenderer>().color = new Color(1f, 0.6070782f, 0.3349057f);
+                        audios2[0] = audioClips[5];
                         break;
                     case "purple":
                         correctCottomCandy.GetComponent<SpriteRenderer>().color = new Color(0.7988421f, 0.3803922f, 1f);
+                        audios2[0] = audioClips[6];
                         break;
                 }
+
+                StartCoroutine(audioController.playAudio(audios2));
+
                 RemoveAt(ref possibleColors, Array.IndexOf(possibleColors, correctColor));
+
+                while(waitTime < 4f){
+                    waitTime += Time.deltaTime;
+                    yield return null;
+                }
 
                 StartCoroutine(assignColor());
                 finishColors++;
@@ -182,9 +225,11 @@ public class LevelController_ExpT : MonoBehaviour
             }
         }
         else if(pressedColor == "green" || pressedColor == "orange" || pressedColor == "purple" || pressedColor == "black" || pressedColor == "white"){
-            Debug.Log("Coco doesn't have color " + pressedColor);
+            incorrectAnswers++;
+            
+            CocoAnimator.Play("CocoTristeChef");
 
-            AudioClip[] audios = new AudioClip[2]{audioClips[9], audioClips[9]}; //Cambiar segundo audio por el final
+            AudioClip[] audios = new AudioClip[2]{audioClips[12], audioClips[10]}; //Cambiar segundo audio por el final
             StartCoroutine(audioController.playAudio(audios));
 
             switch (pressedColor){
@@ -218,8 +263,10 @@ public class LevelController_ExpT : MonoBehaviour
 
             noAvailableColor.SetActive(false);
         }else{
-            Debug.Log("Incorrect, pressed color " + pressedColor);
-            AudioClip[] audios = new AudioClip[2]{audioClips[9], audioClips[7]};
+            incorrectAnswers++;
+            CocoAnimator.Play("CocoTristeChef");
+
+            AudioClip[] audios = new AudioClip[1]{audioClips[12]};
             StartCoroutine(audioController.playAudio(audios));
  
             float recorredTime = 0;
@@ -249,6 +296,9 @@ public class LevelController_ExpT : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Database
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
         animationController = GameObject.Find("AnimationController").GetComponent<AnimationControllerExpT>();
 
@@ -262,6 +312,8 @@ public class LevelController_ExpT : MonoBehaviour
 
         correctCottomCandy = GameObject.Find("AlgodonCorrecto");
 
+        CocoAnimator = GameObject.Find("Coco").GetComponent<Animator>();
+
         noAvailableColor = GameObject.Find("ColorNoDisponible");
         noAvailableColor.SetActive(false);
         
@@ -269,57 +321,59 @@ public class LevelController_ExpT : MonoBehaviour
         corrector.SetActive(false);
         correctCottomCandy.SetActive(false);
 
-        StartCoroutine(assignColor());
+        StartCoroutine(startGame());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.R)){
+        gameTotalTime += Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.F3)){
             corrector.SetActive(false);
             pressedColor = "red";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.B)){
+        if(Input.GetKeyDown(KeyCode.F2)){
             corrector.SetActive(false);
             pressedColor = "blue";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.Y)){
+        if(Input.GetKeyDown(KeyCode.F1)){
             corrector.SetActive(false);
             pressedColor = "yellow";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.G)){
+        if(Input.GetKeyDown(KeyCode.F4)){
             corrector.SetActive(false);
             pressedColor = "green";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.O)){
+        if(Input.GetKeyDown(KeyCode.F5)){
             corrector.SetActive(false);
             pressedColor = "orange";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.P)){
+        if(Input.GetKeyDown(KeyCode.F6)){
             corrector.SetActive(false);
             pressedColor = "purple";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.L)){
+        if(Input.GetKeyDown(KeyCode.F7)){
             corrector.SetActive(false);
             pressedColor = "black";
             StartCoroutine(checkColor());
         }
-        if(Input.GetKeyDown(KeyCode.W)){
+        if(Input.GetKeyDown(KeyCode.F8)){
             corrector.SetActive(false);
             pressedColor = "white";
             StartCoroutine(checkColor());
         }
 
-        if(finishColors == 3){
-            Debug.Log("--------------------");
-            Debug.Log("Game Finished");
-            Debug.Log("--------------------");
+        if(finishColors == 3 && !gameFinished){
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, finishColors, incorrectAnswers, (int)gameTotalTime));
         }
     }
 }

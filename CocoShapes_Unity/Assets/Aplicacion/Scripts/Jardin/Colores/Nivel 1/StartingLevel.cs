@@ -17,37 +17,49 @@ public class StartingLevel : MonoBehaviour
     private GameObject gameObjectBall;
     public LaunchBall launchBall;
 
+    private Animator cocoAnimator;
+
     private GameObject homeRed;
     private GameObject homeBlue;
     private GameObject homeYellow;
     
     //Logic Variables
-    private string[] colors = new string[] { "RED", "BLUE", "YELLOW", "RED", "BLUE", "YELLOW"};
+    private string[] colors = new string[] { "red", "blue", "yellow", "red", "blue", "yellow"};
     private int random;
     private string answerColor;
     private Vector3 ballPosition;
     private int score;
     private int mistakes;
+    private bool gameFinished = false;
+
+    //Variables to send data to database
+    private DatabaseController database;
+    private float gameTotalTime = 0f;
+    private string subject = "Colors";
+    private int level = 1;
+
+    //prefab for game finished
+    public GameObject PanelGameFinished;
 
     //Asign a random color of the list to the text
     private string asignColor(){
         if(colors.Length > 0){
             random = Random.Range(0, colors.Length);
 
-            if(colors[random] == "RED"){
+            if(colors[random] == "red"){
                 AudioClip[] audiosToPlay = new AudioClip[] {audios[0]};
                 StartCoroutine(audioSource.playAudio(audiosToPlay));
-            } else if(colors[random] == "BLUE"){
+            } else if(colors[random] == "blue"){
                 AudioClip[] audiosToPlay = new AudioClip[] {audios[1]};
                 StartCoroutine(audioSource.playAudio(audiosToPlay));
-            } else if(colors[random] == "YELLOW"){
+            } else if(colors[random] == "yellow"){
                 AudioClip[] audiosToPlay = new AudioClip[] {audios[2]};
                 StartCoroutine(audioSource.playAudio(audiosToPlay));
             }
 
             return colors[random];
         }else {
-            return "GOOD JOB!";
+            return "good job!";
         }
     }
 
@@ -63,17 +75,34 @@ public class StartingLevel : MonoBehaviour
 
             score++;
             txtColor.text = asignColor();
+            txtColor.color = Color.black;
         } else {
             mistakes++;
             imgMistake.gameObject.SetActive(true);
+            switch(txtColor.text){
+                case "red":
+                    txtColor.color = Color.red;
+                    break;
+                case "blue":
+                    txtColor.color = Color.blue;
+                    break;
+                case "yellow":
+                    txtColor.color = Color.yellow;
+                    break;
+            }
         }
     }
     
     void Start(){
+        //Database
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        
         gameObjectBall = GameObject.Find("Ball");
         ballPosition = gameObjectBall.transform.position;
         gameObjectBall.SetActive(false);
 
+        cocoAnimator = GameObject.Find("Coco").GetComponent<Animator>();
+        
         homeRed = GameObject.Find("HomeRed");
         homeBlue = GameObject.Find("HomeBlue");
         homeYellow = GameObject.Find("HomeYellow");
@@ -85,12 +114,17 @@ public class StartingLevel : MonoBehaviour
     }
 
     void Update(){
+        //Add time to total time
+        gameTotalTime += Time.deltaTime;
+
         //To launch the ball when the player press a button in the keyboard
         if(Input.GetKeyDown(KeyCode.R)){
             //When recieve the color equal to Red
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
-            gameObjectBall.transform.position = ballPosition;
+
+            //Animation of Coco
+            cocoAnimator.Play("LanzarPelota");
             
             launchBall.color = "Red";
             launchBall.playedSound = false;
@@ -100,13 +134,15 @@ public class StartingLevel : MonoBehaviour
             AudioClip[] audiosToPlay = new AudioClip[] {audios[0]}; 
             StartCoroutine(audioSource.playAudio(audiosToPlay));
 
-            answerColor = "RED";
+            answerColor = "red";
             checkAnswer();
         } else if(Input.GetKeyDown(KeyCode.B)){
             //When recieve the color equal to Blue
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
-            gameObjectBall.transform.position = ballPosition;
+            
+            //Animation of Coco
+            cocoAnimator.Play("LanzarPelota");
             
             launchBall.color = "Blue";
             launchBall.playedSound = false;
@@ -116,13 +152,15 @@ public class StartingLevel : MonoBehaviour
             AudioClip[] audiosToPlay = new AudioClip[] {audios[1]};
             StartCoroutine(audioSource.playAudio(audiosToPlay));
 
-            answerColor = "BLUE";
+            answerColor = "blue";
             checkAnswer();
         } else if(Input.GetKeyDown(KeyCode.Y)){
             //When recieve the color equal to Yellow
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
-            gameObjectBall.transform.position = ballPosition;
+
+            //Animation of Coco
+            cocoAnimator.Play("LanzarPelota");
             
             launchBall.color = "Yellow";
             launchBall.playedSound = false;
@@ -132,20 +170,30 @@ public class StartingLevel : MonoBehaviour
             AudioClip[] audiosToPlay = new AudioClip[] {audios[2]};
             StartCoroutine(audioSource.playAudio(audiosToPlay));
 
-            answerColor = "YELLOW";
+            answerColor = "yellow";
             checkAnswer();
         }
 
         //To check if the player has lost
-        if (mistakes >= 3){
-            Debug.Log("You lost");
-            txtColor.text = "KEEP TRYING!";
+        if (mistakes >= 3 && !gameFinished){
+            Debug.Log("GAME OVER");
+            txtColor.text = "keep trying!";
             imgMistake.gameObject.SetActive(false);
+
+            PanelGameFinished.SetActive(true);
+            gameFinished = true;
+            //StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
         }
 
         //To check if the player has won
-        if (colors.Length <= 0){
-            Debug.Log("You won");
+        if (colors.Length <= 0 && !gameFinished){
+            Debug.Log("GAME PASSED");
+            txtColor.text = "nice job!";
+            cocoAnimator.Play("CelebracionFinal");
+
+            PanelGameFinished.SetActive(true);
+            gameFinished = true;
+            //StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
         }
     }
 }

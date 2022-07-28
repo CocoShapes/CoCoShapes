@@ -3,13 +3,14 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelControllerSha1T : MonoBehaviour
 {
     //Variables of Gameobjects and Arrays
     public Sprite[] spritesShapes = new Sprite[5];
     private GameObject[] shapes = new GameObject[7];
-    public AudioClip[] audioClips = new AudioClip[7]; //GM Circle, GM Square, GM Triangle, GM Rectangle, GM Star, Good Job, Keep Trying
+    public AudioClip[] audioClips = new AudioClip[9]; //GM Circle, GM Square, GM Triangle, GM Rectangle, GM Star, Good Job, Keep Trying, Instruction 1, Instruction 2
 
     private GameObject coco;
     private GameObject arrowError;
@@ -25,13 +26,28 @@ public class LevelControllerSha1T : MonoBehaviour
     private int correctAnswers;
     private int wrongAnswers;
 
+    //Variables to send data to database
+    private DatabaseController database;
+    private float gameTotalTime = 0f;
+    private string subject = "Shapes";
+    private int level;
+
+    //Variables of Game Finished
+    private bool gameFinished = false;
+    public GameObject panelGameFinished;
+
     public static void RemoveAt<T>(ref T[] arr, int index)
     {
         arr[index] = arr[arr.Length - 1];
         Array.Resize(ref arr, arr.Length - 1);
     }
     
-    private void StartGame() {
+    private IEnumerator StartGame() {
+        float recorredTime = 0;
+        
+        AudioClip[] audios = new AudioClip[2]{audioClips[7], audioClips[8]};
+        StartCoroutine(audioController.playAudio(audios));
+        
         for(int i = 0; i < shapes.Length; i++) {
             int random = UnityEngine.Random.Range(0, spritesShapes.Length);
             
@@ -64,6 +80,15 @@ public class LevelControllerSha1T : MonoBehaviour
                     break;
             }
         }
+
+        assignResponses();
+
+        while(recorredTime < 12f){
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
+        playNextShape();
     }
 
     private void assignResponses(){
@@ -143,7 +168,7 @@ public class LevelControllerSha1T : MonoBehaviour
             }
             
             correctAnswers++;
-
+            
             switch(correctAnswers){
                 case 1:
                     StartCoroutine(animationController.MoveCoco(coco, shapes[0]));
@@ -169,7 +194,13 @@ public class LevelControllerSha1T : MonoBehaviour
                     break;
             }
 
-            playNextShape();
+            if(sequenceOfShapes.Length > 0){
+                playNextShape();
+            }
+            else{
+                AudioClip[] audios = new AudioClip[1]{audioClips[5]};
+                StartCoroutine(audioController.playAudio(audios));
+            }
         }
         else{
             wrongAnswers++;
@@ -221,6 +252,15 @@ public class LevelControllerSha1T : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //Database
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
+
+        if(SceneManager.GetActiveScene().name == "Level1_ShaT"){
+            level = 1;
+        }else {
+            level = 2;
+        }
+        
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
         animationController = GameObject.Find("AnimationController").GetComponent<AnimationControllerSha1T>();
 
@@ -239,51 +279,61 @@ public class LevelControllerSha1T : MonoBehaviour
         correctAnswers = 0;
         wrongAnswers = 0;
 
-        StartGame();
-        assignResponses();
-        playNextShape();
+        StartCoroutine(StartGame());
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.C)){
+        //Add Time to total Time
+        gameTotalTime += Time.deltaTime;
+
+        if(Input.GetKeyDown(KeyCode.DownArrow)){
             answer = "Circle";
             AudioClip[] audios = new AudioClip[1]{audioClips[0]};
 
             StartCoroutine(executeInput(audios));
         }
-        if(Input.GetKeyDown(KeyCode.S)){
+        if(Input.GetKeyDown(KeyCode.RightArrow)){
             answer = "Square";
             AudioClip[] audios = new AudioClip[1]{audioClips[1]};
             
             StartCoroutine(executeInput(audios));
         }
-        if(Input.GetKeyDown(KeyCode.T)){
+        if(Input.GetKeyDown(KeyCode.LeftArrow)){
             answer = "Triangle";
             AudioClip[] audios = new AudioClip[1]{audioClips[2]};
             
             StartCoroutine(executeInput(audios));
         }
-        if(Input.GetKeyDown(KeyCode.R)){
+        if(Input.GetKeyDown(KeyCode.Backspace)){
             answer = "Rectangle";
             AudioClip[] audios = new AudioClip[1]{audioClips[3]};
             
             StartCoroutine(executeInput(audios));
         }
-        if(Input.GetKeyDown(KeyCode.A)){
+        if(Input.GetKeyDown(KeyCode.Tab)){
             answer = "Star";
             AudioClip[] audios = new AudioClip[1]{audioClips[4]};
 
             StartCoroutine(executeInput(audios));
         }
 
-        if(correctAnswers == 5){
-            Debug.Log("You Win");
+        if(correctAnswers == 5 && gameFinished == false){
             coco.transform.position = new Vector3(apple.transform.position.x, coco.transform.position.y, coco.transform.position.z);
+            Animator cocoAnimator = coco.GetComponent<Animator>();
+            cocoAnimator.Play("Celebración");
+            
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+            
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
-        if(wrongAnswers == 3){
-            Debug.Log("You Lose");
+        if(wrongAnswers == 3 && gameFinished == false){
+            gameFinished = true;
+            panelGameFinished.SetActive(true);
+
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
     }
 }
