@@ -34,7 +34,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm");
+        request.SetRequestHeader("api-key", );
 
         yield return request.SendWebRequest();
 
@@ -54,7 +54,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm");
+        request.SetRequestHeader("api-key", );
 
         yield return request.SendWebRequest();
 
@@ -72,7 +72,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm");
+        request.SetRequestHeader("api-key", );
 
         yield return request.SendWebRequest();
     }
@@ -90,7 +90,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm");
+        request.SetRequestHeader("api-key", );
         
         yield return request.SendWebRequest();
     }
