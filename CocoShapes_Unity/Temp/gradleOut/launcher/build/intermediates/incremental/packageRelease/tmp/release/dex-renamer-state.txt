@@ -1,4 +1,0 @@
-#Thu Jul 28 04:37:09 COT 2022
-base.0=D\:\\Trabajo UAO\\REPOSITORIO UNITY\\CoCoShapes\\CocoShapes_Unity\\Temp\\gradleOut\\launcher\\build\\intermediates\\dex\\release\\out\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
