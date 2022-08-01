@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class TutorialPlayer : MonoBehaviour
 {
-    public VideoClip[] clips = new VideoClip[10]; //Col1, Col2, Col3, Sha1, Sha2, Sha3, Con1, Con2, Con3
+    public VideoClip[] clips = new VideoClip[10]; //ColExpT, Col1T, Col2T, Col3T, Sha1T, Sha2T, Sha3T, Cou1T, Cou2T, Cou3T
     public LevelSelector levelSelector;
     public GameObject video;
 
@@ -42,11 +42,11 @@ public class TutorialPlayer : MonoBehaviour
                         break;
                     case 2:
                         video.GetComponent<VideoPlayer>().clip = clips[5];
-                        sceneName = "Level2_ConT";
+                        sceneName = "Level2_CouT";
                         break;
                     case 3:
                         video.GetComponent<VideoPlayer>().clip = clips[6];
-                        sceneName = "Level3_ConT";
+                        sceneName = "Level3_CouT";
                         break;
                 }
             }else if(levelSelector.subject == "Shapes"){
@@ -66,7 +66,52 @@ public class TutorialPlayer : MonoBehaviour
                 }
             }
         }else {
-            Debug.Log("Garden");
+            if(levelSelector.subject == "Colors"){
+                switch(levelSelector.level){
+                    case 1:
+                        video.GetComponent<VideoPlayer>().clip = clips[1];
+                        sceneName = "Level1_ColJ";
+                        break;
+                    case 2:
+                        video.GetComponent<VideoPlayer>().clip = clips[2];
+                        sceneName = "Level2_ColJ";
+                        break;
+                    case 3:
+                        video.GetComponent<VideoPlayer>().clip = clips[3];
+                        sceneName = "Level3_ColJ";
+                        break;
+                }
+            }else if(levelSelector.subject == "Count"){
+                switch(levelSelector.level){
+                    case 1:
+                        video.GetComponent<VideoPlayer>().clip = clips[4];
+                        sceneName = "Level1_ConJ";
+                        break;
+                    case 2:
+                        video.GetComponent<VideoPlayer>().clip = clips[5];
+                        sceneName = "Level2_CouJ";
+                        break;
+                    case 3:
+                        video.GetComponent<VideoPlayer>().clip = clips[6];
+                        sceneName = "Level3_CouJ";
+                        break;
+                }
+            }else if(levelSelector.subject == "Shapes"){
+                switch(levelSelector.level){
+                    case 1:
+                        video.GetComponent<VideoPlayer>().clip = clips[7];
+                        sceneName = "Level1_ShaJ";
+                        break;
+                    case 2:
+                        video.GetComponent<VideoPlayer>().clip = clips[8];
+                        sceneName = "Level2_ShaJ";
+                        break;
+                    case 3:
+                        video.GetComponent<VideoPlayer>().clip = clips[9];
+                        sceneName = "Level3_ShaJ";
+                        break;
+                }
+            }
         }
         video.GetComponent<VideoPlayer>().Play();
     }
