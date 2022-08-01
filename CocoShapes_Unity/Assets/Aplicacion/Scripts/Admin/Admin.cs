@@ -20,23 +20,35 @@ public class Admin : MonoBehaviour
     //Level Selector
     public LevelSelector levelSelector;
 
+    //Audio of Buttons
+    private AudioSource audioSource;
+
     void Start()
     {
         database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        audioSource = GetComponent<AudioSource>();
     }
     
     public void ActivateScreen(GameObject screen)
     {
         screen.SetActive(true);
+        audioSource.Play();
     }
 
     public void DeactivateScreen(GameObject screen)
     {
         screen.SetActive(false);
+        audioSource.Play();
+    }
+
+    public void DeactivateRetroalimentationText()
+    {
+        txtRetroalimentation.text = "";
     }
 
     public void AddStudent()
     {
+        audioSource.Play();
         string name = nameInput.text;
         string lastName = lastNameInput.text;
         string grade = gradeDropdown.captionText.text;

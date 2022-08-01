@@ -9,6 +9,8 @@ public class DatabaseController : MonoBehaviour
     
     public Root root;
     public string studentId;
+
+    private string apikey = "";
     
     void Awake()
     {
@@ -34,7 +36,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", );
+        request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
 
@@ -54,7 +56,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", );
+        request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
 
@@ -72,7 +74,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", );
+        request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
     }
@@ -80,7 +82,7 @@ public class DatabaseController : MonoBehaviour
     public IEnumerator PushResult(string subject, int level, int hits, int misses, int requiredTime)
     {
         string url = "https://data.mongodb-api.com/app/data-takdq/endpoint/data/v1/action/updateOne";
-        string json = "{\"collection\":\"students\",\"database\":\"lafontaine\",\"dataSource\":\"maincluster\",\"filter\":{\"_id\":{\"$oid\":\"" + studentId + "\"}},\"update\":{\"$push\":{\"results\":{\"theme\":\"" + subject + "\",\"level\":" + level + ",\"numOfCorrectAnswers\":" + hits + ",\"numOfBadAnswers\":" + misses + ",\"requiredTime\":" + requiredTime + "}}}}";
+        string json = "{\"collection\":\"students\",\"database\":\"lafontaine\",\"dataSource\":\"maincluster\",\"filter\":{\"_id\":{\"$oid\":\"" + studentId + "\"}},\"update\":{\"$push\":{\"results\":{\"subject\":\"" + subject + "\",\"level\":" + level + ",\"hits\":" + hits + ",\"misses\":" + misses + ",\"time\":" + requiredTime + ", \"date\":\"" + System.DateTime.Now.ToString("dd/MM/yyyy") + "\"}}}}";
         
         var request = new UnityWebRequest(url, "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
@@ -90,7 +92,7 @@ public class DatabaseController : MonoBehaviour
         
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Access-Control-Request-Headers", "*");
-        request.SetRequestHeader("api-key", );
+        request.SetRequestHeader("api-key", apikey);
         
         yield return request.SendWebRequest();
     }

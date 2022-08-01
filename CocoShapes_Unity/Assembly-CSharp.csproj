@@ -59,6 +59,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\GameFinished\SequenceController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\LevelControllerCont1J.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\AnimationControllerExpT.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\TutorialPlayer.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\AnimationControllerCon1T.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\AnimationEvents.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 1\LaunchBall.cs" />
@@ -66,7 +67,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LaunchShape.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\LevelController_ExpT.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\StudentList.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Admin\TutorialPlayer.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\SplashScreen.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

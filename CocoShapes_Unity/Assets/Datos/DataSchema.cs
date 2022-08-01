@@ -21,11 +21,12 @@ public class Student
 [Serializable]
 public class Result
 {
-    public string theme;
+    public string subject;
     public int level;
-    public int numOfCorrectAnswers;
-    public int numOfBadAnswers;
-    public int requiredTime;
+    public int hits;
+    public int misses;
+    public int time;
+    public string date;
 
     public static Result CreateFromJSON(string jsonString)
     {

@@ -71,17 +71,17 @@ public class StudentPanel : MonoBehaviour
 
                 foreach(Result result in student.results)
                 {
-                    Debug.Log("Subject: " + result.theme);
                     GameObject resultObject = Instantiate(PrefabResult, transform);
 
                     GameObject contentResults = GameObject.Find("ContentResults");
                     resultObject.transform.SetParent(contentResults.transform);
 
-                    resultObject.transform.Find("Subject").GetComponent<Text>().text = result.theme;
+                    resultObject.transform.Find("Subject").GetComponent<Text>().text = result.subject;
                     resultObject.transform.Find("Level").GetComponent<Text>().text = result.level.ToString();
-                    resultObject.transform.Find("Hits").GetComponent<Text>().text = result.numOfCorrectAnswers.ToString();
-                    resultObject.transform.Find("Misses").GetComponent<Text>().text = result.numOfBadAnswers.ToString();
-                    resultObject.transform.Find("Time").GetComponent<Text>().text = result.requiredTime.ToString();
+                    resultObject.transform.Find("Hits").GetComponent<Text>().text = result.hits.ToString();
+                    resultObject.transform.Find("Misses").GetComponent<Text>().text = result.misses.ToString();
+                    resultObject.transform.Find("Time").GetComponent<Text>().text = result.time.ToString();
+                    resultObject.transform.Find("Date").GetComponent<Text>().text = result.date;
                 }
             });
             
@@ -94,7 +94,7 @@ public class StudentPanel : MonoBehaviour
                 int count = student.results.Count;
                 Result result = student.results[count - 1];
                 
-                string results = result.numOfCorrectAnswers +  "/" + result.numOfBadAnswers;
+                string results = result.hits +  "/" + result.misses;
                 
                 studentObject.transform.Find("Last Result").GetComponent<Text>().text = results;
                 
