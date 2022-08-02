@@ -100,7 +100,7 @@ public class TutorialPlayer : MonoBehaviour
                 switch(levelSelector.level){
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[7];
-                        sceneName = "Level1_ShaJ";
+                        sceneName = "Level1_FigJ";
                         break;
                     case 2:
                         video.GetComponent<VideoPlayer>().clip = clips[8];

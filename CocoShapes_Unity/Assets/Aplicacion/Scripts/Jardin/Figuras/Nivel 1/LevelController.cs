@@ -71,7 +71,7 @@ public class LevelController : MonoBehaviour
     void Start()
     {
         //Obtain database gameobject
-        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
         
         isPlaying = true;
         getResponse = false;
@@ -152,18 +152,18 @@ public class LevelController : MonoBehaviour
             getResponse = false;
         }
 
-        if(correctAnswers >= 10){
+        if(correctAnswers >= 10 && !gameFinished){
             //When the student has finished the level
             gameFinished = true;
             panelGameFinished.SetActive(true);
-            //database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime));
         }
         
-        if(incorrectAnswers >= 3){
+        if(incorrectAnswers >= 3 && !gameFinished){
             //Game Over
             gameFinished = true;
             panelGameFinished.SetActive(true);
-            //database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, incorrectAnswers, (int)totalGameTime));
         }
     }
 }

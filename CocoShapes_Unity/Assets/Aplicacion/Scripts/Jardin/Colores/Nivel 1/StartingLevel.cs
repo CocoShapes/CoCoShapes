@@ -182,7 +182,7 @@ public class StartingLevel : MonoBehaviour
 
             PanelGameFinished.SetActive(true);
             gameFinished = true;
-            //StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
+            StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
         }
 
         //To check if the player has won
@@ -193,7 +193,7 @@ public class StartingLevel : MonoBehaviour
 
             PanelGameFinished.SetActive(true);
             gameFinished = true;
-            //StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
+            StartCoroutine(database.PushResult(subject, level, score, mistakes, (int)gameTotalTime));
         }
     }
 }
