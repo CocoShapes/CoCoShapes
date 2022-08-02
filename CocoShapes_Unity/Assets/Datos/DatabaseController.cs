@@ -10,7 +10,7 @@ public class DatabaseController : MonoBehaviour
     public Root root;
     public string studentId;
 
-    private string apikey = "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm";
+    private string apikey = "";
     
     void Awake()
     {
