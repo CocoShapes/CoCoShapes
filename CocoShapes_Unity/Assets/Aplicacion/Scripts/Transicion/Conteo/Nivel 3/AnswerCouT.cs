@@ -25,9 +25,34 @@ public class AnswerCouT : MonoBehaviour
 
     void Start()
     {
-        isPressing = false;
+        //isPressing = false;
         // Para obtener variables del código denominado SceneControllerCouT para los audios.
         sceneControllerCouT = GameObject.Find("SceneControllerCouT").GetComponent<SceneControllerCouT>();
+    }
+    IEnumerator WaitForAudio()
+    {
+
+        if (AnswerCorrects == 3)
+        {
+            sceneControllerCouT.StopCoroutine(sceneControllerCouT.Screen1());
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            //Para que se desactiven los círculos rojos 
+            foreach (GameObject incorrects in IncorrectsCircles)
+            {
+                incorrects.SetActive(false);
+            }
+            //Para que se desactiven las pantallas
+            foreach (GameObject screen in sceneControllerCouT.Screens3)
+            {
+                screen.SetActive(false);
+            }
+            sceneControllerCouT.StartCoroutine(sceneControllerCouT.Screen1());
+        }
+
     }
     void Update()
     {
@@ -46,10 +71,10 @@ public class AnswerCouT : MonoBehaviour
                 //Animación de celebrar
                 sceneControllerCouT.animator.Play("Celebrando");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                // AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[4], sceneControllerCouT.sounds[5] };
-                // StartCoroutine(audioSource.PlayAudio(audios));
+                AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[4], sceneControllerCouT.sounds[5] };
+                StartCoroutine(audioSource.PlayAudio(audios));
                 //Debug.Log("AUDIO");
-                sceneControllerCouT.SceneNew();
+                StartCoroutine(WaitForAudio());
             }
             else
             {
@@ -78,7 +103,7 @@ public class AnswerCouT : MonoBehaviour
             }
         }
         //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 3 || AnswerIncorrects == 3)
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
         }

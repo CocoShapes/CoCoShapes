@@ -53,7 +53,6 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 3\AnimationCar.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 3\SoundControl.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\SoundController.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Jardin\Colores\Nivel 3\WheelController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\AnswerControlCol.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />

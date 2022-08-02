@@ -24,60 +24,53 @@ public class RollerCoster : MonoBehaviour
     public int n;
 
     //Para que se reacomode el carro al inicio
-    private GameObject car;
+    public GameObject car;
+
     void Start()
     {
-        //Para obtener el GameObject Car para reacomodar el carro al inicio
-        car = GameObject.Find("Car");
         //Para que se reproduzca el audio del inicio (la instrucción)
         AudioClip[] audios = new AudioClip[1] { sounds[3] };
         StartCoroutine(audioSource.PlayAudio(audios));
     }
-    void Update()
+    public IEnumerator Rail()
     {
+        animationCar.isPressing = false;
+        //Para reacomodar el carro al inicio
+        car.GetComponent<Animator>().Play("Stop");
 
-        //Para iniciar otro riel
-        if (Input.GetKeyDown(KeyCode.Space))
+        yield return new WaitForSeconds(5);
+
+        //Para que los rieles se muestren aleatoriamente
+        n = Random.Range(0, Scenes.Length);
+        animationCar.n = n;//Para en animationCar poder usar la n (que me indica que riel se está mostrando)
+
+        Scenes[n].SetActive(true);//Para que se activen los rieles
+        Instructions[n].SetActive(true);//Para que se activen las instrucciones
+
+        //Para los audios de las instrucciones
+        AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
+        StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+
+        //Para definir las respuestas correctas
+        if (n == 0)
         {
-            animationCar.isPressing = false;
-            //Para reacomodar el carro al inicio
-            car.GetComponent<Animator>().Play("Stop");
-
-            foreach (GameObject scene in Scenes)
-            {
-                scene.SetActive(false);
-            }
-            //Para que se desactiven las instrucciones
-            foreach (GameObject instruction in Instructions)
-            {
-                instruction.SetActive(false);
-            }
-
-            //Para que los rieles se muestren aleatoriamente
-            n = Random.Range(0, Scenes.Length);
-            animationCar.n = n;//Para en animationCar poder usar la n (que me indica que riel se está mostrando)
-
-            Scenes[n].SetActive(true);//Para que se activen los rieles
-            Instructions[n].SetActive(true);//Para que se activen las instrucciones
-
-            //Para los audios de las instrucciones
-            AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
-            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
-
-            //Para definir las respuestas correctas
-            if (n == 0)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 1)
-            {
-                animationCar.AnswerCorrect = "Popcorn";
-            }
-            if (n == 2)
-            {
-                animationCar.AnswerCorrect = "Icecream";
-            }
+            animationCar.AnswerCorrect = "Popcorn";
         }
+        if (n == 1)
+        {
+            animationCar.AnswerCorrect = "Popcorn";
+        }
+        if (n == 2)
+        {
+            animationCar.AnswerCorrect = "Icecream";
+        }
+        yield return null;
+    }
+    //Para la corrutina
+    void OnEnable()
+    {
+        StartCoroutine(Rail());
     }
 }
+
 

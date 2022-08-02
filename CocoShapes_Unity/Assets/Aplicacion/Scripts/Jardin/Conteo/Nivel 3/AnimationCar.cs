@@ -33,12 +33,34 @@ public class AnimationCar : MonoBehaviour
     {
         //En un inicio no se está presionando ningún botón
         isPressing = false;
-        //Para las animaciones
-        animator = GetComponent<Animator>();
         //Para obtener variables del código denominado RollerCoster para los audios.
         rollerCoster = GameObject.Find("Background").GetComponent<RollerCoster>();
+    }
 
+    IEnumerator WaitForAudio()
+    {
 
+        if (AnswerCorrects == 3)
+        {
+            //Para que pare la animación "Celebrando"
+            //showText.animator.Play("Stop");
+            StopCoroutine(rollerCoster.Rail());
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            foreach (GameObject scene in rollerCoster.Scenes)
+            {
+                scene.SetActive(false);
+            }
+            //Para que se desactiven las instrucciones
+            foreach (GameObject instruction in Instructions)
+            {
+                instruction.SetActive(false);
+            }
+            StartCoroutine(rollerCoster.Rail());
+        }
     }
 
     void Update()
@@ -71,7 +93,8 @@ public class AnimationCar : MonoBehaviour
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
-                //rollerCoster.RandomScene();
+                //Corrutina para que se finalize el audio de NiceJob antes mostrar otra instrucción
+                StartCoroutine(WaitForAudio());
 
             }
             if (AnswerChild != AnswerCorrect)
@@ -79,14 +102,20 @@ public class AnimationCar : MonoBehaviour
                 //Para poner de color rojo la instrucción
                 if (n == 0)
                 {
+                    //Se ejecuta la animación
+                    animator.Play("Rail4IncorrectJ");
                     Instructions[0].GetComponent<SpriteRenderer>().color = Color.red;
                 }
                 if (n == 1)
                 {
+                    //Se ejecuta la animación
+                    animator.Play("Rail7IncorrectJ");
                     Instructions[1].GetComponent<SpriteRenderer>().color = Color.red;
                 }
                 if (n == 2)
                 {
+                    //Se ejecuta la animación
+                    animator.Play("Rail10IncorrectJ");
                     Instructions[2].GetComponent<SpriteRenderer>().color = Color.red;
                 }
                 //Se suma una respuesta incorrecta
@@ -97,11 +126,10 @@ public class AnimationCar : MonoBehaviour
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
-
             }
         }
         //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 3 || AnswerIncorrects == 3)
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
         }

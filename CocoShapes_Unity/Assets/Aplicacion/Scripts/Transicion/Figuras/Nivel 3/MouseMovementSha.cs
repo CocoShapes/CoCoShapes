@@ -41,24 +41,30 @@ public class MouseMovementSha : MonoBehaviour
 
     void Start()
     {
-        isPressing = false;
+        //isPressing = false;
         //Para que se reproduzca el audio del inicio (las isntrucciones)
         AudioClip[] audios = new AudioClip[1] { sounds[5] };
         StartCoroutine(audioSource.PlayAudio(audios));
-        sceneNewSha();
     }
     void Update()
     {
         //Para el movimiento de la pantalla de la tablet (solo funciona en el Update)
+        // rate = 1;
+        // if (Input.touchCount > 0)
+        // {
+        //     Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        //     gameObject.transform.position = pz2 / rate;
+        // }
+
+        //Para el movimiento del mouse
         rate = 1;
-        if (Input.touchCount > 0)
-        {
-            Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            gameObject.transform.position = pz2 / rate;
-        }
+        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        gameObject.transform.position = pz / rate;
     }
-    public void sceneNewSha()
+    public IEnumerator FindShapes()
     {
+        yield return new WaitForSeconds(10);
+        //Para que aparezcan los textos y sonidos aleatoriamente
         n = Random.Range(0, 4);
         AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
         StartCoroutine(audioSource.PlayAudio(soundsToPlay));
@@ -66,44 +72,32 @@ public class MouseMovementSha : MonoBehaviour
         //Para mostrar las instrucciones
         TextsSha[n].SetActive(true);//Para que se activen
 
-        //Para que se desactiven los círculos rojos
-        IncorrectCircle.SetActive(false);
-        IncorrectTriangle.SetActive(false);
-        IncorrectSquare.SetActive(false);
-        IncorrectRectangle.SetActive(false);
-        IncorrectStar.SetActive(false);
-
-        //Para el movimiento del mouse
-        //rate = 1;
-        // Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // gameObject.transform.position = pz / rate;
-
         //Para definir las respuestas correctas
-        //para que no se mueva mas
-        // if (Input.GetKeyDown(KeyCode.Space))
-        // {
-        for (int i = 0; i < Shapes.Length; i++)
+        if (n == 0)
         {
-            //Para calcular la distancia entre el objeto y el selector
-            float distance = Vector3.Distance(Selector.transform.position, Shapes[i].transform.position);
-            //Debug.Log("Objeto" + Objects[i] + "Distance: " + distance);
-
-            //Para calcular la distancia más pequeña
-            if (i == 0)
-            {
-                distanceMin = distance;
-            }
-            else
-            {
-                if (distance < distanceMin)
-                {
-                    distanceMin = distance;
-                    //Para saber el nombre del objeto 
-                    answerControlSha.AnswerCorrect = Shapes[i].name;
-                }
-            }
+            answerControlSha.AnswerCorrect = "Circle";
         }
-        Debug.Log("DistanceMin: " + distanceMin);
-        // }
+        else if (n == 1)
+        {
+            answerControlSha.AnswerCorrect = "Triangle";
+        }
+        else if (n == 2)
+        {
+            answerControlSha.AnswerCorrect = "Star";
+        }
+        else if (n == 3)
+        {
+            answerControlSha.AnswerCorrect = "Square";
+        }
+        else if (n == 4)
+        {
+            answerControlSha.AnswerCorrect = "Rectangle";
+        }
+        yield return null;
+    }
+    //Para la corrutina
+    void OnEnable()
+    {
+        StartCoroutine(FindShapes());
     }
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class AnswerControlSha : MonoBehaviour
 {
+    public MouseMovementSha mouseMovementSha;
     //Para lo de las respuestas
     public string AnswerCorrect; //la que el usuario debería presionar
     private string AnswerChild;//la que el usuario presionó realmente
@@ -27,45 +28,77 @@ public class AnswerControlSha : MonoBehaviour
     void Start()
     {
         //Al inicio no se ha presionado ninguna tecla
-        isPressing = false;
+        //isPressing = false;
+    }
+    //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
+    IEnumerator WaitForAudio()
+    {
+
+        if (AnswerCorrects == 5)
+        {
+            mouseMovementSha.StopCoroutine(mouseMovementSha.FindShapes());
+            Debug.Log("Game Over");
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            //Para que se desactiven los textos
+            foreach (GameObject textSha in mouseMovementSha.TextsSha)
+            {
+                textSha.SetActive(false);
+            }
+            //Para que se desactiven los círculos rojos
+            IncorrectCircle.SetActive(false);
+            IncorrectTriangle.SetActive(false);
+            IncorrectSquare.SetActive(false);
+            IncorrectRectangle.SetActive(false);
+            IncorrectStar.SetActive(false);
+            mouseMovementSha.StartCoroutine(mouseMovementSha.FindShapes());
+        }
+
     }
     void Update()
     {
         //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
         //Balón(circle)
-        if (Input.GetKeyDown(KeyCode.DownArrow))
+        //Circle (DownArrow)
+        if (Input.GetKeyDown(KeyCode.C))
         {
             AnswerChild = "Circle";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Pizza(Triangle)
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        //Triangle (LeftArrow)
+        if (Input.GetKeyDown(KeyCode.T))
         {
             AnswerChild = "Triangle";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Windows(Square)
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        //Square (RightArrow)
+        if (Input.GetKeyDown(KeyCode.S))
         {
             AnswerChild = "Square";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Chocolate(Rectangle)
-        if (Input.GetKeyDown(KeyCode.Backspace))
+        //Rectangle (Backspace)
+        if (Input.GetKeyDown(KeyCode.R))
         {
             AnswerChild = "Rectangle";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Star(star)
+        //Star (Tab)
         ////Para star no pude repetir s por eso se usó la tecla w
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             AnswerChild = "Star";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Se presionó una tecla y ahora se comparan si la respuesta es correcta
@@ -83,6 +116,8 @@ public class AnswerControlSha : MonoBehaviour
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
+                //Corrutina para que se finalize el audio de NiceJob antes de girar la ruleta otra vez
+                StartCoroutine(WaitForAudio());
             }
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
@@ -119,7 +154,7 @@ public class AnswerControlSha : MonoBehaviour
             }
         }
         //Para que cuando ya se hayan realizado las 8 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 8 || AnswerIncorrects == 3)
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
         }

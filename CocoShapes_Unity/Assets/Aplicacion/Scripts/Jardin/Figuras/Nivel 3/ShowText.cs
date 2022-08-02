@@ -26,70 +26,69 @@ public class ShowText : MonoBehaviour
 
     int n;
 
-    //Para que no se repitan las instrucciones FALTA
-    //List<int> numerosGuardados = new List<int>();
+    //Para las animaciones
+    public Animator animator;
+
     void Start()
     {
-        //Para que se reproduzca el audio del inicio (la instrucción)
+        ///Para que se reproduzca el audio del inicio (la instrucción)
         AudioClip[] audios = new AudioClip[1] { sounds[5] };
         StartCoroutine(audioSource.PlayAudio(audios));
+        //Para que se reproduzca la animación de saludando
+        animator.Play("SaludandoShaJ");
     }
 
-    void Update()
+    //Método para que aparezcan las instrucciones
+    public IEnumerator Show()
     {
-        //Para que se muestren las instrucciones
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (sounds[5] == null)
         {
-            //Para que se desactiven los textos
-            foreach (GameObject text in Texts)
-            {
-                text.SetActive(false);
-            }
-            //Para que se desactiven los círculos rojos
-            foreach (GameObject incorrects in IncorrectsCircles)
-            {
-                incorrects.SetActive(false);
-            }
-            //Para que se desactiven las figuras
-            foreach (GameObject shapes in Shapes)
-            {
-                shapes.SetActive(false);
-            }
-            //Para que las instrucciones se muestren aleatoriamente
-            int n = Random.Range(0, Texts.Length);
-            Texts[n].SetActive(true);//Para que se activen
-
-            //Para que NO SE REPITAN LAS INSTRUCCIONES
-
-
-            //Para los audios de las instrucciones
-            AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
-            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
-
-            //Para definir las respuestas correctas
-            if (n == 0)
-            {
-                answerController.AnswerCorrect = "Circle";
-            }
-            if (n == 1)
-            {
-                answerController.AnswerCorrect = "Rectangle";
-            }
-            if (n == 2)
-            {
-                answerController.AnswerCorrect = "Square";
-            }
-            if (n == 3)
-            {
-                answerController.AnswerCorrect = "Triangle";
-            }
-            if (n == 4)
-            {
-                answerController.AnswerCorrect = "Star";
-            }
-
+            yield return new WaitForSeconds(0);
         }
+        else
+        {
+            yield return new WaitForSeconds(sounds[5].length);
+        }
+        //Para que las instrucciones se muestren aleatoriamente
+        int n = Random.Range(0, Texts.Length);
+        Texts[n].SetActive(true);//Para que se activen
 
+        //Para que NO SE REPITAN LAS INSTRUCCIONES (FALTA)
+
+        //Para los audios de las instrucciones
+        AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
+        StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+
+        //Para definir las respuestas correctas
+        if (n == 0)
+        {
+            answerController.AnswerCorrect = "Circle";
+        }
+        if (n == 1)
+        {
+            answerController.AnswerCorrect = "Rectangle";
+        }
+        if (n == 2)
+        {
+            answerController.AnswerCorrect = "Square";
+        }
+        if (n == 3)
+        {
+            answerController.AnswerCorrect = "Triangle";
+        }
+        if (n == 4)
+        {
+            answerController.AnswerCorrect = "Star";
+        }
+        yield return null;
+    }
+
+    //Para la corrutina
+    void OnEnable()
+    {
+        StartCoroutine(Show());
     }
 }
+
+
 

@@ -47,35 +47,12 @@ public class SceneControllerCouT : MonoBehaviour
         //Audio de la instrucción del inicio
         AudioClip[] audios = new AudioClip[1] { sounds[3] };
         StartCoroutine(audioSource.PlayAudio(audios));
-        //Debug.Log("AUDIO");
-
-        //Para la animación
-        animator = Character.gameObject.GetComponent<Animator>();
-
-        //Para que aparezcan las escenas sin presionar la barra espaciadora
-        SceneNew();
-
-        //Para que no se repitan las escenas
-
-    }
-    public void SceneNew()
-    {
-        //Para que aparezcan las primeras opciones
-        //Para que se desactiven los círculos rojos 
-        foreach (GameObject incorrects in IncorrectsCircles)
-        {
-            incorrects.SetActive(false);
-        }
-        //Para desactivar la pantalla que se está mostrando
-        Screens3[n].SetActive(false);
-        //Para activar la pantalla 1
-        StartCoroutine(Screen1());
-        Debug.Log("Aparece la primera pantalla");
     }
 
     //OPCIONES 1
     public IEnumerator Screen1()
     {
+        yield return new WaitForSeconds(8);
         foreach (GameObject incorrects in IncorrectsCircles)
         {
             incorrects.SetActive(false);
@@ -129,7 +106,7 @@ public class SceneControllerCouT : MonoBehaviour
             Screens2[2].SetActive(true);
         }
         tiempoRecorrido2 = 0;
-        Debug.Log("Se cambió a la segunda pantalla");
+        //Debug.Log("Se cambió a la segunda pantalla");
         yield return new WaitForSeconds(3.1f);
         StartCoroutine(Screen3());
     }
@@ -160,7 +137,7 @@ public class SceneControllerCouT : MonoBehaviour
             Screens3[2].SetActive(true);
         }
         tiempoRecorrido3 = 0;
-        Debug.Log("Se cambió a la tercera pantalla");
+        //Debug.Log("Se cambió a la tercera pantalla");
 
         //Para definir las respuestas correctas
         if (n == 0)
@@ -176,6 +153,11 @@ public class SceneControllerCouT : MonoBehaviour
             answerCouT.AnswerCorrect = "9";
         }
         yield return new WaitForSeconds(3.1f);
+    }
+    //Para la corrutina
+    void OnEnable()
+    {
+        StartCoroutine(Screen1());
     }
 }
 
