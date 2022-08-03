@@ -21,4 +21,10 @@ public class AnimationEvents : MonoBehaviour
     {
         bubbleShape.SetActive(false);
     }
+
+    public void PlayCanyonSound()
+    {
+        AudioSource audioSource = this.gameObject.GetComponent<AudioSource>();
+        audioSource.Play();
+    }
 }

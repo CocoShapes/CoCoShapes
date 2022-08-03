@@ -11,28 +11,25 @@ public class LaunchShape : MonoBehaviour
         animatedShape = GameObject.Find("AnimatedShape");
     }
     
-    public void Launch(Sprite spriteShape)
+    public void Launch(string shape)
     {
         Animator animator = animatedShape.GetComponent<Animator>();
-    
-        SpriteRenderer spriteRenderer = animatedShape.GetComponent<SpriteRenderer>();
-        //spriteRenderer.sprite = spriteShape;
 
-        switch(spriteRenderer.sprite.name){
+        switch(shape){
             case "Circle":
-                animator.Play("LaunchCircle");
+                animator.Play("LaunchCircle", -1, 0f);
                 break;
             case "Square":
-                animator.Play("LaunchSquare");
+                animator.Play("LaunchSquare", -1, 0f);
                 break;
             case "Triangle":
-                animator.Play("LaunchTriangle");
+                animator.Play("LaunchTriangle", -1, 0f);
                 break;
             case "Star":
-                animator.Play("LaunchStar");
+                animator.Play("LaunchStar", -1, 0f);
                 break;
             case "Rectangle":
-            animator.Play("LaunchRectangle");
+            animator.Play("LaunchRectangle", -1, 0f);
                 break;
         }
     }

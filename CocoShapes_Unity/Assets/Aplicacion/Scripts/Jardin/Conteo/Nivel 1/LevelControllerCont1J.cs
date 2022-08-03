@@ -10,14 +10,15 @@ public class LevelControllerCont1J : MonoBehaviour
     public Text txtRespuesta1;
     public Text txtRespuesta2;
     public Text txtRespuesta3;
+    private GameObject GameView;
 
     //GameObjects Scripts
     public ConstructMountain controllerMountain;
     private AnimationControllerCon1J controllerAnimation;
-    private AudioControllerCon1J controllerAudio;
+    public AudioControllerCon1J controllerAudio;
 
     //Audio Array
-    public AudioClip[] audioClips; //Correct Sound, Good job, Wrong Sound, Keep Trying
+    public AudioClip[] audioClips = new AudioClip[14]; //Instruction, 2, 3, 4, 5, 6, 7, 8, 9, 10, good job, wrong, correcto, error
     
     //GameObjects Variables
     public GameObject car;
@@ -36,10 +37,34 @@ public class LevelControllerCont1J : MonoBehaviour
 
     public bool hasReponse;
 
+    //Database and Game Finished
+    private DatabaseController database;
+    private string subject = "Count";
+    private int level = 1;
+
+    public GameObject panelGameFinished;
+    private bool gameFinished = false;
+    private float totalGameTime;
+
     public static void RemoveAt<T>(ref T[] arr, int index)
     {
         arr[index] = arr[arr.Length - 1];
         Array.Resize(ref arr, arr.Length - 1);
+    }
+
+    private IEnumerator StartGame()
+    {
+        float waitTime = 0;
+
+        selectScenario();
+        AudioClip[] instruction = new AudioClip[1]{audioClips[0]};
+        StartCoroutine(controllerAudio.PlayAudio(instruction));
+        
+        while(waitTime < instruction[0].length)
+        {
+            waitTime += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public void selectScenario(){
@@ -75,40 +100,65 @@ public class LevelControllerCont1J : MonoBehaviour
 
             RemoveAt(ref possibleAnswers, random);
         }
-
+        GameView.SetActive(true);
+        goodResponse = false;
         hasReponse = false;
     }
 
-    public void goodAnswer(){
+    public IEnumerator goodAnswer(){
         correctAnswers++;
+        GameView.SetActive(false);
+
+        float recorredTime = 0f;
+
+        while(recorredTime < 1f){
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
         finalRail.GetComponent<SpriteRenderer>().color = Color.white;
 
         goodResponse = true;
 
         //Reproducir Audios de correcto
-        AudioClip[] audios = new AudioClip[2]{audioClips[0], audioClips[1]};
+        AudioClip[] audios = new AudioClip[2]{audioClips[11], audioClips[10]};
         StartCoroutine(controllerAudio.PlayAudio(audios));
-        
-        //Animación de carrito
-        StartCoroutine(controllerAnimation.MoveCar(car, finalRail, 5.0f));
-
-        //Animación de Coco Feliz
+        StartCoroutine(controllerAnimation.MoveCar(car, finalRail, 2f));
     }
 
-    public void badAnswer(){
+    public IEnumerator badAnswer(){
         wrongAnswers++;
+        GameView.SetActive(false);
 
+        float recorredTime = 0f;
+
+        while(recorredTime < 1f){
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
+        recorredTime = 0f;
         //Reproducir Audios de incorrecto
-        AudioClip[] audios = new AudioClip[2]{audioClips[2], audioClips[3]};
+        AudioClip[] audios = new AudioClip[2]{audioClips[13], audioClips[12]};
         StartCoroutine(controllerAudio.PlayAudio(audios));
-        
+
+        //Move car and return
+        StartCoroutine(controllerAnimation.MoverCarAndReturn(car, finalRail, 2f));
         finalRail.GetComponent<SpriteRenderer>().color = Color.red;
 
-        //Animación de Coco triste
+        while(recorredTime < 3.5f){
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
+        GameView.SetActive(true);
     }
     
     void Start() 
     {
+        //Database
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        
         //Rellenar el array de escenarios
         for (int i = 1; i <= controllerMountain.scenarios.Length; i++)
         {
@@ -119,8 +169,9 @@ public class LevelControllerCont1J : MonoBehaviour
         //Asignar objeto a variable Sugar
         sugar = GameObject.Find("Sugar");
 
-        //Iniciar juego
-        selectScenario();
+        //GameView GameObject
+        GameView = GameObject.Find("GameView");
+        GameView.SetActive(false);
 
         //Animation Controller
         controllerAnimation = GameObject.Find("AnimationController").GetComponent<AnimationControllerCon1J>();
@@ -133,10 +184,15 @@ public class LevelControllerCont1J : MonoBehaviour
 
         //Good Response
         goodResponse = false;
+
+        //Iniciar juego
+        StartCoroutine(StartGame());
     }
 
     void Update()
     {
+        totalGameTime += Time.deltaTime;
+
         if(hasReponse){
             //Lo que pasa cuando termina la animación de Coco en la montaña rusa
             if(goodResponse){
@@ -152,12 +208,16 @@ public class LevelControllerCont1J : MonoBehaviour
             hasReponse = false;
         }
         
-        if(correctAnswers >= 5){
-            Debug.Log("Level Complete");
+        if(correctAnswers >= 5 && !gameFinished){
+            panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)totalGameTime));
+            gameFinished = true;
         }
 
-        if(wrongAnswers >= 3){
-            Debug.Log("Level Failed");
+        if(wrongAnswers >= 3 && !gameFinished){
+            panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)totalGameTime));
+            gameFinished = true;
         }
     }
 }

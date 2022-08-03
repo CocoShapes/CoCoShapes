@@ -23,6 +23,12 @@ public class Admin : MonoBehaviour
     //Audio of Buttons
     private AudioSource audioSource;
 
+    //Login UI Elements
+    public InputField inputFieldTextValue;
+    public Text loginConfirmationText;
+    public GameObject connectionPanel;
+    public GameObject loginPanel;
+
     void Start()
     {
         database = GameObject.Find("Database").GetComponent<DatabaseController>();
@@ -89,5 +95,30 @@ public class Admin : MonoBehaviour
     public void DefineSubject(string subject)
     {
         levelSelector.subject = subject;
+    }
+
+    public void Login()
+    {
+        string pin = PlayerPrefs.GetString("Pin");
+        string pass = inputFieldTextValue.text;
+
+        if(pin != "") {
+            if(pin == pass){
+                ActivateScreen(connectionPanel);
+                DeactivateScreen(loginPanel);
+            }else{
+                loginConfirmationText.text = "Incorrect Pin";
+            }
+        }else {
+            if(pass.Length == 4)
+            {
+                PlayerPrefs.SetString("Pin", pass);
+                loginConfirmationText.text = "Pin Defined Successfully";
+                ActivateScreen(connectionPanel);
+                DeactivateScreen(loginPanel);
+            }else{
+                loginConfirmationText.text = "Pin must be 4 digits";
+            }
+        }
     }
 }

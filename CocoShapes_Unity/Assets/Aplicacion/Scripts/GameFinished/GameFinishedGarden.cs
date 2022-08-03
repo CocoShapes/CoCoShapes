@@ -9,7 +9,15 @@ public class GameFinishedGarden : MonoBehaviour
     {
         SequenceController sequence = GameObject.Find("SequenceController").GetComponent<SequenceController>();
         sequence.gamePlayed = true;
-        sequence.gradeMap = "Transition";
+
+        string sceneName = SceneManager.GetActiveScene().name;
+        char lastCharacter = sceneName[sceneName.Length-1];
+        if(lastCharacter.ToString() == "J"){
+            sequence.gradeMap = "Garden";
+        }else {
+            sequence.gradeMap = "Transition";
+        }
+        
         SceneManager.LoadScene("Admin");
     }
 

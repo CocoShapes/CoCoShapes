@@ -10,7 +10,7 @@ public class StartingLevel : MonoBehaviour
     public Text txtColor;
     public Image imgMistake;
 
-    public AudioClip[] audios = new AudioClip[3]; //O = Red, 2 = Blue, 3 = Yellow
+    public AudioClip[] audios = new AudioClip[4]; //O = Red, 1 = Blue, 2 = Yellow, 3 = Instruction
     public AudioController audioSource;
 
     //GameObjects Variables
@@ -26,7 +26,7 @@ public class StartingLevel : MonoBehaviour
     //Logic Variables
     private string[] colors = new string[] { "red", "blue", "yellow", "red", "blue", "yellow"};
     private int random;
-    private string answerColor;
+    public string answerColor;
     private Vector3 ballPosition;
     private int score;
     private int mistakes;
@@ -41,6 +41,23 @@ public class StartingLevel : MonoBehaviour
     //prefab for game finished
     public GameObject PanelGameFinished;
 
+    private IEnumerator startGame()
+    {
+        float recorredTime = 0f;
+
+        AudioClip[] instruction = new AudioClip[1]{audios[3]};
+        StartCoroutine(audioSource.playAudio(instruction));
+        
+        while(recorredTime < audios[3].length + 0.5f)
+        {
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+
+        //Start game
+        txtColor.text = asignColor();
+    }
+    
     //Asign a random color of the list to the text
     private string asignColor(){
         if(colors.Length > 0){
@@ -100,6 +117,7 @@ public class StartingLevel : MonoBehaviour
         gameObjectBall = GameObject.Find("Ball");
         ballPosition = gameObjectBall.transform.position;
         gameObjectBall.SetActive(false);
+        imgMistake.gameObject.SetActive(false);
 
         cocoAnimator = GameObject.Find("Coco").GetComponent<Animator>();
         
@@ -107,7 +125,7 @@ public class StartingLevel : MonoBehaviour
         homeBlue = GameObject.Find("HomeBlue");
         homeYellow = GameObject.Find("HomeYellow");
         
-        txtColor.text = asignColor();
+        StartCoroutine(startGame());
 
         score = 0;
         mistakes = 0;
@@ -118,7 +136,7 @@ public class StartingLevel : MonoBehaviour
         gameTotalTime += Time.deltaTime;
 
         //To launch the ball when the player press a button in the keyboard
-        if(Input.GetKeyDown(KeyCode.R)){
+        if(Input.GetKeyDown(KeyCode.F3)){
             //When recieve the color equal to Red
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
@@ -136,7 +154,7 @@ public class StartingLevel : MonoBehaviour
 
             answerColor = "red";
             checkAnswer();
-        } else if(Input.GetKeyDown(KeyCode.B)){
+        } else if(Input.GetKeyDown(KeyCode.F2)){
             //When recieve the color equal to Blue
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
@@ -154,7 +172,7 @@ public class StartingLevel : MonoBehaviour
 
             answerColor = "blue";
             checkAnswer();
-        } else if(Input.GetKeyDown(KeyCode.Y)){
+        } else if(Input.GetKeyDown(KeyCode.F1)){
             //When recieve the color equal to Yellow
             gameObjectBall.SetActive(true);
             imgMistake.gameObject.SetActive(false);
@@ -176,7 +194,6 @@ public class StartingLevel : MonoBehaviour
 
         //To check if the player has lost
         if (mistakes >= 3 && !gameFinished){
-            Debug.Log("GAME OVER");
             txtColor.text = "keep trying!";
             imgMistake.gameObject.SetActive(false);
 
@@ -187,7 +204,6 @@ public class StartingLevel : MonoBehaviour
 
         //To check if the player has won
         if (colors.Length <= 0 && !gameFinished){
-            Debug.Log("GAME PASSED");
             txtColor.text = "nice job!";
             cocoAnimator.Play("CelebracionFinal");
 
