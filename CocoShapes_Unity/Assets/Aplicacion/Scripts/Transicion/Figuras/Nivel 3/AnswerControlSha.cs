@@ -19,16 +19,23 @@ public class AnswerControlSha : MonoBehaviour
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
 
-    //Para los círculos rojos cuando es incorrecta la respuesta.
-    public GameObject IncorrectCircle;
-    public GameObject IncorrectTriangle;
-    public GameObject IncorrectSquare;
-    public GameObject IncorrectRectangle;
-    public GameObject IncorrectStar;
+    //Para los círculos rojos
+    public GameObject[] IncorrectsCircles;
+
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Shapes";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
     void Start()
     {
-        //Al inicio no se ha presionado ninguna tecla
-        //isPressing = false;
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
     //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
     IEnumerator WaitForAudio()
@@ -38,6 +45,9 @@ public class AnswerControlSha : MonoBehaviour
         {
             mouseMovementSha.StopCoroutine(mouseMovementSha.FindShapes());
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
         else
         {
@@ -47,55 +57,58 @@ public class AnswerControlSha : MonoBehaviour
             {
                 textSha.SetActive(false);
             }
-            //Para que se desactiven los círculos rojos
-            IncorrectCircle.SetActive(false);
-            IncorrectTriangle.SetActive(false);
-            IncorrectSquare.SetActive(false);
-            IncorrectRectangle.SetActive(false);
-            IncorrectStar.SetActive(false);
+            foreach (GameObject incorrects in IncorrectsCircles)
+            {
+                incorrects.SetActive(false);
+            }
+            //Para que se elimine el text que ya salió
+            mouseMovementSha.RemoveText(mouseMovementSha.n);//Se elimina el texto de la lista de textos
+            //Para que empiece otra vez la corrutina que muestra todo
             mouseMovementSha.StartCoroutine(mouseMovementSha.FindShapes());
         }
 
     }
     void Update()
     {
+        //totalGameTime += Time.deltaTime;
+
         //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
         //Balón(circle)
-        //Circle (DownArrow)
-        if (Input.GetKeyDown(KeyCode.C))
+        //Circle (DownArrow) o C
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             AnswerChild = "Circle";
             //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Pizza(Triangle)
-        //Triangle (LeftArrow)
-        if (Input.GetKeyDown(KeyCode.T))
+        //Triangle (LeftArrow) o T
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             AnswerChild = "Triangle";
             //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Windows(Square)
-        //Square (RightArrow)
-        if (Input.GetKeyDown(KeyCode.S))
+        //Square (RightArrow) o S
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             AnswerChild = "Square";
             //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Chocolate(Rectangle)
-        //Rectangle (Backspace)
-        if (Input.GetKeyDown(KeyCode.R))
+        //Rectangle (Backspace) o R
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             AnswerChild = "Rectangle";
             //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Star(star)
-        //Star (Tab)
+        //Star (Tab) o W
         ////Para star no pude repetir s por eso se usó la tecla w
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             AnswerChild = "Star";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -111,12 +124,12 @@ public class AnswerControlSha : MonoBehaviour
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
                 Debug.Log("Correct");
-                //Se reproduce el sonido de correcto y el audio de NiceJob
+                //Se reproduce el sonido de correcto y el audio de Fantastic
                 AudioClip[] audios = new AudioClip[2] { sounds[0], sounds[1] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
-                //Corrutina para que se finalize el audio de NiceJob antes de girar la ruleta otra vez
+                //Corrutina para que se finalize el audio de Fantastic antes de girar la ruleta otra vez
                 StartCoroutine(WaitForAudio());
             }
             //Si las dos NO son iguales
@@ -125,38 +138,41 @@ public class AnswerControlSha : MonoBehaviour
                 //Para que aparezcan los círculos rojos
                 if (AnswerCorrect == "Circle")
                 {
-                    IncorrectCircle.SetActive(true);
+                    IncorrectsCircles[0].SetActive(true);
                 }
                 if (AnswerCorrect == "Triangle")
                 {
-                    IncorrectTriangle.SetActive(true);
+                    IncorrectsCircles[1].SetActive(true);
                 }
                 if (AnswerCorrect == "Square")
                 {
-                    IncorrectSquare.SetActive(true);
+                    IncorrectsCircles[2].SetActive(true);
                 }
                 if (AnswerCorrect == "Rectangle")
                 {
-                    IncorrectRectangle.SetActive(true);
+                    IncorrectsCircles[3].SetActive(true);
                 }
                 if (AnswerCorrect == "Star")
                 {
-                    IncorrectStar.SetActive(true);
+                    IncorrectsCircles[4].SetActive(true);
                 }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
-                //Se reproduce el sonido de incorrecto y el audio de KeepTrying
+                //Se reproduce el sonido de incorrecto y el audio de Upsis
                 AudioClip[] audios = new AudioClip[2] { sounds[2], sounds[3] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
             }
         }
-        //Para que cuando ya se hayan realizado las 8 o se hayan respondido 3 incorrectas
+        //Para cuando se hayan respondido 3 incorrectas
         if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
 
     }

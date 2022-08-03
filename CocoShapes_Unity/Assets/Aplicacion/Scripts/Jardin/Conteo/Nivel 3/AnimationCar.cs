@@ -7,7 +7,6 @@ public class AnimationCar : MonoBehaviour
     //Para llamar al código denominado RollerCoster para los audios.
     private RollerCoster rollerCoster;
 
-
     //Para las animaciones
     public Animator animator;
 
@@ -20,21 +19,33 @@ public class AnimationCar : MonoBehaviour
     //Para presionar el botón
     public bool isPressing;
 
-    //Para obtener que riel se está mostrando
-    public int n;
-
     //Para los audios
     public AudioClip[] sounds = new AudioClip[8];
     public AudioControl audioSource;
 
     //Para mostrar las instrucciones(son imágenes)
     public GameObject[] Instructions;
+
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Count";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
+
     void Start()
     {
         //En un inicio no se está presionando ningún botón
         isPressing = false;
         //Para obtener variables del código denominado RollerCoster para los audios.
         rollerCoster = GameObject.Find("Background").GetComponent<RollerCoster>();
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
 
     IEnumerator WaitForAudio()
@@ -42,14 +53,15 @@ public class AnimationCar : MonoBehaviour
 
         if (AnswerCorrects == 3)
         {
-            //Para que pare la animación "Celebrando"
-            //showText.animator.Play("Stop");
             StopCoroutine(rollerCoster.Rail());
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(4);
             foreach (GameObject scene in rollerCoster.Scenes)
             {
                 scene.SetActive(false);
@@ -59,12 +71,16 @@ public class AnimationCar : MonoBehaviour
             {
                 instruction.SetActive(false);
             }
+            //Para que se elimine el riel que ya salió
+            rollerCoster.RemoveScene(rollerCoster.n);//Se elimina el riel de la lista de rieles
             StartCoroutine(rollerCoster.Rail());
         }
     }
 
     void Update()
     {
+        //totalGameTime += Time.deltaTime;
+
         //Se presionó un botón y ahora se compara si la respuesta es correcta
         //(se compara answerCorrect con answerChild)
         if (isPressing)
@@ -72,47 +88,47 @@ public class AnimationCar : MonoBehaviour
             //Si las dos son iguales
             if (AnswerChild == AnswerCorrect)
             {
-                if (n == 0)
+                if (rollerCoster.GameObjectName == "Rail (4)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail4");
                 }
-                if (n == 1)
+                if (rollerCoster.GameObjectName == "Rail (7)")
                 {
                     animator.Play("Rail7");
                 }
-                if (n == 2)
+                if (rollerCoster.GameObjectName == "Rail (10)")
                 {
                     animator.Play("Rail10");
                 }
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
                 Debug.Log("Correct");
-                //Se reproduce el sonido de correcto y el audio de NiceJob
+                //Se reproduce el sonido de correcto y el audio de fantastic
                 AudioClip[] audios = new AudioClip[2] { rollerCoster.sounds[4], rollerCoster.sounds[5] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
-                //Corrutina para que se finalize el audio de NiceJob antes mostrar otra instrucción
+                //Corrutina para que se finalize el audio de fantastic antes mostrar otra instrucción
                 StartCoroutine(WaitForAudio());
 
             }
             if (AnswerChild != AnswerCorrect)
             {
                 //Para poner de color rojo la instrucción
-                if (n == 0)
+                if (rollerCoster.GameObjectName == "Rail (4)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail4IncorrectJ");
                     Instructions[0].GetComponent<SpriteRenderer>().color = Color.red;
                 }
-                if (n == 1)
+                if (rollerCoster.GameObjectName == "Rail (7)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail7IncorrectJ");
                     Instructions[1].GetComponent<SpriteRenderer>().color = Color.red;
                 }
-                if (n == 2)
+                if (rollerCoster.GameObjectName == "Rail (10)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail10IncorrectJ");
@@ -121,17 +137,20 @@ public class AnimationCar : MonoBehaviour
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
-                //Se reproduce el sonido de incorrecto y el audio de KeepTrying
+                //Se reproduce el sonido de incorrecto y el audio de upsis
                 AudioClip[] audios = new AudioClip[2] { sounds[6], sounds[7] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
             }
         }
-        //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas
+        //Para cuando se hayan respondido 3 incorrectas
         if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
     }
 }

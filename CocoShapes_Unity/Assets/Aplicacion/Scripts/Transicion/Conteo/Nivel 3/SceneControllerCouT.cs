@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,37 +43,95 @@ public class SceneControllerCouT : MonoBehaviour
 
     public GameObject Character;
 
+    public String GameObjectName;
+
+    public String GameObjectName2;
+
+    public String GameObjectName3;
+
+    //GameObjects escenas 2
+    public GameObject Screen12;
+    public GameObject Screen22;
+    public GameObject Screen32;
+
+    //GameObjects escenas 3
+    public GameObject Screen13;
+    public GameObject Screen23;
+    public GameObject Screen33;
+
+
     void Start()
     {
-        //Audio de la instrucción del inicio
+        //Para iniciar la corrutina con el audio de la instrucción
+        StartCoroutine(WaitInstructionCou());
+    }
+
+    //Corrutina que reproduce el audio de la instrucción
+    public IEnumerator WaitInstructionCou()
+    {
+        ///Para que se reproduzca el audio del inicio (la instrucción)
+        float recoTime = 0f;
+
+        // AudioClip[] audios = new AudioClip[2] { sounds[8], sounds[9] };
         AudioClip[] audios = new AudioClip[1] { sounds[3] };
         StartCoroutine(audioSource.PlayAudio(audios));
+
+        while (recoTime < sounds[3].length)
+        {
+            recoTime += Time.deltaTime;
+            yield return null;
+        }
+
+        //Para que inicie la corrutina que muestra todo (Los textos,etc)
+        StartCoroutine(Screen1());
+    }
+
+    //Para que no se repitan las instrucciones (Texts) se eliminan
+    public static void RemoveAt<T>(ref T[] arr, int index)
+    {
+        arr[index] = arr[arr.Length - 1];
+        Array.Resize(ref arr, arr.Length - 1);
+    }
+    public void RemoveText(int index)
+    {
+        RemoveAt(ref Screens1, index);
+        RemoveAt(ref Screens2, index);
+        RemoveAt(ref Screens3, index);
     }
 
     //OPCIONES 1
     public IEnumerator Screen1()
     {
-        yield return new WaitForSeconds(8);
-        foreach (GameObject incorrects in IncorrectsCircles)
-        {
-            incorrects.SetActive(false);
-        }
-        //Para desactivar la pantalla que se está mostrando
-        Screens3[n].SetActive(false);
+        yield return new WaitForSeconds(2);
+
         while (tiempoRecorrido1 < tiempoShow1)
         {
             tiempoRecorrido1 += Time.deltaTime;
             yield return null;
         }
-        foreach (GameObject screen1 in Screens1)
-        {
-            screen1.SetActive(false);
-        }
-        n = Random.Range(0, Screens1.Length);
+        n = UnityEngine.Random.Range(0, Screens1.Length);
         Screens1[n].SetActive(true);
+
         //Para que se reproduzcan los audios de los colores
-        AudioClip[] soundsToPlay = new AudioClip[1] { sounds[n] };
-        StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+        AudioClip[] soundsToPlay = new AudioClip[1];
+
+        GameObjectName = Screens1[n].name;//Para obtener el nombre de la escena que se está mostrando
+
+        if (GameObjectName == "Screen1.1")
+        {
+            soundsToPlay[0] = sounds[0];
+            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+        }
+        if (GameObjectName == "Screen2.1")
+        {
+            soundsToPlay[0] = sounds[1];
+            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+        }
+        if (GameObjectName == "Screen3.1")
+        {
+            soundsToPlay[0] = sounds[2];
+            StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+        }
         tiempoRecorrido1 = 0;
         yield return new WaitForSeconds(3.1f);
         StartCoroutine(Screen2());
@@ -89,21 +148,18 @@ public class SceneControllerCouT : MonoBehaviour
             tiempoRecorrido2 += Time.deltaTime;
             yield return null;
         }
-        foreach (GameObject screen2 in Screens2)
+        //Para que aparezcan las segundas pantallas
+        if (GameObjectName == "Screen1.1")
         {
-            screen2.SetActive(false);
+            Screen12.SetActive(true);
         }
-        if (n == 0)
+        if (GameObjectName == "Screen2.1")
         {
-            Screens2[0].SetActive(true);
+            Screen22.SetActive(true);
         }
-        if (n == 1)
+        if (GameObjectName == "Screen3.1")
         {
-            Screens2[1].SetActive(true);
-        }
-        if (n == 2)
-        {
-            Screens2[2].SetActive(true);
+            Screen32.SetActive(true);
         }
         tiempoRecorrido2 = 0;
         //Debug.Log("Se cambió a la segunda pantalla");
@@ -113,6 +169,7 @@ public class SceneControllerCouT : MonoBehaviour
     //OPCIONES 3
     public IEnumerator Screen3()
     {
+        GameObjectName2 = Screens2[n].name;//Para obtener el nombre de la escena que se está mostrando
         //Para desactivar la pantalla que se está mostrando
         Screens2[n].SetActive(false);
         while (tiempoRecorrido3 < tiempoShow3)
@@ -120,44 +177,37 @@ public class SceneControllerCouT : MonoBehaviour
             tiempoRecorrido3 += Time.deltaTime;
             yield return null;
         }
-        foreach (GameObject screen3 in Screens3)
+        //Para que aparezcan las terceras pantallas
+        if (GameObjectName2 == "Screen12")
         {
-            screen3.SetActive(false);
+            Screen13.SetActive(true);
         }
-        if (n == 0)
+        if (GameObjectName2 == "Screen22")
         {
-            Screens3[0].SetActive(true);
+            Screen23.SetActive(true);
         }
-        if (n == 1)
+        if (GameObjectName2 == "Screen32")
         {
-            Screens3[1].SetActive(true);
-        }
-        if (n == 2)
-        {
-            Screens3[2].SetActive(true);
+            Screen33.SetActive(true);
         }
         tiempoRecorrido3 = 0;
         //Debug.Log("Se cambió a la tercera pantalla");
 
-        //Para definir las respuestas correctas
-        if (n == 0)
+        //Para definir las respuestas correctas según la escena que aparezca
+        GameObjectName3 = Screens3[n].name;//Para obtener el nombre de la escena 3 que se está mostrando
+        if (GameObjectName3 == "Screen13")
         {
             answerCouT.AnswerCorrect = "2";
         }
-        if (n == 1)
+        if (GameObjectName3 == "Screen23")
         {
             answerCouT.AnswerCorrect = "6";
         }
-        if (n == 2)
+        if (GameObjectName3 == "Screen33")
         {
             answerCouT.AnswerCorrect = "9";
         }
         yield return new WaitForSeconds(3.1f);
-    }
-    //Para la corrutina
-    void OnEnable()
-    {
-        StartCoroutine(Screen1());
     }
 }
 

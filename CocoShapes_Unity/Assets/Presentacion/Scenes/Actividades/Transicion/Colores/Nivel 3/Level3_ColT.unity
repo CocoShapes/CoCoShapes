@@ -304,7 +304,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 357ef5ed2bf52f1439b1ff9208ee68c8, type: 3}
   - {fileID: 8300000, guid: 573a1d3f57041cf42b5d6964ff9c29d4, type: 3}
   - {fileID: 8300000, guid: 5dab614bd5889f84ab3d45d44a94a9a3, type: 3}
-  - {fileID: 8300000, guid: 79d66af71f01bec4886a7550df91bf85, type: 3}
+  - {fileID: 8300000, guid: 083278ea9e0a31f4586c2bafb73ecf53, type: 3}
   - {fileID: 8300000, guid: 45480ea4828a367458101574d1e332e2, type: 3}
   audioSource: {fileID: 1105955793}
   n: 0
@@ -317,14 +317,6 @@ MonoBehaviour:
   - {fileID: 1845269753}
   - {fileID: 1012573601}
   - {fileID: 1862420143}
-  IncorrectGreen: {fileID: 2067531510}
-  IncorrectRed: {fileID: 1470787293}
-  IncorrectWhite: {fileID: 565825245}
-  IncorrectPurple: {fileID: 992778871}
-  IncorrectBlack: {fileID: 1506189737}
-  IncorrectYellow: {fileID: 676111459}
-  IncorrectBlue: {fileID: 1069146211}
-  IncorrectOrange: {fileID: 2041048839}
 --- !u!1 &309787416
 GameObject:
   m_ObjectHideFlags: 0
@@ -1842,14 +1834,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 79d66af71f01bec4886a7550df91bf85, type: 3}
   - {fileID: 8300000, guid: 45480ea4828a367458101574d1e332e2, type: 3}
   isPressing: 0
-  IncorrectGreen: {fileID: 2067531510}
-  IncorrectRed: {fileID: 1470787293}
-  IncorrectWhite: {fileID: 565825245}
-  IncorrectPurple: {fileID: 992778871}
-  IncorrectBlack: {fileID: 1506189737}
-  IncorrectYellow: {fileID: 676111459}
-  IncorrectBlue: {fileID: 1069146211}
-  IncorrectOrange: {fileID: 2041048839}
+  IncorrectsCircles:
+  - {fileID: 2067531510}
+  - {fileID: 1470787293}
+  - {fileID: 565825245}
+  - {fileID: 992778871}
+  - {fileID: 1506189737}
+  - {fileID: 676111459}
+  - {fileID: 1069146211}
+  - {fileID: 2041048839}
 --- !u!4 &1636712528
 Transform:
   m_ObjectHideFlags: 0

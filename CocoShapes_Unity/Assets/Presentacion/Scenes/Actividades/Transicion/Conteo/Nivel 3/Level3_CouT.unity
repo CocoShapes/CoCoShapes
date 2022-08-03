@@ -1137,7 +1137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 188375693}
   m_Layer: 0
-  m_Name: Screen1.2
+  m_Name: Screen12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2453,7 +2453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 344515988}
   m_Layer: 0
-  m_Name: Screen3.3
+  m_Name: Screen33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8538,7 +8538,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 715b011f79931a34ca285ae8d2543e6e, type: 3}
   - {fileID: 8300000, guid: 274bd594a41e5314baf7dd44d26868be, type: 3}
   - {fileID: 8300000, guid: 6be157060f427f246aa794e8fba112cf, type: 3}
-  - {fileID: 8300000, guid: d9d1a49fe25c56047b07ef6bb42aab27, type: 3}
+  - {fileID: 8300000, guid: 5e8d89ab860355942a3aab71d99906cd, type: 3}
   - {fileID: 8300000, guid: c6d0b1b6e84a3ec4d8a723568440e1ac, type: 3}
   audioSource: {fileID: 1469644461}
   AnswerCorrect: 
@@ -8549,6 +8549,15 @@ MonoBehaviour:
   - {fileID: 1807095946}
   animator: {fileID: 1157976236}
   Character: {fileID: 1157976233}
+  GameObjectName: 
+  GameObjectName2: 
+  GameObjectName3: 
+  Screen12: {fileID: 188375692}
+  Screen22: {fileID: 1798969780}
+  Screen32: {fileID: 2069967858}
+  Screen13: {fileID: 1602749734}
+  Screen23: {fileID: 1574096957}
+  Screen33: {fileID: 344515987}
 --- !u!1 &1520306958
 GameObject:
   m_ObjectHideFlags: 0
@@ -8805,7 +8814,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1574096958}
   m_Layer: 0
-  m_Name: Screen2.3
+  m_Name: Screen23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8927,7 +8936,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1602749735}
   m_Layer: 0
-  m_Name: Screen1.3
+  m_Name: Screen13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10057,7 +10066,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1798969781}
   m_Layer: 0
-  m_Name: Screen2.2
+  m_Name: Screen22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11349,7 +11358,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 715b011f79931a34ca285ae8d2543e6e, type: 3}
   - {fileID: 8300000, guid: 274bd594a41e5314baf7dd44d26868be, type: 3}
   - {fileID: 8300000, guid: 6be157060f427f246aa794e8fba112cf, type: 3}
-  - {fileID: 8300000, guid: d9d1a49fe25c56047b07ef6bb42aab27, type: 3}
+  - {fileID: 8300000, guid: 5e8d89ab860355942a3aab71d99906cd, type: 3}
   - {fileID: 8300000, guid: c6d0b1b6e84a3ec4d8a723568440e1ac, type: 3}
   audioSource: {fileID: 1469644461}
   IncorrectsCircles:
@@ -11544,7 +11553,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2069967859}
   m_Layer: 0
-  m_Name: Screen3.2
+  m_Name: Screen32
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

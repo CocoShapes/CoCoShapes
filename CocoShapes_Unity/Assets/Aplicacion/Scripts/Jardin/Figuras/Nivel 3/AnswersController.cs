@@ -6,7 +6,6 @@ public class AnswersController : MonoBehaviour
 {
     //Para llamar al código denominado ShowText para los audios.
     private ShowText showText;
-    //public GameObject[] Shapes;//Figuras (imágenes)
 
     //Para los audios
     public Audio2 audioSource;
@@ -23,8 +22,18 @@ public class AnswersController : MonoBehaviour
 
     public bool isPressing;//para presionar las teclas
 
-    public GameObject[] IncorrectsCircles;//Las instrucciones (son imágenes)
+    //Para los círculos rojos
+    public GameObject[] IncorrectsCircles;
 
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Shapes";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
 
     void Start()
     {
@@ -32,22 +41,31 @@ public class AnswersController : MonoBehaviour
         isPressing = false;
         //Para poder usar lo del código ShowText para los audios
         showText = GameObject.Find("GameObject-Script").GetComponent<ShowText>();
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
 
-    //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
+    //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job
     IEnumerator WaitForAudio()
     {
 
         if (AnswerCorrects == 5)
         {
             //Para que pare la animación "Celebrando"
-            showText.animator.Play("Stop");
+            showText.animator.Play("QuietoShaJ");
             showText.StopCoroutine(showText.Show());
             Debug.Log("Game Over");
+
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(4);
+            showText.animator.Play("QuietoShaJ");
             //Para que se desactiven los textos
             foreach (GameObject text in showText.Texts)
             {
@@ -58,47 +76,49 @@ public class AnswersController : MonoBehaviour
             {
                 incorrects.SetActive(false);
             }
-            //Para que se descativen las shapes después de un tiempo
-            //yield return new WaitForSeconds(1);
             foreach (GameObject shape in showText.Shapes)
             {
                 shape.SetActive(false);
             }
+            //Para que se elimine el text que ya salió
+            showText.RemoveText(showText.n);//Se elimina el texto de la lista de textos
+            //Para que empiece otra vez la corrutina que muestra todo
             showText.StartCoroutine(showText.Show());
         }
     }
 
     void Update()
     {
+        //totalGameTime += Time.deltaTime;
 
         //Para presionar las teclas y obtener la respuesta AnswerChild
-        //Circle (DownArrow)
-        if (Input.GetKeyDown(KeyCode.C))
+        //Circle (DownArrow) o C
+        if (Input.GetKeyDown(KeyCode.DownArrow))
         {
             AnswerChild = "Circle";
             isPressing = true;
         }
-        //Rectangle (Backspace)
-        if (Input.GetKeyDown(KeyCode.R))
+        //Rectangle (Backspace) o R
+        if (Input.GetKeyDown(KeyCode.Backspace))
         {
             AnswerChild = "Rectangle";
             isPressing = true;
         }
-        //Square (RightArrow)
-        if (Input.GetKeyDown(KeyCode.S))
+        //Square (RightArrow) o S
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
             AnswerChild = "Square";
             isPressing = true;
         }
-        //Triangle (LeftArrow)
-        if (Input.GetKeyDown(KeyCode.T))
+        //Triangle (LeftArrow) o T
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             AnswerChild = "Triangle";
             isPressing = true;
         }
         //Para star no pude repetir s por eso se usó la tecla w
-        //Star (Tab)
-        if (Input.GetKeyDown(KeyCode.W))
+        //Star (Tab) o W
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             AnswerChild = "Star";
             isPressing = true;
@@ -115,7 +135,6 @@ public class AnswersController : MonoBehaviour
                 showText.animator.Play("SacandoFigura");
                 if (AnswerChild == "Circle")
                 {
-
                     showText.Shapes[0].SetActive(true);//Para que se active la figura
                     //Para la animación de la figura
                     float step = speed;
@@ -145,18 +164,15 @@ public class AnswersController : MonoBehaviour
                     float step = speed;
                     showText.Shapes[4].transform.position = Vector3.MoveTowards(showText.Shapes[4].transform.position, target.position, step);
                 }
-                //Se reproduce la animación de celebrando
-
-                showText.animator.Play("CelebrandoShaJ");
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
                 Debug.Log("Correct");
                 isPressing = false;
-                //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { showText.sounds[6], showText.sounds[7] };
+                //Se reproduce el sonido de sacarFigura, correcto y el audio de Fantastic
+                AudioClip[] audios = new AudioClip[3] { showText.sounds[10], showText.sounds[6], showText.sounds[7] };
                 StartCoroutine(audioSource.PlayAudio(audios));
 
-                //Corrutina para que se finalize el audio de NiceJob antes mostrar otra instrucción
+                //Corrutina para que se finalice el audio de Fantastic antes mostrar otra instrucción
                 StartCoroutine(WaitForAudio());
             }
             //Si las dos NO son iguales
@@ -186,7 +202,7 @@ public class AnswersController : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 isPressing = false;
-                //Se reproduce el sonido de incorrecto y el audio de KeepTrying
+                //Se reproduce el sonido de incorrecto y el audio de Upsis
                 AudioClip[] audios = new AudioClip[2] { showText.sounds[8], showText.sounds[9] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Se reproduce la animación de triste
@@ -194,10 +210,14 @@ public class AnswersController : MonoBehaviour
             }
 
         }
-        //Para que cuando ya se hayan realizado las 8 o se hayan respondido 3 incorrectas
+        //Para cuando responde 3 incorrectas
         if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
 
         }
     }

@@ -30,9 +30,7 @@ public class SpinWheel : MonoBehaviour
     public AudioClip[] sounds = new AudioClip[13];
     public AudioControl1 audioSource;
 
-    // //Para guardar los colores que ya aparecieron
-    // public List<string> colors = new List<string>();
-
+    //Para los circulos de incorrecto
     public GameObject RedIncorrect;
     public GameObject GreenIncorrect;
     public GameObject YellowIncorrect;
@@ -49,14 +47,43 @@ public class SpinWheel : MonoBehaviour
 
     void Start()
     {
-        //Para que se reproduzca el audio del inicio (la instrucción)
+        //Para iniciar la corrutina con el audio de la instrucción
+        StartCoroutine(WaitInstruction());
+    }
+
+    //Corrutina que reproduce el audio de la instrucción
+    public IEnumerator WaitInstruction()
+    {
+        ///Para que se reproduzca el audio del inicio (la instrucción)
+        float recoTime = 0f;
+
         AudioClip[] audios = new AudioClip[1] { sounds[8] };
         StartCoroutine(audioSource.PlayAudio(audios));
+
+        while (recoTime < sounds[8].length)
+        {
+            recoTime += Time.deltaTime;
+            yield return null;
+        }
+
+        //Para que inicie la corrutina que muestra todo (Los textos,etc)
+        StartCoroutine(Rotate());
     }
 
     //Método para la rotación de la ruleta.
     public IEnumerator Rotate()
     {
+        speed = Random.Range(210f, 230f);
+        angle = Random.Range(0f, 360f);
+
+        rotationTime = Random.Range(4f, 5f);
+        recorredTime = 0f;
+
+        transform.Rotate(0, 0, angle);
+        yield return new WaitForSeconds(1);
+        //Se reproduce el sonido de girar la ruleta
+        AudioClip[] audios = new AudioClip[1] { sounds[13] };
+        StartCoroutine(audioSource.PlayAudio(audios));
         //Para que aparezca la animación de Coco girando la ruleta
         animator.Play("GiraRuleta");
         //Para que se active Wheel
@@ -86,7 +113,6 @@ public class SpinWheel : MonoBehaviour
         //Para que la Ruleta 2 tome el mismo angulo de la ruleta que gira (ruleta 1)
         Wheel2.SetActive(true);
         Wheel2.transform.rotation = transform.rotation;
-
 
         //PARA SABER QUE COLOR ESTÁ MÁS CERCA DEL SELECTOR
         for (int i = 0; i < ObjectColors.Length; i++)
@@ -145,38 +171,16 @@ public class SpinWheel : MonoBehaviour
                     StartCoroutine(audioSource.PlayAudio(soundsToPlay));
                 }
             }
-
-
         }
         Debug.Log("DistanceMin: " + distanceMin);
-
-
-        // //Para que no se repitan los colores que ya aparecieron (FALTA)
-        // if (colors.Count < ObjectColors.Length)
-        // {
-        //     //Para que no se repitan los colores que ya aparecieron
-        //     colors.Add(answerController.AnswerCorrect);
-        // }
 
         //Para desactivar la ruleta que gira
         this.gameObject.SetActive(false);
         yield return null;
     }
-
-    //Para la rotación de la ruleta.
-    void OnEnable()
-    {
-        speed = Random.Range(250f, 280f);
-        angle = Random.Range(0f, 360f);
-
-        rotationTime = Random.Range(6f, 7f);
-        recorredTime = 0f;
-
-        transform.Rotate(0, 0, angle);
-
-        StartCoroutine(Rotate());
-    }
 }
+
+
 
 
 
