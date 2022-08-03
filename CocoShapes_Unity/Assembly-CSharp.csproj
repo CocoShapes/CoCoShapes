@@ -49,6 +49,7 @@
      <Compile Include="Assets\Datos\StudentDetails.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\GameFinished\GameFinishedGarden.cs" />
      <Compile Include="Assets\Datos\StudentPanel.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\SplashScreen.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\LevelController_Con1T.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\Connection.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Figuras\Nivel 1\LevelControllerSha1T.cs" />
@@ -67,7 +68,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LaunchShape.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\LevelController_ExpT.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\StudentList.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Admin\SplashScreen.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\PinController.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>

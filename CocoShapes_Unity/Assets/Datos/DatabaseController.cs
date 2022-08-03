@@ -10,7 +10,7 @@ public class DatabaseController : MonoBehaviour
     public Root root;
     public string studentId;
 
-    private string apikey = "";
+    private string apikey = "v4CVz0hPeX5F5xr4wxR1IhcL0IB8RZoyd8LSFIJBSOCq00mcQDLrjyRve1Dg5ozm";
     
     void Awake()
     {
@@ -35,7 +35,6 @@ public class DatabaseController : MonoBehaviour
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Access-Control-Request-Headers", "*");
         request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
@@ -55,7 +54,6 @@ public class DatabaseController : MonoBehaviour
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Access-Control-Request-Headers", "*");
         request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
@@ -73,7 +71,6 @@ public class DatabaseController : MonoBehaviour
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Access-Control-Request-Headers", "*");
         request.SetRequestHeader("api-key", apikey);
 
         yield return request.SendWebRequest();
@@ -91,7 +88,6 @@ public class DatabaseController : MonoBehaviour
         request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
         
         request.SetRequestHeader("Content-Type", "application/json");
-        request.SetRequestHeader("Access-Control-Request-Headers", "*");
         request.SetRequestHeader("api-key", apikey);
         
         yield return request.SendWebRequest();

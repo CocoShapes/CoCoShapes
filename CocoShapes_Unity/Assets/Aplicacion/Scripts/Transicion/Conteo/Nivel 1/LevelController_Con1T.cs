@@ -61,7 +61,7 @@ public class LevelController_Con1T : MonoBehaviour
         carrito = GameObject.Find("Carrito");
 
         //Start Game
-        selectNumber();
+        StartCoroutine(StartGame());
     }
 
     void Update()
@@ -80,6 +80,22 @@ public class LevelController_Con1T : MonoBehaviour
             panelGameFinished.SetActive(true);
             StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
+    }
+
+    private IEnumerator StartGame()
+    {
+        float waitTime = 0f;
+        
+        AudioClip[] instruction = new AudioClip[1]{sounds[6]};
+        StartCoroutine(audioController.playAudio(instruction));
+
+        while(waitTime < instruction[0].length)
+        {
+            waitTime += Time.deltaTime;
+            yield return null;
+        }
+
+        selectNumber();
     }
 
     //Definition of Methods

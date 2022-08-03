@@ -2514,7 +2514,7 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 15.966666
+  - time: 15.916667
     functionName: AnimationLaunchShapeFinish
     data: 
     objectReferenceParameter: {fileID: 0}
