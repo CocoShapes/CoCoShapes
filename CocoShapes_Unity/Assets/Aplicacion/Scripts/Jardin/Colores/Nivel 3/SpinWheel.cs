@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class SpinWheel : MonoBehaviour
 {
-    //Para llamar al código denominado WheelController para la rotación.
-    public WheelController wheelController;
     //Para llamar al código denominado AnswerController para poder usar el answerCorrect en ese código.
     public AnswerController answerController;
 
@@ -13,7 +11,7 @@ public class SpinWheel : MonoBehaviour
     public GameObject[] ObjectColors;
 
     //Para la rotación
-    private float angle;
+    public float angle;
     private float speed;
     private float rotationTime;
     private float recorredTime;
@@ -32,19 +30,76 @@ public class SpinWheel : MonoBehaviour
     public AudioClip[] sounds = new AudioClip[13];
     public AudioControl1 audioSource;
 
-    //Para guardar los colores que ya aparecieron
-    public List<string> colors = new List<string>();
+    //Para los circulos de incorrecto
+    public GameObject RedIncorrect;
+    public GameObject GreenIncorrect;
+    public GameObject YellowIncorrect;
+    public GameObject BlackIncorrect;
+    public GameObject OrangeIncorrect;
+    public GameObject BlueIncorrect;
+    public GameObject PurpleIncorrect;
+    public GameObject WhiteIncorrect;
+
+    public GameObject Wheel;//Ruleta 1
+
+    //Para las animaciones
+    public Animator animator;
 
     void Start()
     {
-        //Para que se reproduzca el audio del inicio (la instrucción)
+        //Para iniciar la corrutina con el audio de la instrucción
+        StartCoroutine(WaitInstruction());
+    }
+
+    //Corrutina que reproduce el audio de la instrucción
+    public IEnumerator WaitInstruction()
+    {
+        ///Para que se reproduzca el audio del inicio (la instrucción)
+        float recoTime = 0f;
+
         AudioClip[] audios = new AudioClip[1] { sounds[8] };
         StartCoroutine(audioSource.PlayAudio(audios));
+
+        while (recoTime < sounds[8].length)
+        {
+            recoTime += Time.deltaTime;
+            yield return null;
+        }
+
+        //Para que inicie la corrutina que muestra todo (Los textos,etc)
+        StartCoroutine(Rotate());
     }
 
     //Método para la rotación de la ruleta.
     public IEnumerator Rotate()
     {
+        speed = Random.Range(210f, 230f);
+        angle = Random.Range(0f, 360f);
+
+        rotationTime = Random.Range(4f, 5f);
+        recorredTime = 0f;
+
+        transform.Rotate(0, 0, angle);
+        yield return new WaitForSeconds(1);
+        //Se reproduce el sonido de girar la ruleta
+        AudioClip[] audios = new AudioClip[1] { sounds[13] };
+        StartCoroutine(audioSource.PlayAudio(audios));
+        //Para que aparezca la animación de Coco girando la ruleta
+        animator.Play("GiraRuleta");
+        //Para que se active Wheel
+        Wheel.SetActive(true);
+        //Para que se desactive Wheel2
+        Wheel2.SetActive(false);
+        //Para que se desactiven los círculos rojos
+        RedIncorrect.SetActive(false);
+        GreenIncorrect.SetActive(false);
+        YellowIncorrect.SetActive(false);
+        BlackIncorrect.SetActive(false);
+        OrangeIncorrect.SetActive(false);
+        BlueIncorrect.SetActive(false);
+        PurpleIncorrect.SetActive(false);
+        WhiteIncorrect.SetActive(false);
+
         //El while se ejecuta mientras el tiempo que debe girarse la ruleta no halla terminado
         while (recorredTime < rotationTime)
         {
@@ -53,7 +108,7 @@ public class SpinWheel : MonoBehaviour
             yield return null;
         }
         //Esto es lo que pasa despues de que la ruleta se detiene
-        Debug.Log("After rotation, Time: " + recorredTime);
+        //Debug.Log("After rotation, Time: " + recorredTime);
 
         //Para que la Ruleta 2 tome el mismo angulo de la ruleta que gira (ruleta 1)
         Wheel2.SetActive(true);
@@ -64,7 +119,7 @@ public class SpinWheel : MonoBehaviour
         {
             //Para calcular la distancia entre el color y el selector
             float distance = Vector3.Distance(Selector.transform.position, ObjectColors[i].transform.position);
-            Debug.Log("Color" + ObjectColors[i] + "Distance: " + distance);
+            //Debug.Log("Color" + ObjectColors[i] + "Distance: " + distance);
 
             //Para calcular la distancia más pequeña
             if (i == 0)
@@ -76,14 +131,44 @@ public class SpinWheel : MonoBehaviour
                 if (distance < distanceMin)
                 {
                     distanceMin = distance;
+                    //Para definir las respuestas correctas
+                    if (i == 0)
+                    {
+                        answerController.AnswerCorrect = "Red";
+                    }
+                    else if (i == 1)
+                    {
+                        answerController.AnswerCorrect = "Green";
+                    }
+                    else if (i == 2)
+                    {
+                        answerController.AnswerCorrect = "Yellow";
+                    }
+                    else if (i == 3)
+                    {
+                        answerController.AnswerCorrect = "Black";
+                    }
+                    else if (i == 4)
+                    {
+                        answerController.AnswerCorrect = "Orange";
+                    }
+                    else if (i == 5)
+                    {
+                        answerController.AnswerCorrect = "Blue";
+                    }
+                    else if (i == 6)
+                    {
+                        answerController.AnswerCorrect = "Purple";
+                    }
+                    else if (i == 7)
+                    {
+                        answerController.AnswerCorrect = "White";
+                    }
                     //Para saber el nombre del color que está más cerca del selector
-                    answerController.AnswerCorrect = ObjectColors[i].name;
+                    //answerController.AnswerCorrect = ObjectColors[i].name;
                     //Para que se reproduzcan los audios de los colores
                     AudioClip[] soundsToPlay = new AudioClip[1] { sounds[i] };
                     StartCoroutine(audioSource.PlayAudio(soundsToPlay));
-
-                    //Para guardar el color que ya apareció
-                    colors.Add(ObjectColors[i].name);
                 }
             }
         }
@@ -93,21 +178,9 @@ public class SpinWheel : MonoBehaviour
         this.gameObject.SetActive(false);
         yield return null;
     }
-
-    //Para la rotación de la ruleta.
-    void OnEnable()
-    {
-        speed = Random.Range(250f, 280f);
-        angle = Random.Range(0f, 360f);
-
-        rotationTime = Random.Range(6f, 7f);
-        recorredTime = 0f;
-
-        transform.Rotate(0, 0, angle);
-
-        StartCoroutine(Rotate());
-    }
 }
+
+
 
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnswerControlCol : MonoBehaviour
 {
-    private MouseMovement mouseMovement;
+    public MouseMovement mouseMovement;
     //Para lo de las respuestas
     public string AnswerCorrect; //la que el usuario debería presionar
     private string AnswerChild;//la que el usuario presionó realmente
@@ -19,79 +19,124 @@ public class AnswerControlCol : MonoBehaviour
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
 
-    //Para los círculos rojos cuando es incorrecta la respuesta.
-    public GameObject IncorrectGreen;
-    public GameObject IncorrectRed;
-    public GameObject IncorrectWhite;
-    public GameObject IncorrectPurple;
-    public GameObject IncorrectBlack;
-    public GameObject IncorrectYellow;
-    public GameObject IncorrectBlue;
-    public GameObject IncorrectOrange;
+    //Para los círculos rojos
+    public GameObject[] IncorrectsCircles;
+
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Colors";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
 
     void Start()
     {
-        //Al inicio no se ha presionado ninguna tecla
-        isPressing = false;
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+    }
+    //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
+    IEnumerator WaitForAudio()
+    {
+
+        if (AnswerCorrects == 5)
+        {
+            mouseMovement.StopCoroutine(mouseMovement.FindColors());
+            Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
+        }
+        else
+        {
+            yield return new WaitForSeconds(3);
+            //Para que se desactiven los textos
+            foreach (GameObject textCol in mouseMovement.TextsCol)
+            {
+                textCol.SetActive(false);
+            }
+            foreach (GameObject incorrects in IncorrectsCircles)
+            {
+                incorrects.SetActive(false);
+            }
+            //Para que se elimine el text que ya salió
+            mouseMovement.RemoveText(mouseMovement.n);//Se elimina el texto de la lista de textos
+            //Para que empiece otra vez la corrutina que muestra todo
+            mouseMovement.StartCoroutine(mouseMovement.FindColors());
+        }
+
     }
     void Update()
     {
-        //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
+        //totalGameTime += Time.deltaTime;
+
+        //Para saber que tecla se presionó y así conocer si la respuesta es correcta o incorrecta
         //Butterfly (yellow)
+        //Yellow (F1) o Y
         if (Input.GetKeyDown(KeyCode.F1))
         {
             AnswerChild = "Yellow";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Flower(purple)
+        //Purple (F6) o P
         if (Input.GetKeyDown(KeyCode.F6))
         {
             AnswerChild = "Purple";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Star(white)
+        //White (F8) o W
         if (Input.GetKeyDown(KeyCode.F8))
         {
             AnswerChild = "White";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Bird(red)
+        //Red (F3) o R
         if (Input.GetKeyDown(KeyCode.F3))
         {
             AnswerChild = "Red";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Cat(black)
+        //Black (F7) O B
         if (Input.GetKeyDown(KeyCode.F7))
         {
             AnswerChild = "Black";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        //Fish(green)
+        //Green (F4)
+        //Fish(green) o G
         if (Input.GetKeyDown(KeyCode.F4))
         {
             AnswerChild = "Green";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Heart(blue)
+        //Blue (F2) O U
         //Para BLUE como se repite por black
         if (Input.GetKeyDown(KeyCode.F2))
         {
             AnswerChild = "Blue";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Bear(orange)
+        //Orange (F5) o O
         if (Input.GetKeyDown(KeyCode.F5))
         {
-            AnswerChild = "White";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            AnswerChild = "Orange";
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Se presionó una tecla y ahora se comparan si la respuesta es correcta
@@ -104,13 +149,14 @@ public class AnswerControlCol : MonoBehaviour
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
                 Debug.Log("Correct");
-                //Se reproduce el sonido de correcto y el audio de NiceJob
-                AudioClip[] audios = new AudioClip[2] { sounds[0], sounds[1] };
+                //Se reproduce el sonido de correcto y el audio de Fantastic
+                AudioClip[] audios = new AudioClip[2] { sounds[10], sounds[11] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
-                //Para que se muestre otra instrucción
-                mouseMovement.sceneNewCol();
+                //Corrutina para que se finalice el audio de Fantastic antes de mostrar otra instrucción
+                StartCoroutine(WaitForAudio());
+
             }
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
@@ -118,50 +164,53 @@ public class AnswerControlCol : MonoBehaviour
                 //Para que aparezcan los círculos rojos
                 if (AnswerCorrect == "Green")
                 {
-                    IncorrectGreen.SetActive(true);
+                    IncorrectsCircles[0].SetActive(true);
                 }
                 if (AnswerCorrect == "Red")
                 {
-                    IncorrectRed.SetActive(true);
+                    IncorrectsCircles[1].SetActive(true);
                 }
                 if (AnswerCorrect == "White")
                 {
-                    IncorrectWhite.SetActive(true);
+                    IncorrectsCircles[2].SetActive(true);
                 }
                 if (AnswerCorrect == "Purple")
                 {
-                    IncorrectPurple.SetActive(true);
+                    IncorrectsCircles[3].SetActive(true);
                 }
                 if (AnswerCorrect == "Black")
                 {
-                    IncorrectBlack.SetActive(true);
+                    IncorrectsCircles[4].SetActive(true);
                 }
                 if (AnswerCorrect == "Yellow")
                 {
-                    IncorrectYellow.SetActive(true);
+                    IncorrectsCircles[5].SetActive(true);
                 }
                 if (AnswerCorrect == "Blue")
                 {
-                    IncorrectBlue.SetActive(true);
+                    IncorrectsCircles[6].SetActive(true);
                 }
                 if (AnswerCorrect == "Orange")
                 {
-                    IncorrectOrange.SetActive(true);
+                    IncorrectsCircles[7].SetActive(true);
                 }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
-                //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { sounds[2], sounds[3] };
+                //Se reproduce el sonido de incorrecto y el audio de Upsis
+                AudioClip[] audios = new AudioClip[2] { sounds[12], sounds[13] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
             }
         }
-        //Para que cuando ya se hayan realizado las 8 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 8 || AnswerIncorrects == 3)
+        //Para cuando se ha respondido 3 incorrectas
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
     }
 }

@@ -23,14 +23,60 @@ public class AnswerCouT : MonoBehaviour
     //Para las respuestas incorrectas
     public GameObject[] IncorrectsCircles;//Las instrucciones (son imágenes)
 
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Count";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
+
     void Start()
     {
-        isPressing = false;
         // Para obtener variables del código denominado SceneControllerCouT para los audios.
         sceneControllerCouT = GameObject.Find("SceneControllerCouT").GetComponent<SceneControllerCouT>();
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+    }
+    IEnumerator WaitForAudio()
+    {
+
+        if (AnswerCorrects == 3)
+        {
+            sceneControllerCouT.StopCoroutine(sceneControllerCouT.Screen1());
+            Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
+        }
+        else
+        {
+            yield return new WaitForSeconds(2);
+            //Para que se desactiven los círculos rojos 
+            foreach (GameObject incorrects in IncorrectsCircles)
+            {
+                incorrects.SetActive(false);
+            }
+            //Para que se desactiven las terceras pantallas
+            foreach (GameObject screen in sceneControllerCouT.Screens3)
+            {
+                screen.SetActive(false);
+            }
+            //Para que se elimine la escena que ya salió
+            sceneControllerCouT.RemoveText(sceneControllerCouT.n);
+            //Para que empiece otra vez la corrutina que muestra todo
+            sceneControllerCouT.StartCoroutine(sceneControllerCouT.Screen1());
+        }
+
     }
     void Update()
     {
+        //totalGameTime += Time.deltaTime;
+
         //Se presionó un botón y ahora se compara si la respuesta es correcta
         //(se compara answerCorrect con answerChild)
         if (isPressing)
@@ -46,10 +92,10 @@ public class AnswerCouT : MonoBehaviour
                 //Animación de celebrar
                 sceneControllerCouT.animator.Play("Celebrando");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
-                // AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[4], sceneControllerCouT.sounds[5] };
-                // StartCoroutine(audioSource.PlayAudio(audios));
+                AudioClip[] audios = new AudioClip[2] { sceneControllerCouT.sounds[4], sceneControllerCouT.sounds[5] };
+                StartCoroutine(audioSource.PlayAudio(audios));
                 //Debug.Log("AUDIO");
-                sceneControllerCouT.SceneNew();
+                StartCoroutine(WaitForAudio());
             }
             else
             {
@@ -77,10 +123,13 @@ public class AnswerCouT : MonoBehaviour
                 sceneControllerCouT.animator.Play("Triste");
             }
         }
-        //Para que cuando ya se hayan realizado las 3 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 3 || AnswerIncorrects == 3)
+        //Para cuando se hayan respondido 3 incorrectas
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
     }
 }

@@ -718,19 +718,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 907017e1755176347a00311d6e04b604, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mouseMovementSha: {fileID: 1481099204}
   AnswerCorrect: 
   audioSource: {fileID: 1160486467}
   sounds:
   - {fileID: 8300000, guid: 630515fc351df6a4db60efef156d3f4e, type: 3}
   - {fileID: 8300000, guid: 66c8c853a6ff68540bd755a8d59c3bac, type: 3}
-  - {fileID: 8300000, guid: 00af135f76dfd714eba10833294c4547, type: 3}
+  - {fileID: 8300000, guid: 794814d90bca6eb46836bdabe31823f8, type: 3}
   - {fileID: 8300000, guid: 7f6d8de01d04d8040a55b8c23e776f8a, type: 3}
   isPressing: 0
-  IncorrectCircle: {fileID: 99865467}
-  IncorrectTriangle: {fileID: 322624306}
-  IncorrectSquare: {fileID: 1390056843}
-  IncorrectRectangle: {fileID: 2089010005}
-  IncorrectStar: {fileID: 893088844}
+  IncorrectsCircles:
+  - {fileID: 99865467}
+  - {fileID: 322624306}
+  - {fileID: 1390056843}
+  - {fileID: 2089010005}
+  - {fileID: 893088844}
 --- !u!1 &638728085
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,8 +1368,6 @@ MonoBehaviour:
   - {fileID: 266255668}
   - {fileID: 1383987384}
   - {fileID: 2057176299}
-  Selector: {fileID: 1495760877}
-  isPressing: 0
   sounds:
   - {fileID: 8300000, guid: b892f6dbc82fb0b4287ac8721ed8e782, type: 3}
   - {fileID: 8300000, guid: 695cb0cd1b4c8b248b651994265ee41d, type: 3}
@@ -1382,11 +1382,6 @@ MonoBehaviour:
   - {fileID: 23810388}
   - {fileID: 1238183274}
   - {fileID: 176987425}
-  IncorrectCircle: {fileID: 99865467}
-  IncorrectTriangle: {fileID: 322624306}
-  IncorrectSquare: {fileID: 2089010005}
-  IncorrectRectangle: {fileID: 893088844}
-  IncorrectStar: {fileID: 1390056843}
   n: 0
 --- !u!1 &1495760877
 GameObject:
@@ -1443,8 +1438,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1763958896}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 0.04, z: 2}
-  m_LocalScale: {x: 1.7412229, y: 1.3018489, z: 1.3018489}
+  m_LocalPosition: {x: -0.04, y: 0.13, z: 2}
+  m_LocalScale: {x: 1.7412229, y: 1.334395, z: 1.3018489}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1

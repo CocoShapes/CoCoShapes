@@ -894,11 +894,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 1f2840c29f683ca4a86d61f89ffec6f3, type: 3}
   - {fileID: 8300000, guid: f3dcd7f7f0a445942b0643299b7641f9, type: 3}
   - {fileID: 8300000, guid: b51eedadf93b5e34fb731cad5c3bde8e, type: 3}
-  - {fileID: 8300000, guid: e7a4fa9aa0447504697e910c34ff13b8, type: 3}
+  - {fileID: 8300000, guid: 06e66799bbfa62548b0c7477bb6354ad, type: 3}
   - {fileID: 8300000, guid: 9386cd6b56f2b734aa2038f5f560e54e, type: 3}
   audioSource: {fileID: 758295609}
   AnswerCorrect: 
   n: 0
+  car: {fileID: 1197224731}
+  GameObjectName: 
 --- !u!1 &1059623348
 GameObject:
   m_ObjectHideFlags: 0
@@ -1077,13 +1079,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1197224731}
-  m_LocalRotation: {x: 0, y: 0, z: -0.040890373, w: 0.9991636}
+  m_LocalRotation: {x: 0, y: 0, z: 0.024824735, w: 0.99969184}
   m_LocalPosition: {x: -6.95, y: 1.11, z: -9.39}
   m_LocalScale: {x: 0.24074946, y: 0.24074946, z: 0.24074946}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.687}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 2.845}
 --- !u!95 &1197224734
 Animator:
   serializedVersion: 3
@@ -1115,18 +1117,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09aa306c3ba03f24ab78338fefadf5fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 1197224734}
   AnswerChild: 
   AnswerCorrect: 
   isPressing: 0
-  n: 0
   sounds:
   - {fileID: 8300000, guid: 4c24b11749e4a9647b1fc348f6caaba9, type: 3}
   - {fileID: 8300000, guid: 5d7bb2b1f45cfdf45b4f03743ae5dc3b, type: 3}
   - {fileID: 8300000, guid: 7832ed3f823cf2d48b9a8738bb536127, type: 3}
+  - {fileID: 8300000, guid: 1f2840c29f683ca4a86d61f89ffec6f3, type: 3}
   - {fileID: 8300000, guid: f3dcd7f7f0a445942b0643299b7641f9, type: 3}
   - {fileID: 8300000, guid: b51eedadf93b5e34fb731cad5c3bde8e, type: 3}
-  - {fileID: 8300000, guid: e7a4fa9aa0447504697e910c34ff13b8, type: 3}
+  - {fileID: 8300000, guid: 06e66799bbfa62548b0c7477bb6354ad, type: 3}
   - {fileID: 8300000, guid: 9386cd6b56f2b734aa2038f5f560e54e, type: 3}
   audioSource: {fileID: 758295609}
   Instructions:

@@ -29,63 +29,113 @@ public class AnswerController : MonoBehaviour
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
 
+    //Para la base de datos
+    //Database and Game Finished
+    // private DatabaseController database;
+    // private string subject = "Colors";
+    // private int level = 3;
+
+    // public GameObject panelGameFinished;
+    // private bool gameFinished = false;
+    // private float totalGameTime;
+
     void Start()
     {
         //Al inicio no se ha presionado ninguna tecla
         isPressing = false;
         //Para poder usar lo del código SpinWheel para los audios
         spinWheel = GameObject.Find("Wheel").GetComponent<SpinWheel>();
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+    }
+
+    //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
+    IEnumerator WaitForAudio()
+    {
+        if (AnswerCorrects == 5)
+        {
+            //Para que pare la animación "Celebrando"
+            spinWheel.animator.Play("Stop");
+            spinWheel.Wheel2.SetActive(true);
+            spinWheel.Wheel.SetActive(false);
+            spinWheel.StopCoroutine(spinWheel.Rotate());
+            Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
+        }
+        else
+        {
+            yield return new WaitForSeconds(4);
+            //spinWheel.animator.Play("GiraRuleta");
+            spinWheel.Wheel2.SetActive(false);
+            spinWheel.Wheel.SetActive(true);
+            //Para que empiece otra vez la corrutina que muestra todo
+            spinWheel.StartCoroutine(spinWheel.Rotate());
+        }
     }
     void Update()
     {
+        //totalGameTime += Time.deltaTime;
+
         //Para saber que tecla se presonó y así conocer si la respuesta es correcta o incorrecta
-        if (Input.GetKeyDown(KeyCode.R))
+        //Red (F3) o R
+        if (Input.GetKeyDown(KeyCode.F3))
         {
             AnswerChild = "Red";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.G))
+        //Green (F4) O G
+        if (Input.GetKeyDown(KeyCode.F4))
         {
             AnswerChild = "Green";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.Y))
+        //Yellow (F1) o Y
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             AnswerChild = "Yellow";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.B))
+        //Black (F7) o B
+        if (Input.GetKeyDown(KeyCode.F7))
         {
             AnswerChild = "Black";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.O))
+        //Orange (F5) o O
+        if (Input.GetKeyDown(KeyCode.F5))
         {
             AnswerChild = "Orange";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Para BLUE como se repite por black
-        if (Input.GetKeyDown(KeyCode.U))
+        //Blue (F2) o U
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             AnswerChild = "Blue";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.P))
+        //Purple (F6) o P
+        if (Input.GetKeyDown(KeyCode.F6))
         {
             AnswerChild = "Purple";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
-        if (Input.GetKeyDown(KeyCode.W))
+        //White (F8) o W
+        if (Input.GetKeyDown(KeyCode.F8))
         {
             AnswerChild = "White";
-            Debug.Log("AnswerChild: " + AnswerChild);
+            //Debug.Log("AnswerChild: " + AnswerChild);
             isPressing = true;
         }
         //Se presionó una tecla y ahora se comparan si la respuesta es correcta
@@ -97,15 +147,23 @@ public class AnswerController : MonoBehaviour
             {
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
+
+                //Para que se elimine la respuesta correcta del juego (FALTA)
+                //Destroy(GameObject.Find(AnswerCorrect));
+
                 Debug.Log("Correct");
                 //Se reproduce el sonido de correcto y el audio de NiceJob
                 AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[9], spinWheel.sounds[10] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
+                //Se reproduce la animación celebrando
+                spinWheel.animator.Play("Celebrando");
 
-                //StartCoroutine(Rotate());
+                //Corrutina para que se finalize el audio de NiceJob antes de girar la ruleta otra vez
+                StartCoroutine(WaitForAudio());
             }
+
             //Si las dos NO son iguales
             if (AnswerChild != AnswerCorrect)
             {
@@ -150,12 +208,17 @@ public class AnswerController : MonoBehaviour
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
+                //Se reproduce la animación triste
+                spinWheel.animator.Play("Triste");
             }
         }
         //Para que cuando ya se hayan realizado las 8 o se hayan respondido 3 incorrectas
-        if (AnswerCorrects >= 8 || AnswerIncorrects == 3)
+        if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Para que se muestre la pantalla de fin del juego:
+            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            //panelGameFinished.SetActive(true);
         }
     }
 }
