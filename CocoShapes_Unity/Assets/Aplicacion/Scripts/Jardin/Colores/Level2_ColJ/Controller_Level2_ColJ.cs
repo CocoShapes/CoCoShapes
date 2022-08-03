@@ -88,11 +88,13 @@ public class Controller_Level2_ColJ : MonoBehaviour
     private AudioSource[] incorrectSounds;
     public GameObject incorrect_Obj;
     private AudioSource incorrectAudio;
+    private AudioSource incorrectAudioSound;
 
     //Audio de correcto
     private AudioSource[] correctSounds;
     public GameObject correct_Obj;
     private AudioSource correctAudio;
+    private AudioSource correctAudioSound;
 
     //Para coco
     public GameObject cocoOBJ;
@@ -129,9 +131,11 @@ public class Controller_Level2_ColJ : MonoBehaviour
 
         //Audio de incorrecto
         incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+        incorrectAudioSound = incorrectSounds[3];
 
         //Audio de correcto
         correctSounds= correct_Obj.GetComponents<AudioSource>();
+        correctAudioSound = correctSounds[5];
 
         audioColor= new AudioSource();
         correctAudio = new AudioSource();
@@ -229,7 +233,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
         if(pressColor == reqColor){
             //Activo audio correcto
              correctAudio = correctSounds[ Random.Range(0, 5)];
+             correctAudioSound.Play();
              correctAudio.Play();
+             
 
             
             //Cambio la imagen dependiendo del nivel
@@ -252,7 +258,9 @@ public class Controller_Level2_ColJ : MonoBehaviour
         else{
             //Activo audio
             incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+            incorrectAudioSound.Play();
             incorrectAudio.Play();
+            
 
             Debug.Log("INCORRECTO"); 
             //Aumento numero de errores

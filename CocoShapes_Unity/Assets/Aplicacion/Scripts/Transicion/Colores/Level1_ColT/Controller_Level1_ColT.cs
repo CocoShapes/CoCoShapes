@@ -71,11 +71,13 @@ public class Controller_Level1_ColT : MonoBehaviour
     private AudioSource[] incorrectSounds;
     public GameObject incorrect_Obj;
     private AudioSource incorrectAudio;
+    private AudioSource incorrectAudioSound;
 
     //Audio de correcto
     private AudioSource[] correctSounds;
     public GameObject correct_Obj;
     private AudioSource correctAudio;
+    private AudioSource correctAudioSound;
 
     //Para el arquero
     public GameObject goalkeeperOBJ;
@@ -101,9 +103,11 @@ public class Controller_Level1_ColT : MonoBehaviour
 
         //Audio de incorrecto
         incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+        incorrectAudioSound = incorrectSounds[3];
 
         //Audio de correcto
         correctSounds= correct_Obj.GetComponents<AudioSource>();
+        correctAudioSound = correctSounds[5];
 
         correctAudio = new AudioSource();
         incorrectAudio = new AudioSource();
@@ -212,6 +216,7 @@ public class Controller_Level1_ColT : MonoBehaviour
             //Activo audio correcto
              correctAudio = correctSounds[ Random.Range(0, 5)];
              correctAudio.Play();
+             correctAudioSound.Play();
 
             
             //Aumento el nivel
@@ -237,6 +242,7 @@ public class Controller_Level1_ColT : MonoBehaviour
             //Activo audio
             incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
             incorrectAudio.Play();
+            incorrectAudioSound.Play();
             //NO Hago gol
             throwBall(reqColor,0);
             //Muestro animación del portero
@@ -359,7 +365,7 @@ public class Controller_Level1_ColT : MonoBehaviour
                 if(reqColor == "orange"){
                     
                     ballObj_AN.Play("ball_orange_throw");
-                    if(level==3){
+                    if(level>3){
                         Debug.Log("Cambio pagina");
                          gameOver_OBJ.SetActive(true);
                     }
@@ -367,7 +373,7 @@ public class Controller_Level1_ColT : MonoBehaviour
                 else if(reqColor == "green"){
                     
                     ballObj_AN.Play("ball_green_throw");
-                     if(level==3){
+                     if(level>3){
                         Debug.Log("Cambio pagina");
                          gameOver_OBJ.SetActive(true);
                     }
