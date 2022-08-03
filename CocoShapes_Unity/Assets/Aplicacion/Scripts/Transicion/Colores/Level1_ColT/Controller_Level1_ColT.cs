@@ -357,14 +357,14 @@ public class Controller_Level1_ColT : MonoBehaviour
                 if(reqColor == "orange"){
                     
                     ballObj_AN.Play("ball_orange_throw");
-                    if(level==3){
+                    if(level>3){
                         Debug.Log("Cambio pagina");
                     }
                 }
                 else if(reqColor == "green"){
                     
                     ballObj_AN.Play("ball_green_throw");
-                     if(level==3){
+                     if(level>3){
                         Debug.Log("Cambio pagina");
                     }
                 }else if(reqColor == "purple"){
