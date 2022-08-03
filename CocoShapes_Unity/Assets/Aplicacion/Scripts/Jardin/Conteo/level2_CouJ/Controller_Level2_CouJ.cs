@@ -72,11 +72,13 @@ public class Controller_Level2_CouJ : MonoBehaviour
     private AudioSource[] incorrectSounds;
     public GameObject incorrect_Obj;
     private AudioSource incorrectAudio;
+    private AudioSource incorrectAudioSound;
 
     //Audio de correcto
     private AudioSource[] correctSounds;
     public GameObject correct_Obj;
     private AudioSource correctAudio;
+    private AudioSource correctAudioSound;
 
 
     // Start is called before the first frame update
@@ -98,9 +100,11 @@ public class Controller_Level2_CouJ : MonoBehaviour
 
         //Audio de incorrecto
         incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+        incorrectAudioSound = incorrectSounds[3];
 
         //Audio de correcto
         correctSounds= correct_Obj.GetComponents<AudioSource>();
+        correctAudioSound = correctSounds[5];
         
         //Para obtener las animaciones
         cocoObj_AN = cocoObj.gameObject.GetComponent<Animator>();
@@ -297,7 +301,9 @@ public class Controller_Level2_CouJ : MonoBehaviour
                 audioNumberFeedback.Play();
                 //Activo audio
                 correctAudio = correctSounds[ Random.Range(0, 5)];
+                
                 correctAudio.PlayDelayed(audioNumberFeedback.clip.length);
+                correctAudioSound.PlayDelayed(audioNumberFeedback.clip.length);
     }
 
     public void incorrectOption(){
@@ -331,6 +337,7 @@ public class Controller_Level2_CouJ : MonoBehaviour
 
             //Vuelvo a activar la instrucción
             instruction.PlayDelayed(incorrectAudio.clip.length + audioNumberFeedback.clip.length);
+            incorrectAudioSound.PlayDelayed(incorrectAudio.clip.length + audioNumberFeedback.clip.length);
     }
 
 }
