@@ -14,9 +14,12 @@ public class TutorialPlayer : MonoBehaviour
 
     void OnEnable()
     {
-        if(levelSelector.grade ==  "Transition"){
-            if(levelSelector.subject == "Colors"){
-                switch(levelSelector.level){
+        if (levelSelector.grade == "Transition")
+        {
+            if (levelSelector.subject == "Colors")
+            {
+                switch (levelSelector.level)
+                {
                     case 0:
                         video.GetComponent<VideoPlayer>().clip = clips[9];
                         sceneName = "LevelExp_ColT";
@@ -34,8 +37,11 @@ public class TutorialPlayer : MonoBehaviour
                         sceneName = "Level3_ColT";
                         break;
                 }
-            }else if(levelSelector.subject == "Count"){
-                switch(levelSelector.level){
+            }
+            else if (levelSelector.subject == "Count")
+            {
+                switch (levelSelector.level)
+                {
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[16];
                         sceneName = "Level1_ConT";
@@ -49,8 +55,11 @@ public class TutorialPlayer : MonoBehaviour
                         sceneName = "Level3_CouT";
                         break;
                 }
-            }else if(levelSelector.subject == "Shapes"){
-                switch(levelSelector.level){
+            }
+            else if (levelSelector.subject == "Shapes")
+            {
+                switch (levelSelector.level)
+                {
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[13];
                         sceneName = "Level1_ShaT";
@@ -65,9 +74,13 @@ public class TutorialPlayer : MonoBehaviour
                         break;
                 }
             }
-        }else {
-            if(levelSelector.subject == "Colors"){
-                switch(levelSelector.level){
+        }
+        else
+        {
+            if (levelSelector.subject == "Colors")
+            {
+                switch (levelSelector.level)
+                {
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[0];
                         sceneName = "Level1_ColJ";
@@ -81,8 +94,11 @@ public class TutorialPlayer : MonoBehaviour
                         sceneName = "Level3_ColJ";
                         break;
                 }
-            }else if(levelSelector.subject == "Count"){
-                switch(levelSelector.level){
+            }
+            else if (levelSelector.subject == "Count")
+            {
+                switch (levelSelector.level)
+                {
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[6];
                         sceneName = "Level1_ConJ";
@@ -96,11 +112,14 @@ public class TutorialPlayer : MonoBehaviour
                         sceneName = "Level3_CouJ";
                         break;
                 }
-            }else if(levelSelector.subject == "Shapes"){
-                switch(levelSelector.level){
+            }
+            else if (levelSelector.subject == "Shapes")
+            {
+                switch (levelSelector.level)
+                {
                     case 1:
                         video.GetComponent<VideoPlayer>().clip = clips[3];
-                        sceneName = "Level1_ShaJ";
+                        sceneName = "Level1_FigJ";
                         break;
                     case 2:
                         video.GetComponent<VideoPlayer>().clip = clips[4];
@@ -116,7 +135,8 @@ public class TutorialPlayer : MonoBehaviour
         video.GetComponent<VideoPlayer>().Play();
     }
 
-    public void StartGameScene(){
+    public void StartGameScene()
+    {
         SceneManager.LoadScene(sceneName);
     }
 }

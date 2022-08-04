@@ -34,7 +34,7 @@ public class LevelController_Con1T : MonoBehaviour
     //GameObject Variables
     private GameObject carrito;
     public AudioClip[] numbersSounds = new AudioClip[10];
-    public AudioClip[] sounds = new AudioClip[7];
+    public AudioClip[] sounds = new AudioClip[9];
 
     //Variables to send data to database
     private DatabaseController database;
@@ -57,7 +57,7 @@ public class LevelController_Con1T : MonoBehaviour
 
         animationController = GameObject.Find("AnimationController").GetComponent<AnimationControllerCon1T>();
         audioController = GameObject.Find("AudioController").GetComponent<AudioController>();
-        
+
         carrito = GameObject.Find("Carrito");
 
         //Start Game
@@ -68,13 +68,13 @@ public class LevelController_Con1T : MonoBehaviour
     {
         gameTotalTime += Time.deltaTime;
 
-        if(correctAnswers == 5 && !gameFinished)
+        if (correctAnswers == 5 && !gameFinished)
         {
             gameFinished = true;
             panelGameFinished.SetActive(true);
             StartCoroutine(database.PushResult(subject, level, correctAnswers, wrongAnswers, (int)gameTotalTime));
         }
-        if(wrongAnswers == 3 && !gameFinished)
+        if (wrongAnswers == 3 && !gameFinished)
         {
             gameFinished = true;
             panelGameFinished.SetActive(true);
@@ -85,11 +85,11 @@ public class LevelController_Con1T : MonoBehaviour
     private IEnumerator StartGame()
     {
         float waitTime = 0f;
-        
-        AudioClip[] instruction = new AudioClip[1]{sounds[6]};
+
+        AudioClip[] instruction = new AudioClip[1] { sounds[6] };
         StartCoroutine(audioController.playAudio(instruction));
 
-        while(waitTime < instruction[0].length)
+        while (waitTime < instruction[0].length)
         {
             waitTime += Time.deltaTime;
             yield return null;
@@ -102,7 +102,7 @@ public class LevelController_Con1T : MonoBehaviour
     public void selectNumber()
     {
         int RandomNumber = Random.Range(11, 20);
-        
+
         while (numberToEvaluate == RandomNumber)
         {
             RandomNumber = Random.Range(11, 20);
@@ -142,7 +142,7 @@ public class LevelController_Con1T : MonoBehaviour
                 break;
             case 3:
                 btn1.text = (numberToEvaluate - 1).ToString();
-                btn2.text = (numberToEvaluate + 1 ).ToString();
+                btn2.text = (numberToEvaluate + 1).ToString();
                 btn3.text = numberToEvaluate.ToString();
                 break;
         }
@@ -152,14 +152,15 @@ public class LevelController_Con1T : MonoBehaviour
     {
         hideAnswerButtons();
 
-        AudioClip[] audios = new AudioClip[2];
-        
+        AudioClip[] audios = new AudioClip[3];
+
         int randomAudio = Random.Range(0, 2);
-        audios[1] = sounds[randomAudio];
+        audios[2] = sounds[randomAudio];
         audios[0] = numbersSounds[answer - 11];
+        audios[1] = sounds[7];
 
         StartCoroutine(audioController.playAudio(audios));
-        
+
         StartCoroutine(animationController.PlayGoodAnimation(carrito));
     }
 
@@ -167,14 +168,15 @@ public class LevelController_Con1T : MonoBehaviour
     {
         hideAnswerButtons();
 
-        AudioClip[] audios = new AudioClip[2];
-        
+        AudioClip[] audios = new AudioClip[3];
+
         int randomAudio = Random.Range(3, 5);
-        audios[1] = sounds[randomAudio];
+        audios[2] = sounds[randomAudio];
         audios[0] = numbersSounds[answer - 11];
+        audios[1] = sounds[8];
 
         StartCoroutine(audioController.playAudio(audios));
-        
+
         StartCoroutine(animationController.PlayBadAnimation(carrito));
     }
 

@@ -6311,7 +6311,7 @@ MonoBehaviour:
   txtRespuesta2: {fileID: 611909031}
   txtRespuesta3: {fileID: 44096398}
   controllerMountain: {fileID: 1247855965}
-  controllerAudio: {fileID: 0}
+  controllerAudio: {fileID: 1851941082}
   audioClips:
   - {fileID: 8300000, guid: a7eedd4f73234443d85d54d3c99fe361, type: 3}
   - {fileID: 8300000, guid: 97de40be7ad5848fe8ba210215c11ad9, type: 3}

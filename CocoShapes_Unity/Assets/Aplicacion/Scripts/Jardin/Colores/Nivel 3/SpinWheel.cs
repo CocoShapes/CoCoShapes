@@ -113,7 +113,7 @@ public class SpinWheel : MonoBehaviour
         //Para que la Ruleta 2 tome el mismo angulo de la ruleta que gira (ruleta 1)
         Wheel2.SetActive(true);
         Wheel2.transform.rotation = transform.rotation;
-
+        AudioClip[] soundsToPlay = new AudioClip[1];
         //PARA SABER QUE COLOR ESTÁ MÁS CERCA DEL SELECTOR
         for (int i = 0; i < ObjectColors.Length; i++)
         {
@@ -125,6 +125,10 @@ public class SpinWheel : MonoBehaviour
             if (i == 0)
             {
                 distanceMin = distance;
+                answerController.AnswerCorrect = "Red";
+                soundsToPlay[0] = sounds[0];
+
+
             }
             else
             {
@@ -132,46 +136,54 @@ public class SpinWheel : MonoBehaviour
                 {
                     distanceMin = distance;
                     //Para definir las respuestas correctas
-                    if (i == 0)
+                    // if (i == 0)
+                    // {
+                    //     answerController.AnswerCorrect = "Red";
+                    // }
+                    if (i == 1)
                     {
-                        answerController.AnswerCorrect = "Red";
-                    }
-                    else if (i == 1)
-                    {
+                        soundsToPlay[0] = sounds[1];
                         answerController.AnswerCorrect = "Green";
                     }
                     else if (i == 2)
                     {
+                        soundsToPlay[0] = sounds[2];
                         answerController.AnswerCorrect = "Yellow";
                     }
                     else if (i == 3)
                     {
+                        soundsToPlay[0] = sounds[3];
                         answerController.AnswerCorrect = "Black";
                     }
                     else if (i == 4)
                     {
+                        soundsToPlay[0] = sounds[4];
                         answerController.AnswerCorrect = "Orange";
                     }
                     else if (i == 5)
                     {
+                        soundsToPlay[0] = sounds[5];
                         answerController.AnswerCorrect = "Blue";
                     }
                     else if (i == 6)
                     {
+                        soundsToPlay[0] = sounds[6];
                         answerController.AnswerCorrect = "Purple";
                     }
                     else if (i == 7)
                     {
+                        soundsToPlay[0] = sounds[7];
                         answerController.AnswerCorrect = "White";
                     }
                     //Para saber el nombre del color que está más cerca del selector
                     //answerController.AnswerCorrect = ObjectColors[i].name;
                     //Para que se reproduzcan los audios de los colores
-                    AudioClip[] soundsToPlay = new AudioClip[1] { sounds[i] };
-                    StartCoroutine(audioSource.PlayAudio(soundsToPlay));
+
+
                 }
             }
         }
+        StartCoroutine(audioSource.PlayAudio(soundsToPlay));
         Debug.Log("DistanceMin: " + distanceMin);
 
         //Para desactivar la ruleta que gira

@@ -28,13 +28,11 @@ public class AnimationCar : MonoBehaviour
 
     //Para la base de datos
     //Database and Game Finished
-    // private DatabaseController database;
-    // private string subject = "Count";
-    // private int level = 3;
-
-    // public GameObject panelGameFinished;
-    // private bool gameFinished = false;
-    // private float totalGameTime;
+    private DatabaseController database;
+    private string subject = "Count";
+    private int level = 3;
+    public GameObject panelGameFinished;
+    private float totalGameTime;
 
     void Start()
     {
@@ -45,7 +43,7 @@ public class AnimationCar : MonoBehaviour
 
         //Para la base de datos:
         //Obtain database gameobject
-        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
 
     IEnumerator WaitForAudio()
@@ -56,8 +54,8 @@ public class AnimationCar : MonoBehaviour
             StopCoroutine(rollerCoster.Rail());
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
         }
         else
         {
@@ -79,7 +77,7 @@ public class AnimationCar : MonoBehaviour
 
     void Update()
     {
-        //totalGameTime += Time.deltaTime;
+        totalGameTime += Time.deltaTime;
 
         //Se presionó un botón y ahora se compara si la respuesta es correcta
         //(se compara answerCorrect con answerChild)
@@ -149,8 +147,8 @@ public class AnimationCar : MonoBehaviour
         {
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
         }
     }
 }

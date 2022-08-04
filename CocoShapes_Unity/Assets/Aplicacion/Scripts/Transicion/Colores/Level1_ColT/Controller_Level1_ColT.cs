@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Controller_Level1_ColT : MonoBehaviour
 {
-    public GameObject gameOver_OBJ;
-     //Variables necesarias
+    //public GameObject gameOver_OBJ;
+    //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
 
@@ -14,7 +14,7 @@ public class Controller_Level1_ColT : MonoBehaviour
     private int errorCount;
 
     //Numero aleatorio
-    private int randomNumber; 
+    private int randomNumber;
 
     //Arreglo de colores
     private string[] colorsArray;
@@ -24,13 +24,13 @@ public class Controller_Level1_ColT : MonoBehaviour
     private int iteration;
 
     //Variable que llega del arduino con el nombre del color presionado
-    public string pressColor; 
+    public string pressColor;
 
     //Variable del color solicitado
     public string reqColor;
 
-   
-///-------------------------------------------
+
+    ///-------------------------------------------
     //PARA CANVAS
 
     //Imagenes de instrucciones
@@ -48,11 +48,11 @@ public class Controller_Level1_ColT : MonoBehaviour
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
-        //Balon
+    //Balon
     public GameObject ballObj;
 
 
-        //Animation del balon
+    //Animation del balon
     private Animator ballObj_AN;
 
 
@@ -91,28 +91,38 @@ public class Controller_Level1_ColT : MonoBehaviour
     //Numero audio (para que no repita)
     private int numAudio;
     // Start is called before the first frame update
+
+    //Para la base de datos
+    //Database and Game Finished
+    private DatabaseController database;
+    private string subject = "Colors";
+    private int levelBD = 1;
+
+    public GameObject panelGameFinished;
+    private float totalGameTime;
+
     void Start()
     {
 
-         //Audios
-        sounds= obj_Audio.GetComponents<AudioSource>();
-        
-        greenAudio= sounds[0];
-        orangeAudio= sounds[1];
-        purpleAudio= sounds[2];
+        //Audios
+        sounds = obj_Audio.GetComponents<AudioSource>();
+
+        greenAudio = sounds[0];
+        orangeAudio = sounds[1];
+        purpleAudio = sounds[2];
 
         //Audio de incorrecto
-        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+        incorrectSounds = incorrect_Obj.GetComponents<AudioSource>();
         incorrectAudioSound = incorrectSounds[3];
 
         //Audio de correcto
-        correctSounds= correct_Obj.GetComponents<AudioSource>();
+        correctSounds = correct_Obj.GetComponents<AudioSource>();
         correctAudioSound = correctSounds[5];
 
         correctAudio = new AudioSource();
         incorrectAudio = new AudioSource();
-        audioColor= new AudioSource();
-        
+        audioColor = new AudioSource();
+
         //Para obtener las animaciones
         ballObj_AN = ballObj.gameObject.GetComponent<Animator>();
         //De las instrucciones
@@ -126,28 +136,34 @@ public class Controller_Level1_ColT : MonoBehaviour
         cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
 
         //Otras variables
-        level=1;
-        randomNumber=0;
-        errorCount=0;
-        iteration=0;
-        numAudio=0;
+        level = 1;
+        randomNumber = 0;
+        errorCount = 0;
+        iteration = 0;
+        numAudio = 0;
 
 
-        colorsArray = new string []{ "green", "purple", "orange"};
+        colorsArray = new string[] { "green", "purple", "orange" };
         //Colocar numeros muy altos que nunca saldran
-        colorsArrayCh = new int []{ 10, 10, 10};
+        colorsArrayCh = new int[] { 10, 10, 10 };
 
         //Aplico el método que me genera el color solicitado
         requestedColor();
 
         //Aqui se realizaria lo de la conexión del Arduino
-        pressColor="";
+        pressColor = "";
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        totalGameTime += Time.deltaTime;
+
         //Aqui se realizaria lo de la conexión del Arduino
         /*Niveles de Colores:
             Yellow --> F1
@@ -159,249 +175,308 @@ public class Controller_Level1_ColT : MonoBehaviour
             Black --> F7
             White --> F8*/
         //Es necesario verificar que haya presionado alguno de los botones
-        
-        if(Input.GetKeyDown(KeyCode.F1)||Input.GetKeyDown(KeyCode.F2)||Input.GetKeyDown(KeyCode.F3)
-            ||Input.GetKeyDown(KeyCode.F4)||Input.GetKeyDown(KeyCode.F5)||Input.GetKeyDown(KeyCode.F6)
-            ||Input.GetKeyDown(KeyCode.F7)||Input.GetKeyDown(KeyCode.F8)){
 
-                //Asigno variable
-                if(Input.GetKeyDown(KeyCode.F1)){
-                        pressColor="yellow";
-                }
-                else if(Input.GetKeyDown(KeyCode.F2)){
-                        pressColor="blue";
-                }
-                else if(Input.GetKeyDown(KeyCode.F3)){
-                        pressColor="red";
-                }
-                else if(Input.GetKeyDown(KeyCode.F4)){
-                        pressColor="green";
-                }
-                else if(Input.GetKeyDown(KeyCode.F5)){
-                        pressColor="orange";
-                }
-                else if(Input.GetKeyDown(KeyCode.F6)){
-                        pressColor="purple";
-                }
-                else if(Input.GetKeyDown(KeyCode.F7)){
-                        pressColor="white";
-                }
-                else if(Input.GetKeyDown(KeyCode.F8)){
-                        pressColor="yellow";
-                }
-                colorButtonPress();
-        //Necesario indicar que ya no se esta presionando
-        pressColor="";
+        if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.F2) || Input.GetKeyDown(KeyCode.F3)
+            || Input.GetKeyDown(KeyCode.F4) || Input.GetKeyDown(KeyCode.F5) || Input.GetKeyDown(KeyCode.F6)
+            || Input.GetKeyDown(KeyCode.F7) || Input.GetKeyDown(KeyCode.F8))
+        {
+
+            //Asigno variable
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                pressColor = "yellow";
+            }
+            else if (Input.GetKeyDown(KeyCode.F2))
+            {
+                pressColor = "blue";
+            }
+            else if (Input.GetKeyDown(KeyCode.F3))
+            {
+                pressColor = "red";
+            }
+            else if (Input.GetKeyDown(KeyCode.F4))
+            {
+                pressColor = "green";
+            }
+            else if (Input.GetKeyDown(KeyCode.F5))
+            {
+                pressColor = "orange";
+            }
+            else if (Input.GetKeyDown(KeyCode.F6))
+            {
+                pressColor = "purple";
+            }
+            else if (Input.GetKeyDown(KeyCode.F7))
+            {
+                pressColor = "white";
+            }
+            else if (Input.GetKeyDown(KeyCode.F8))
+            {
+                pressColor = "yellow";
+            }
+            colorButtonPress();
+            //Necesario indicar que ya no se esta presionando
+            pressColor = "";
         }
 
         //Animacion de triste o feliz cuando se encuentra en una animación especifica
-        if(ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_green_out")||ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_purple_out")
-            || ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_orange_out")){
+        if (ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_green_out") || ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_purple_out")
+            || ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_orange_out"))
+        {
             cocoOBJ_AN.Play("happy");
-        }else if(ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_wrong_out")){
+        }
+        else if (ballObj_AN.GetCurrentAnimatorStateInfo(0).IsName("ball_wrong_out"))
+        {
             cocoOBJ_AN.Play("sad");
         }
 
         //Audio de la instrucción, si aparece en ese momento la animación coloco la instrucción
-        if(instruction_AN.GetCurrentAnimatorStateInfo(0).IsName("instruction_appear") && numAudio==0){
+        if (instruction_AN.GetCurrentAnimatorStateInfo(0).IsName("instruction_appear") && numAudio == 0)
+        {
             audioColor.Play();
             numAudio++;
         }
     }
 
     //Método que se invoca cuando se presiona un boton de color
-    public void colorButtonPress(){
+    public void colorButtonPress()
+    {
         //Si el estudiante presionó el color correcto   
-        if(pressColor == reqColor){
+        if (pressColor == reqColor)
+        {
             //Activo audio correcto
-             correctAudio = correctSounds[ Random.Range(0, 5)];
-             correctAudio.Play();
-             correctAudioSound.Play();
+            correctAudio = correctSounds[Random.Range(0, 5)];
+            correctAudio.Play();
+            correctAudioSound.Play();
 
-            
+
             //Aumento el nivel
-            level++;  
+            level++;
             //Reseteo el numero de errores
-            errorCount=0;
-             //Hago gol
-            throwBall(reqColor,1);
-            
+            errorCount = 0;
+            //Hago gol
+            throwBall(reqColor, 1);
+
             //Devuelvo el balón al inicio
             //ballObj_AN.Play("ball_start");
-            if(level<4){
+            if (level < 4)
+            {
                 //Vuelvo a generar un color solicitado
-            requestedColor();
+                requestedColor();
             }
 
-           
-            
+
+
         }
 
         //Si presiona el incorrecto
-        else{
+        else
+        {
             //Activo audio
-            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+            incorrectAudio = incorrectSounds[Random.Range(0, 3)];
             incorrectAudio.Play();
             incorrectAudioSound.Play();
             //NO Hago gol
-            throwBall(reqColor,0);
+            throwBall(reqColor, 0);
             //Muestro animación del portero
             goalkeeperAnimation(reqColor);
 
-            Debug.Log("INCORRECTO"); 
+            Debug.Log("INCORRECTO");
             //Aumento numero de errores
             errorCount++;
             //Si en algun momento llego a los 2 errores
-             if (errorCount==3){
+            if (errorCount == 3)
+            {
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
-                 gameOver_OBJ.SetActive(true);
-            } else{
-                    //Activamos sonido de color otra vez y la animación
-            audioColor.PlayDelayed(incorrectAudio.clip.length);
-            instruction_AN.Play("instruction_wait");
+                //Para que se muestre la pantalla de fin del juego:
+                StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                panelGameFinished.SetActive(true);
+                //gameOver_OBJ.SetActive(true);
             }
-            
-            
-            
-           
+            else
+            {
+                //Activamos sonido de color otra vez y la animación
+                audioColor.PlayDelayed(incorrectAudio.clip.length);
+                instruction_AN.Play("instruction_wait");
+            }
+
+
+
+
         }
 
-        
-    }
-        //Método que me permite saber el color solicitado
-    public void requestedColor(){
-      
-       //Este método me permite saber si ya salió ese número
-        //Recibe el arreglo, y la cantidad de numeros a generar
-       colorsArrayCh[iteration]= randomGenerate(colorsArrayCh, 3);
-       iteration++;
 
-        
+    }
+    //Método que me permite saber el color solicitado
+    public void requestedColor()
+    {
+
+        //Este método me permite saber si ya salió ese número
+        //Recibe el arreglo, y la cantidad de numeros a generar
+        colorsArrayCh[iteration] = randomGenerate(colorsArrayCh, 3);
+        iteration++;
+
+
         //Recorremos el arreglo de colores para devolver el color solicitado
         for (int n = 0; n < colorsArray.Length; n++)
         {
             //Si encuentra la posición
-            if(n == randomNumber ){
+            if (n == randomNumber)
+            {
                 reqColor = colorsArray[n];
-               Debug.Log ("RN: " + randomNumber + "CL: " + colorsArray[n]  );
+                Debug.Log("RN: " + randomNumber + "CL: " + colorsArray[n]);
             }
         }
 
         //si es naranja
-         if(reqColor == "orange"){
-    
+        if (reqColor == "orange")
+        {
+
             audioColor = orangeAudio;
-            instruction_AN =  instructionsRY_AN;
-          
+            instruction_AN = instructionsRY_AN;
+
 
         }
         //si es verde
-        else if(reqColor == "green"){
-           
+        else if (reqColor == "green")
+        {
+
             audioColor = greenAudio;
-            instruction_AN =  instructionsYB_AN;
-            
+            instruction_AN = instructionsYB_AN;
+
         }
         //si es purpura
-        else if(reqColor == "purple"){
+        else if (reqColor == "purple")
+        {
             audioColor = purpleAudio;
-            instruction_AN =  instructionsRB_AN;
-            
-            
+            instruction_AN = instructionsRB_AN;
+
+
         }
 
-            //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
-        if( level!=1){
-            
+        //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
+        if (level != 1)
+        {
+
             instruction_AN.Play("instruction_wait");
-        }else{
+        }
+        else
+        {
             instruction_AN.Play("instruction_appear");
         }
 
-          //Numero audio
-        numAudio=0;
-       
+        //Numero audio
+        numAudio = 0;
+
     }
 
-    public int randomGenerate(int [] array, int number){
-         //Genero el número aleatorio
+    public int randomGenerate(int[] array, int number)
+    {
+        //Genero el número aleatorio
         randomNumber = Random.Range(0, number);
 
         for (int i = 0; i < array.Length; i++)
         {
-            
+
             //Si ya salió
-            while(randomNumber == array[i] ){
-                
+            while (randomNumber == array[i])
+            {
+
                 //Vuelvalo a generar
                 randomNumber = Random.Range(0, number);
                 //Doble confirmación
                 for (int o = 0; o < array.Length; o++)
                 {
-                    while(randomNumber == array[i] ){
-                       
+                    while (randomNumber == array[i])
+                    {
+
                         //Vuelvalo a generar
                         randomNumber = Random.Range(0, number);
                     }
                 }
             }
         }
-        return(randomNumber);
+        return (randomNumber);
     }
 
-  
 
-     //Método que permite lanzar el balón
-        //Recibe un color y también una variable que le indica si fue correcto o incorrecto
-            //1 es correcto y 0 incorrecto
-            //Si es correcto hace gol
-            //Si es incorrecto no hace gol
-    public void throwBall(string color, int num){
-        Debug.Log("ENTRA METODO" +  color + " "+ num);
+
+    //Método que permite lanzar el balón
+    //Recibe un color y también una variable que le indica si fue correcto o incorrecto
+    //1 es correcto y 0 incorrecto
+    //Si es correcto hace gol
+    //Si es incorrecto no hace gol
+    public void throwBall(string color, int num)
+    {
+        Debug.Log("ENTRA METODO" + color + " " + num);
         //Patea Coco
         cocoOBJ_AN.Play("cocothrow");
-        
-            if(num==1){
-                if(reqColor == "orange"){
-                    
-                    ballObj_AN.Play("ball_orange_throw");
-                    if(level>3){
-                        Debug.Log("Cambio pagina");
-                         gameOver_OBJ.SetActive(true);
-                    }
+
+        if (num == 1)
+        {
+            if (reqColor == "orange")
+            {
+
+                ballObj_AN.Play("ball_orange_throw");
+                if (level > 3)
+                {
+                    Debug.Log("Cambio pagina");
+                    //Para que se muestre la pantalla de fin del juego:
+                    StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                    panelGameFinished.SetActive(true);
+                    //gameOver_OBJ.SetActive(true);
                 }
-                else if(reqColor == "green"){
-                    
-                    ballObj_AN.Play("ball_green_throw");
-                     if(level>3){
-                        Debug.Log("Cambio pagina");
-                         gameOver_OBJ.SetActive(true);
-                    }
-                }else if(reqColor == "purple"){
-                    
-                    ballObj_AN.Play("ball_purple_throw");
-                     if(level>3){
-                        Debug.Log("Cambio pagina");
-                         gameOver_OBJ.SetActive(true);
-                    }
+            }
+            else if (reqColor == "green")
+            {
+
+                ballObj_AN.Play("ball_green_throw");
+                if (level > 3)
+                {
+                    Debug.Log("Cambio pagina");
+                    //Para que se muestre la pantalla de fin del juego:
+                    StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                    panelGameFinished.SetActive(true);
+                    //gameOver_OBJ.SetActive(true);
                 }
-                
             }
-            else if (num==0){
-                ballObj_AN.Play("ball_wrong_throw");
+            else if (reqColor == "purple")
+            {
+
+                ballObj_AN.Play("ball_purple_throw");
+                if (level > 3)
+                {
+                    Debug.Log("Cambio pagina");
+                    //Para que se muestre la pantalla de fin del juego:
+                    StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                    panelGameFinished.SetActive(true);
+                    //gameOver_OBJ.SetActive(true);
+                }
             }
-         
-     
+
+        }
+        else if (num == 0)
+        {
+            ballObj_AN.Play("ball_wrong_throw");
+        }
+
+
 
     }
 
     //Metodo para las animaciones del goalkeeper
-    public void goalkeeperAnimation(string colorReq){
-        if(colorReq == "orange"){
+    public void goalkeeperAnimation(string colorReq)
+    {
+        if (colorReq == "orange")
+        {
             goalkeeperOBJ_AN.Play("goalKeep2");
-        }else if(colorReq == "purple"){
+        }
+        else if (colorReq == "purple")
+        {
             goalkeeperOBJ_AN.Play("goalKeep1");
-        }else{
+        }
+        else
+        {
             goalkeeperOBJ_AN.Play("goalKeep3");
         }
     }

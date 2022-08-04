@@ -27,13 +27,12 @@ public class AnswersController : MonoBehaviour
 
     //Para la base de datos
     //Database and Game Finished
-    // private DatabaseController database;
-    // private string subject = "Shapes";
-    // private int level = 3;
+    private DatabaseController database;
+    private string subject = "Shapes";
+    private int level = 3;
 
-    // public GameObject panelGameFinished;
-    // private bool gameFinished = false;
-    // private float totalGameTime;
+    public GameObject panelGameFinished;
+    private float totalGameTime;
 
     void Start()
     {
@@ -44,7 +43,7 @@ public class AnswersController : MonoBehaviour
 
         //Para la base de datos:
         //Obtain database gameobject
-        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
 
     //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job
@@ -59,8 +58,8 @@ public class AnswersController : MonoBehaviour
             Debug.Log("Game Over");
 
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
         }
         else
         {
@@ -89,7 +88,7 @@ public class AnswersController : MonoBehaviour
 
     void Update()
     {
-        //totalGameTime += Time.deltaTime;
+        totalGameTime += Time.deltaTime;
 
         //Para presionar las teclas y obtener la respuesta AnswerChild
         //Circle (DownArrow) o C
@@ -216,8 +215,8 @@ public class AnswersController : MonoBehaviour
             Debug.Log("Game Over");
 
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
 
         }
     }

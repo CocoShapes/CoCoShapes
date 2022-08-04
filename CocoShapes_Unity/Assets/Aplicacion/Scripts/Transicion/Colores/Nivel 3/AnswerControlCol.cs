@@ -24,19 +24,18 @@ public class AnswerControlCol : MonoBehaviour
 
     //Para la base de datos
     //Database and Game Finished
-    // private DatabaseController database;
-    // private string subject = "Colors";
-    // private int level = 3;
+    private DatabaseController database;
+    private string subject = "Colors";
+    private int level = 3;
 
-    // public GameObject panelGameFinished;
-    // private bool gameFinished = false;
-    // private float totalGameTime;
+    public GameObject panelGameFinished;
+    private float totalGameTime;
 
     void Start()
     {
         //Para la base de datos:
         //Obtain database gameobject
-        //database = GameObject.Find("Database").GetComponent<DatabaseController>();
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
     }
     //Corrutina para que se terminen de reproducir los sonidos de correcto y nice job antes de girar la ruleta otra vez.
     IEnumerator WaitForAudio()
@@ -47,8 +46,8 @@ public class AnswerControlCol : MonoBehaviour
             mouseMovement.StopCoroutine(mouseMovement.FindColors());
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
         }
         else
         {
@@ -71,7 +70,7 @@ public class AnswerControlCol : MonoBehaviour
     }
     void Update()
     {
-        //totalGameTime += Time.deltaTime;
+        totalGameTime += Time.deltaTime;
 
         //Para saber que tecla se presionó y así conocer si la respuesta es correcta o incorrecta
         //Butterfly (yellow)
@@ -209,8 +208,8 @@ public class AnswerControlCol : MonoBehaviour
         {
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
-            //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
-            //panelGameFinished.SetActive(true);
+            StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
+            panelGameFinished.SetActive(true);
         }
     }
 }

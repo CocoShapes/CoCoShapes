@@ -414,6 +414,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 234e4a7eb349f4fdf94bb4a0821afeaa, type: 3}
   - {fileID: 8300000, guid: 3aa44b169e16c4997a7aa8447e35ee86, type: 3}
   - {fileID: 8300000, guid: 3c70731e012c1452489e710b71351d07, type: 3}
+  - {fileID: 8300000, guid: 794814d90bca6eb46836bdabe31823f8, type: 3}
+  - {fileID: 8300000, guid: 630515fc351df6a4db60efef156d3f4e, type: 3}
   panelGameFinished: {fileID: 2140701274}
 --- !u!4 &205514950
 Transform:
@@ -500,7 +502,7 @@ SpriteRenderer:
   m_SortingLayerID: -1601370873
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 505d97866188742039a1fc2dd40d79f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4d78cf064f4e4a468f43bde7fd5d317, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

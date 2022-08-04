@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Controller_Level2_ColT : MonoBehaviour
 {
-     public GameObject gameOver_OBJ;
+    //public GameObject gameOver_OBJ;
     //Variables necesarias
     //Parte del nivel en el que se encuentra
     public int level;
@@ -14,11 +14,11 @@ public class Controller_Level2_ColT : MonoBehaviour
     private int errorCount;
 
     //Numero aleatorio 1
-    private int randomNumber; 
+    private int randomNumber;
 
-    
+
     //Numero aleatorio 2
-    private int randomNumber2; 
+    private int randomNumber2;
 
     //Numero que me permite saber la combinación
     private int combNumber;
@@ -33,7 +33,7 @@ public class Controller_Level2_ColT : MonoBehaviour
     private string[] colorsArray;
     //Arreglo de numeros que ya salieron
     private int[] colorsArrayCh;
- 
+
     //Numero que me permite saber el numero de iteraciones
     private int iteration;
     //Iteraciones por colores
@@ -42,7 +42,7 @@ public class Controller_Level2_ColT : MonoBehaviour
     private int iterationB;
 
     //Variable que llega del arduino con el nombre del color presionado
-    public string pressColor; 
+    public string pressColor;
 
     //Variable del color solicitado
     public string reqColor;
@@ -94,16 +94,16 @@ public class Controller_Level2_ColT : MonoBehaviour
     private Animator[] blueBallonObj_ARR;
     //Arreglo de globos amarillos
     private Animator[] yellowBallonObj_ARR;
-///-------------------------------------------
+    ///-------------------------------------------
     //PARA CANVAS
 
     ///-------------------------------------------
     //PARA MOVER OBJETOS
-        //dardo
+    //dardo
     public GameObject dartObj;
 
 
-        //Animation del dardo
+    //Animation del dardo
     private Animator dartObj_AN;
 
 
@@ -137,77 +137,90 @@ public class Controller_Level2_ColT : MonoBehaviour
     public GameObject cocoOBJ;
     private Animator cocoOBJ_AN;
 
+    //Para la base de datos
+    //Database and Game Finished
+    private DatabaseController database;
+    private string subject = "Colors";
+    private int levelBD = 2;
+
+    public GameObject panelGameFinished;
+    private float totalGameTime;
+
 
     // Start is called before the first frame update
     void Start()
     {
-         //Audios
-        sounds= obj_Audio.GetComponents<AudioSource>();
-        
-        
+        //Audios
+        sounds = obj_Audio.GetComponents<AudioSource>();
+
+
         greenAudio = sounds[0];
         orangeAudio = sounds[1];
         purpleAudio = sounds[2];
 
         //Audio de incorrecto
-        incorrectSounds= incorrect_Obj.GetComponents<AudioSource>();
+        incorrectSounds = incorrect_Obj.GetComponents<AudioSource>();
         incorrectAudioSound = incorrectSounds[3];
 
         //Audio de correcto
-        correctSounds= correct_Obj.GetComponents<AudioSource>();
+        correctSounds = correct_Obj.GetComponents<AudioSource>();
         correctAudioSound = correctSounds[5];
 
         correctAudio = new AudioSource();
         incorrectAudio = new AudioSource();
-        audioColor= new AudioSource();
-        
+        audioColor = new AudioSource();
+
         //Para obtener las animaciones
-        dartObj_AN= dartObj.gameObject.GetComponent<Animator>();
+        dartObj_AN = dartObj.gameObject.GetComponent<Animator>();
         //De coco
         cocoOBJ_AN = cocoOBJ.GetComponent<Animator>();
 
         //Arreglo de animaciones
-        redAnimations = new string []{"dart_red_throw_1", "dart_red_throw_2", "dart_red_throw_3", "dart_red_throw_4"};
-        blueAnimations = new string []{"dart_blue_throw_1", "dart_blue_throw_2", "dart_blue_throw_3", "dart_blue_throw_4"};
-        yellowAnimations = new string []{"dart_yellow_throw_1", "dart_yellow_throw_2", "dart_yellow_throw_3", "dart_yellow_throw_4"};
-        wrongAnimations = new string []{"dart_wrong_throw_1", "dart_wrong_throw_2", "dart_wrong_throw_3", "dart_wrong_throw_4"};
+        redAnimations = new string[] { "dart_red_throw_1", "dart_red_throw_2", "dart_red_throw_3", "dart_red_throw_4" };
+        blueAnimations = new string[] { "dart_blue_throw_1", "dart_blue_throw_2", "dart_blue_throw_3", "dart_blue_throw_4" };
+        yellowAnimations = new string[] { "dart_yellow_throw_1", "dart_yellow_throw_2", "dart_yellow_throw_3", "dart_yellow_throw_4" };
+        wrongAnimations = new string[] { "dart_wrong_throw_1", "dart_wrong_throw_2", "dart_wrong_throw_3", "dart_wrong_throw_4" };
 
         //Arreglo de las animaciones que ya salieron
-        redAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
-        blueAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
-        yellowAnimationsDone = new string []{"uno", "dos", "tres", "cuatro"};
+        redAnimationsDone = new string[] { "uno", "dos", "tres", "cuatro" };
+        blueAnimationsDone = new string[] { "uno", "dos", "tres", "cuatro" };
+        yellowAnimationsDone = new string[] { "uno", "dos", "tres", "cuatro" };
 
         //Arreglo de globos
-        redBallonObj_ARR = new Animator []{redBallonObj1.gameObject.GetComponent<Animator>(), redBallonObj2.gameObject.GetComponent<Animator>(), redBallonObj3.gameObject.GetComponent<Animator>(), redBallonObj4.gameObject.GetComponent<Animator>()};       
-        blueBallonObj_ARR = new Animator []{blueBallonObj1.gameObject.GetComponent<Animator>(), blueBallonObj2.gameObject.GetComponent<Animator>(), blueBallonObj3.gameObject.GetComponent<Animator>(), blueBallonObj4.gameObject.GetComponent<Animator>()}; 
-        yellowBallonObj_ARR = new Animator []{yellowBallonObj1.gameObject.GetComponent<Animator>(), yellowBallonObj2.gameObject.GetComponent<Animator>(), yellowBallonObj3.gameObject.GetComponent<Animator>(), yellowBallonObj4.gameObject.GetComponent<Animator>()};  
+        redBallonObj_ARR = new Animator[] { redBallonObj1.gameObject.GetComponent<Animator>(), redBallonObj2.gameObject.GetComponent<Animator>(), redBallonObj3.gameObject.GetComponent<Animator>(), redBallonObj4.gameObject.GetComponent<Animator>() };
+        blueBallonObj_ARR = new Animator[] { blueBallonObj1.gameObject.GetComponent<Animator>(), blueBallonObj2.gameObject.GetComponent<Animator>(), blueBallonObj3.gameObject.GetComponent<Animator>(), blueBallonObj4.gameObject.GetComponent<Animator>() };
+        yellowBallonObj_ARR = new Animator[] { yellowBallonObj1.gameObject.GetComponent<Animator>(), yellowBallonObj2.gameObject.GetComponent<Animator>(), yellowBallonObj3.gameObject.GetComponent<Animator>(), yellowBallonObj4.gameObject.GetComponent<Animator>() };
 
         //Otras variables
-        level=1;
-        
-        errorCount=0;
-        randomNumber=0;
-        randomNumber2=0;
-        iteration=0;
-        iterationB =0;
-        iterationY =0;
-        iterationR =0;
-        combNumber =0;
+        level = 1;
 
-        yellowPress =0;
-        bluePress =0;
-        redPress =0;
+        errorCount = 0;
+        randomNumber = 0;
+        randomNumber2 = 0;
+        iteration = 0;
+        iterationB = 0;
+        iterationY = 0;
+        iterationR = 0;
+        combNumber = 0;
 
-        colorsArray = new string []{"green", "purple", "orange"};
+        yellowPress = 0;
+        bluePress = 0;
+        redPress = 0;
+
+        colorsArray = new string[] { "green", "purple", "orange" };
         //Colocar numeros muy altos que nunca saldran
-        colorsArrayCh = new int []{ 10, 10, 10};
+        colorsArrayCh = new int[] { 10, 10, 10 };
 
         //Aplico el método que me genera el color solicitado
         requestedColor();
-    
+
 
         //Aqui se realizaria lo de la conexión del Arduino
-        pressColor="";
+        pressColor = "";
+
+        //Para la base de datos:
+        //Obtain database gameobject
+        database = GameObject.Find("Database").GetComponent<DatabaseController>();
 
     }
 
@@ -217,6 +230,8 @@ public class Controller_Level2_ColT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        totalGameTime += Time.deltaTime;
+
         //Aqui se realizaria lo de la conexión del Arduino
         /*Niveles de Colores:
             Yellow --> F1
@@ -228,164 +243,190 @@ public class Controller_Level2_ColT : MonoBehaviour
             Black --> F7
             White --> F8*/
         //Es necesario verificar que haya presionado alguno de los botones
-        
-        if(Input.GetKeyDown(KeyCode.F1)||Input.GetKeyDown(KeyCode.F2)||Input.GetKeyDown(KeyCode.F3)
-            ||Input.GetKeyDown(KeyCode.F4)||Input.GetKeyDown(KeyCode.F5)||Input.GetKeyDown(KeyCode.F6)
-            ||Input.GetKeyDown(KeyCode.F7)||Input.GetKeyDown(KeyCode.F8)){
 
-                //Asigno variable
-                if(Input.GetKeyDown(KeyCode.F1)){
-                        pressColor="yellow";
-                }
-                else if(Input.GetKeyDown(KeyCode.F2)){
-                        pressColor="blue";
-                }
-                else if(Input.GetKeyDown(KeyCode.F3)){
-                        pressColor="red";
-                }
-                else if(Input.GetKeyDown(KeyCode.F4)){
-                        pressColor="green";
-                }
-                else if(Input.GetKeyDown(KeyCode.F5)){
-                        pressColor="orange";
-                }
-                else if(Input.GetKeyDown(KeyCode.F6)){
-                        pressColor="purple";
-                }
-                else if(Input.GetKeyDown(KeyCode.F7)){
-                        pressColor="white";
-                }
-                else if(Input.GetKeyDown(KeyCode.F8)){
-                        pressColor="yellow";
-                }
-                colorButtonPress();
-        //Necesario indicar que ya no se esta presionando
-        pressColor="";
+        if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.F2) || Input.GetKeyDown(KeyCode.F3)
+            || Input.GetKeyDown(KeyCode.F4) || Input.GetKeyDown(KeyCode.F5) || Input.GetKeyDown(KeyCode.F6)
+            || Input.GetKeyDown(KeyCode.F7) || Input.GetKeyDown(KeyCode.F8))
+        {
+
+            //Asigno variable
+            if (Input.GetKeyDown(KeyCode.F1))
+            {
+                pressColor = "yellow";
+            }
+            else if (Input.GetKeyDown(KeyCode.F2))
+            {
+                pressColor = "blue";
+            }
+            else if (Input.GetKeyDown(KeyCode.F3))
+            {
+                pressColor = "red";
+            }
+            else if (Input.GetKeyDown(KeyCode.F4))
+            {
+                pressColor = "green";
+            }
+            else if (Input.GetKeyDown(KeyCode.F5))
+            {
+                pressColor = "orange";
+            }
+            else if (Input.GetKeyDown(KeyCode.F6))
+            {
+                pressColor = "purple";
+            }
+            else if (Input.GetKeyDown(KeyCode.F7))
+            {
+                pressColor = "black";
+            }
+            else if (Input.GetKeyDown(KeyCode.F8))
+            {
+                pressColor = "white";
+            }
+            colorButtonPress();
+            //Necesario indicar que ya no se esta presionando
+            pressColor = "";
         }
 
-     
-   
+
+
     }
 
 
     //Método que se invoca cuando se presiona un boton de color
-    public void colorButtonPress(){
-       
+    public void colorButtonPress()
+    {
+
         //Si el estudiante presionó uno de los colores necesarios para la combinación
-        if(pressColor == reqColorComb1 || pressColor == reqColorComb2){
-                   
+        if (pressColor == reqColorComb1 || pressColor == reqColorComb2)
+        {
+
             //Si presionó el amarillo y no lo ha presionado
-             
-            if(pressColor== "yellow" && yellowPress==0){
+
+            if (pressColor == "yellow" && yellowPress == 0)
+            {
                 //Activo audio correcto
-                correctAudio = correctSounds[ Random.Range(0, 5)];
+                correctAudio = correctSounds[Random.Range(0, 5)];
                 correctAudio.Play();
                 correctAudioSound.Play();
 
-                
+
                 //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor,1);
-                
+                throwDart(pressColor, 1);
+
                 //Aumento el numero de la combinación
                 combNumber++;
                 //Hago la animación de Coco
                 cocoOBJ_AN.Play("cocoDartThrowHappy");
-               
+
             }
 
-            else if(pressColor== "blue" && bluePress==0){
-               //Activo audio correcto
-                correctAudio = correctSounds[ Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
-
-                
-                //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor,1);
-                
-                //Aumento el numero de la combinación
-                combNumber++;
-                //Hago la animación de Coco
-                cocoOBJ_AN.Play("cocoDartThrowHappy");
-               
-            }
-
-            else if(pressColor== "red" && redPress==0){
+            else if (pressColor == "blue" && bluePress == 0)
+            {
                 //Activo audio correcto
-                correctAudio = correctSounds[ Random.Range(0, 5)];
+                correctAudio = correctSounds[Random.Range(0, 5)];
                 correctAudio.Play();
                 correctAudioSound.Play();
 
-                
+
                 //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor,1);
-                
+                throwDart(pressColor, 1);
+
                 //Aumento el numero de la combinación
                 combNumber++;
                 //Hago la animación de Coco
                 cocoOBJ_AN.Play("cocoDartThrowHappy");
-             
-            }
-            
 
-             //Si no ha acabado los niveles y ya terminó la combinación, genera otro número
-             if(combNumber==2){
-                 //Aumento el nivel
+            }
+
+            else if (pressColor == "red" && redPress == 0)
+            {
+                //Activo audio correcto
+                correctAudio = correctSounds[Random.Range(0, 5)];
+                correctAudio.Play();
+                correctAudioSound.Play();
+
+
+                //Cambio la imagen dependiendo del nivel
+                throwDart(pressColor, 1);
+
+                //Aumento el numero de la combinación
+                combNumber++;
+                //Hago la animación de Coco
+                cocoOBJ_AN.Play("cocoDartThrowHappy");
+
+            }
+
+
+            //Si no ha acabado los niveles y ya terminó la combinación, genera otro número
+            if (combNumber == 2)
+            {
+                //Aumento el nivel
                 level++;
-                if(level<4){
-                //Vuelvo a generar un color solicitado
-                 requestedColor();
+                if (level < 4)
+                {
+                    //Vuelvo a generar un color solicitado
+                    requestedColor();
                 }
-                else{
+                else
+                {
                     Debug.Log("Pasa pagina");
-                     gameOver_OBJ.SetActive(true);
+                    //Para que se muestre la pantalla de fin del juego:
+                    StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                    panelGameFinished.SetActive(true);
+                    //gameOver_OBJ.SetActive(true);
                 }
-                 //Reinicio el contador de la combinación
-                combNumber=0;
+                //Reinicio el contador de la combinación
+                combNumber = 0;
                 //Reseteo el numero de errores
-                errorCount=0;
+                errorCount = 0;
                 //Reinicio los contadores de colores
-                yellowPress=0;
+                yellowPress = 0;
                 bluePress = 0;
-                redPress=0;
+                redPress = 0;
                 Debug.Log("level " + level);
             }
 
-            
-            
+
+
         }
-        
+
 
         //Si presiona el incorrecto
-        else{
-             //Hago la animación de Coco
+        else
+        {
+            //Hago la animación de Coco
             cocoOBJ_AN.Play("cocoDartThrowSad");
             //Activo audio incorrecto
-            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+            incorrectAudio = incorrectSounds[Random.Range(0, 3)];
             incorrectAudio.Play();
             incorrectAudioSound.Play();
 
-            Debug.Log("INCORRECTO"); 
+            Debug.Log("INCORRECTO");
             //Aumento numero de errores
             errorCount++;
             //Si en algun momento llego a los 3 errores
-             if (errorCount==3){
+            if (errorCount == 3)
+            {
                 Debug.Log("SE TE ACABARON LOS INTENTOS :(" + level);
-                 gameOver_OBJ.SetActive(true);
+                //Para que se muestre la pantalla de fin del juego:
+                StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                panelGameFinished.SetActive(true);
+                //gameOver_OBJ.SetActive(true);
             }
             //Cambio la imagen dependiendo del nivel
-            throwDart(pressColor,0);
+            throwDart(pressColor, 0);
             //Activamos sonido de color otra vez
             audioColor.PlayDelayed(incorrectAudio.clip.length);
 
-          
+
         }
     }
 
 
     //Método que me permite saber el color solicitado y los colores que lo generan
-    public void requestedColor(){
-        
+    public void requestedColor()
+    {
+
         //Este método me permite saber si ya salió ese número
         //Recibe el arreglo, y la cantidad de numeros a generar
         colorsArrayCh[iteration] = randomGenerate(colorsArrayCh, 3);
@@ -395,28 +436,32 @@ public class Controller_Level2_ColT : MonoBehaviour
         for (int n = 0; n < colorsArray.Length; n++)
         {
             //Si encuentra la posición
-            if(n == randomNumber ){
+            if (n == randomNumber)
+            {
                 reqColor = colorsArray[n];
-               Debug.Log ("RN: " + randomNumber + "CL: " + colorsArray[n]  );
+                Debug.Log("RN: " + randomNumber + "CL: " + colorsArray[n]);
             }
         }
         //si es naranja
-        if(reqColor == "orange"){
-         
+        if (reqColor == "orange")
+        {
+
             audioColor = orangeAudio;
             //Colores que lo generan
             reqColorComb1 = "red";
             reqColorComb2 = "yellow";
         }
         //si es verde
-        else if(reqColor == "green"){         
+        else if (reqColor == "green")
+        {
             audioColor = greenAudio;
             //Colores que lo generan
             reqColorComb1 = "blue";
             reqColorComb2 = "yellow";
         }
         //si es purpura
-        else if(reqColor == "purple"){
+        else if (reqColor == "purple")
+        {
             audioColor = purpleAudio;
             //Colores que lo generan
             reqColorComb1 = "blue";
@@ -424,107 +469,120 @@ public class Controller_Level2_ColT : MonoBehaviour
         }
         //Activamos sonido de color
 
-            //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
-        if( level!=1){
+        //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
+        if (level != 1)
+        {
             audioColor.PlayDelayed(correctAudio.clip.length);
-        }else{
+        }
+        else
+        {
             audioColor.Play();
         }
-        
+
     }
 
 
     //Método que permite animar el dardo
-        //Recibe un color y también una variable que le indica si fue correcto o incorrecto
-            //1 es correcto y 0 incorrecto
-            //Si es correcto explota un globo del color
-            //Si es incorrecto falla
-    public void throwDart(string color, int num){
+    //Recibe un color y también una variable que le indica si fue correcto o incorrecto
+    //1 es correcto y 0 incorrecto
+    //Si es correcto explota un globo del color
+    //Si es incorrecto falla
+    public void throwDart(string color, int num)
+    {
 
 
-         if(num==1){
-                //Si presionó el amarillo y no lo ha presionado
-                if(color == "yellow" && yellowPress==0){
-                    //Busco aleatorio
-                    randomNumber2 = randomGenerateString(yellowAnimations, 4,yellowAnimationsDone );
-                    //Hago una animación aleatoria
-                    dartObj_AN.Play(yellowAnimations[randomNumber2]);    
-                    //Asigno que ya se utilizó
-                    yellowAnimationsDone[iterationY]= yellowAnimations[randomNumber2];
-                    //Aumento iteración
-                    iterationY++;
-                    //Desaparezco el globo
-                    yellowBallonObj_ARR[randomNumber2].Play("disappear");  
-                    yellowPress++;  
-                 
-                }
-                else if(color == "blue" && bluePress==0){
-                    //Busco aleatorio
-                    randomNumber2 = randomGenerateString(blueAnimations, 4, blueAnimationsDone);
-                    //Reproduzco la animación del dardo a ese globo
-                    dartObj_AN.Play(blueAnimations[randomNumber2]);  
-                    //Asigno que ya se utilizó
-                    blueAnimationsDone[iterationB]= blueAnimations[randomNumber2];
-                    //Aumento iteración
-                    iterationB++;
-                    //Desaparezco el globo
-                    blueBallonObj_ARR[randomNumber2].Play("disappear"); 
-                    bluePress++; 
-                    
-                }
-                else if(color=="red" && redPress==0){
-                    //Busco aleatorio
-                    randomNumber2 = randomGenerateString(redAnimations, 4, redAnimationsDone);
-                    dartObj_AN.Play(redAnimations[randomNumber2]);  
-                    //Asigno que ya se utilizó
-                    redAnimationsDone[iterationR]= redAnimations[randomNumber2];
-                    //Aumento iteración
-                    iterationR++;
-                    //Desaparezco el globo
-                    redBallonObj_ARR[randomNumber2].Play("disappear");
-                    redPress++;     
-                    
-                }
+        if (num == 1)
+        {
+            //Si presionó el amarillo y no lo ha presionado
+            if (color == "yellow" && yellowPress == 0)
+            {
+                //Busco aleatorio
+                randomNumber2 = randomGenerateString(yellowAnimations, 4, yellowAnimationsDone);
+                //Hago una animación aleatoria
+                dartObj_AN.Play(yellowAnimations[randomNumber2]);
+                //Asigno que ya se utilizó
+                yellowAnimationsDone[iterationY] = yellowAnimations[randomNumber2];
+                //Aumento iteración
+                iterationY++;
+                //Desaparezco el globo
+                yellowBallonObj_ARR[randomNumber2].Play("disappear");
+                yellowPress++;
 
-                
-                 
             }
-            else if (num==0){
-               dartObj_AN.Play(wrongAnimations[randomNumber2]);
+            else if (color == "blue" && bluePress == 0)
+            {
+                //Busco aleatorio
+                randomNumber2 = randomGenerateString(blueAnimations, 4, blueAnimationsDone);
+                //Reproduzco la animación del dardo a ese globo
+                dartObj_AN.Play(blueAnimations[randomNumber2]);
+                //Asigno que ya se utilizó
+                blueAnimationsDone[iterationB] = blueAnimations[randomNumber2];
+                //Aumento iteración
+                iterationB++;
+                //Desaparezco el globo
+                blueBallonObj_ARR[randomNumber2].Play("disappear");
+                bluePress++;
+
             }
+            else if (color == "red" && redPress == 0)
+            {
+                //Busco aleatorio
+                randomNumber2 = randomGenerateString(redAnimations, 4, redAnimationsDone);
+                dartObj_AN.Play(redAnimations[randomNumber2]);
+                //Asigno que ya se utilizó
+                redAnimationsDone[iterationR] = redAnimations[randomNumber2];
+                //Aumento iteración
+                iterationR++;
+                //Desaparezco el globo
+                redBallonObj_ARR[randomNumber2].Play("disappear");
+                redPress++;
+
+            }
+
+
+
+        }
+        else if (num == 0)
+        {
+            dartObj_AN.Play(wrongAnimations[randomNumber2]);
+        }
     }
 
     //Método para generar los aleatorios y confirmar que no salgan
-    public int randomGenerate(int [] array, int number){
-         //Genero el número aleatorio
+    public int randomGenerate(int[] array, int number)
+    {
+        //Genero el número aleatorio
         randomNumber = Random.Range(0, number);
 
         for (int i = 0; i < array.Length; i++)
         {
-            
+
             //Si ya salió
-            while(randomNumber == array[i] ){
-                
+            while (randomNumber == array[i])
+            {
+
                 //Vuelvalo a generar
                 randomNumber = Random.Range(0, number);
                 //Doble confirmación
                 for (int o = 0; o < array.Length; o++)
                 {
-                    while(randomNumber == array[i] ){
-                       
+                    while (randomNumber == array[i])
+                    {
+
                         //Vuelvalo a generar
                         randomNumber = Random.Range(0, number);
                     }
                 }
             }
         }
-       
-        return(randomNumber);
+
+        return (randomNumber);
     }
 
     //Método para generar aleatorios y confirmar que no salgan CON STRING
-    public int randomGenerateString(string [] array, int number, string [] arrayCH){
-         //Genero el número aleatorio
+    public int randomGenerateString(string[] array, int number, string[] arrayCH)
+    {
+        //Genero el número aleatorio
         randomNumber = Random.Range(0, number);
         //Guardo esa animacion
         animationRandom = array[randomNumber];
@@ -533,10 +591,11 @@ public class Controller_Level2_ColT : MonoBehaviour
 
         for (int i = 0; i < arrayCH.Length; i++)
         {
-            
-            
+
+
             //Si ya salió
-           while(string.Equals(animationRandom, arrayCH[i] )){
+            while (string.Equals(animationRandom, arrayCH[i]))
+            {
                 Debug.Log("LLEGO AL IGUAL");
                 //Vuelvalo a generar
                 randomNumber = Random.Range(0, number);
@@ -544,8 +603,9 @@ public class Controller_Level2_ColT : MonoBehaviour
                 //Doble confirmación
                 for (int o = 0; o < arrayCH.Length; o++)
                 {
-                    while(string.Equals(animationRandom, arrayCH[i])){
-                       Debug.Log("LLEGO AL WHILE");
+                    while (string.Equals(animationRandom, arrayCH[i]))
+                    {
+                        Debug.Log("LLEGO AL WHILE");
                         //Vuelvalo a generar
                         randomNumber = Random.Range(0, number);
                         animationRandom = array[randomNumber];
@@ -556,7 +616,7 @@ public class Controller_Level2_ColT : MonoBehaviour
         }
 
 
-        return(randomNumber);
+        return (randomNumber);
     }
 
 }

@@ -257,6 +257,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 375f57fe55bcb434fbd396ea38ac94fb, type: 3}
   - {fileID: 8300000, guid: 3aa44b169e16c4997a7aa8447e35ee86, type: 3}
   - {fileID: 8300000, guid: 3c70731e012c1452489e710b71351d07, type: 3}
+  - {fileID: 8300000, guid: 794814d90bca6eb46836bdabe31823f8, type: 3}
+  - {fileID: 8300000, guid: 630515fc351df6a4db60efef156d3f4e, type: 3}
   panelGameFinished: {fileID: 275044661}
 --- !u!4 &179013137
 Transform:
@@ -343,7 +345,7 @@ SpriteRenderer:
   m_SortingLayerID: -1601370873
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 505d97866188742039a1fc2dd40d79f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d4d78cf064f4e4a468f43bde7fd5d317, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1189,8 +1191,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 275044662}
   - {fileID: 2110478644}
+  - {fileID: 275044662}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1850,7 +1852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3373468080537307232, guid: c9700df959bf04e62b601571f68508ac, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3373468080537307232, guid: c9700df959bf04e62b601571f68508ac, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1927,6 +1929,10 @@ PrefabInstance:
     - target: {fileID: 7549931612320646441, guid: c9700df959bf04e62b601571f68508ac, type: 3}
       propertyPath: m_Name
       value: SceneTransition
+      objectReference: {fileID: 0}
+    - target: {fileID: 7549931612320646441, guid: c9700df959bf04e62b601571f68508ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9700df959bf04e62b601571f68508ac, type: 3}

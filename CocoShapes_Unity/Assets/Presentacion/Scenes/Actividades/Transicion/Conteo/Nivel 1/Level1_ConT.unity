@@ -1110,6 +1110,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 375f57fe55bcb434fbd396ea38ac94fb, type: 3}
   - {fileID: 8300000, guid: 722acb637944b49d5b0164b32509bde1, type: 3}
   - {fileID: 8300000, guid: a910be7fb43bd4f84a2f1791a097bb62, type: 3}
+  - {fileID: 8300000, guid: 274bd594a41e5314baf7dd44d26868be, type: 3}
+  - {fileID: 8300000, guid: 5e8d89ab860355942a3aab71d99906cd, type: 3}
   panelGameFinished: {fileID: 456856607}
 --- !u!224 &1017385084 stripped
 RectTransform:
