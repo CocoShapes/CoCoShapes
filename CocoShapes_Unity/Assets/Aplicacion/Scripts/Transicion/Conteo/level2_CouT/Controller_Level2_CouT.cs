@@ -14,6 +14,8 @@ public class Controller_Level2_CouT : MonoBehaviour
     private int errorCount;
     //Para que no se repita
     private int n;
+    //Para saber si esta la instruccion
+    private int instructionPlaying;
 
 
 
@@ -125,9 +127,11 @@ public class Controller_Level2_CouT : MonoBehaviour
 
 
         //Otras variables
-        level = 1;
 
-        errorCount = 0;
+        level=1;
+        instructionPlaying =1;
+        
+        errorCount=0;
 
         //Defino las primeras opciones de respuesta
         buttonOptionONE.GetComponent<Image>().sprite = img_tenObj;
@@ -149,178 +153,147 @@ public class Controller_Level2_CouT : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){   
+        
         totalGameTime += Time.deltaTime;
-
         //Debo ver si se están reproduciendo las animaciones
         //Si empezó la de la parte 2
-        if (cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart2Start") && n == 1)
-        {
-            //Cambio la imagen de fondo
-            imgCanvas1.SetActive(false);
-            imgCanvas2.SetActive(true);
-
-            //Activo la instrucción
-            part2Audio.PlayDelayed(correctAudio.clip.length);
-            //Activo los botones
-            buttonOptionONE.SetActive(true);
-            buttonOptionTWO.SetActive(true);
-            buttonOptionTHREE.SetActive(true);
-            //Cambio los botones
-            buttonOptionONE.GetComponent<Image>().sprite = img_elevenObj;
-            buttonOptionTWO.GetComponent<Image>().sprite = img_tenObj;
-            buttonOptionTHREE.GetComponent<Image>().sprite = img_twelveObj;
-            n = 2;
+        if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart2Start")){
+            if(n==1){
+                changeImgandButton(imgCanvas1, imgCanvas2, part2Audio, img_elevenObj, img_twelveObj, img_tenObj);
+            }
+            
         }
         //Si empezó la parte 3
-        else if (cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Start") && n == 1)
-        {
-            //Cambio la imagen de fondo
-            imgCanvas2.SetActive(false);
-            imgCanvas3.SetActive(true);
-            //Activo la instrucción
-            part3Audio.PlayDelayed(correctAudio.clip.length);
-            //Activo los botones
-            buttonOptionONE.SetActive(true);
-            buttonOptionTWO.SetActive(true);
-            buttonOptionTHREE.SetActive(true);
-            //Cambio los botones
-            buttonOptionONE.GetComponent<Image>().sprite = img_fifteenObj;
-            buttonOptionTWO.GetComponent<Image>().sprite = img_sixteenObj;
-            buttonOptionTHREE.GetComponent<Image>().sprite = img_seventeenObj;
-            n = 2;
+         if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Start")){
+            if(n==1){
+                changeImgandButton( imgCanvas2, imgCanvas3, part3Audio, img_fifteenObj, img_sixteenObj, img_seventeenObj);
+            }
         }
         //Si ya se fue de la parte 3
-        else if (cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Leave") && n == 1)
-        {
-            Debug.Log("CAMBIO PAGINA");
-            //Para que se muestre la pantalla de fin del juego:
-            StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
-            panelGameFinished.SetActive(true);
-            //gameOver_OBJ.SetActive(true);
-            n = 2;
+         if(cocoObj_AN.GetCurrentAnimatorStateInfo(0).IsName("cocoPart3Leave")){
+            if(n==1){
+                Debug.Log("CAMBIO PAGINA");
+                n=2;
+                //Para que se muestre la pantalla de fin del juego:
+                StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
+                panelGameFinished.SetActive(true);
+                //gameOver_OBJ.SetActive(true);
+            }
+            
         }
+
+        //Si se está reproduciendo una instrucción el estudiante no puede
+        //presionar los botones
+        if(part1Audio.isPlaying || part2Audio.isPlaying ||part3Audio.isPlaying){
+            Debug.Log("Se esta reproduciendo");
+            instructionPlaying =1;
+        }else if(!part1Audio.isPlaying || !part2Audio.isPlaying ||!part3Audio.isPlaying){
+            instructionPlaying =0;
+            Debug.Log("Ya no se esta reproduciendo");
+        }
+    }
+
+    //Cambiar la imagen de fondo y botones
+    public void changeImgandButton(GameObject canvasF, GameObject canvasT, AudioSource instruction, Sprite img1, Sprite img2, Sprite img3 ){
+        n=2;
+        Debug.Log("ENTRA 1");
+        //Cambio la imagen de fondo
+        canvasF.SetActive(false);
+        canvasT.SetActive(true);
+        Debug.Log("se quito canvas");
+        //Activo la instrucción
+        instruction.PlayDelayed(correctAudio.clip.length);
+        //Activo los botones
+        buttonOptionONE.SetActive(true);
+        buttonOptionTWO.SetActive(true);
+        buttonOptionTHREE.SetActive(true);
+        //Cambio los botones
+        buttonOptionONE.GetComponent<Image>().sprite=img1;
+        buttonOptionTWO.GetComponent<Image>().sprite=img2;
+        buttonOptionTHREE.GetComponent<Image>().sprite=img3;
     }
 
     //Boton que se clickea
     //Recibe el botón que le dió click
-    public void buttonClick(int option)
-    {
-
-        //Siempre se mira en qué nivel está
-        //Si el nivel es el primero, la opción correcta es la 2
-        if (level == 1)
-        {
-            if (option == 2)
-            {
-                //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
-                //Activo la animación de Coco
-                cocoObj_AN.Play("cocoPart1Leave");
-                //Aumento el nivel
-                level++;
-                //Desactivo los botones
-                buttonOptionONE.SetActive(false);
-                buttonOptionTWO.SetActive(false);
-                buttonOptionTHREE.SetActive(false);
-                //devuelvo a la n
-                n = 1;
-                //reinicio el contador de errores
-                errorCount = 0;
+    public void buttonClick(int option){
+        //SOLAMENTE SE ACTIVAN MÉTODOS SI NO SE ESTÁ REPRODUCIENDO LA INSTRUCCIÓN
+        if(instructionPlaying ==0){
+                //Siempre se mira en qué nivel está
+            //Si el nivel es el primero, la opción correcta es la 2
+            if(level==1){
+                if(option==2){
+                    correctClick(part1Audio, "cocoPart1Leave");
+                }else{
+                    incorrectClick(part1Audio);
+                }
             }
-            else
-            {
-                //Activo audio
-                incorrectAudio = incorrectSounds[Random.Range(0, 3)];
-                incorrectAudio.Play();
-                incorrectAudioSound.Play();
-                //Repito la instrucción
-                part1Audio.PlayDelayed(incorrectAudio.clip.length);
-                //Aumento contador de errores
-                errorCount++;
+            //Si el nivel es el segundo, la opción correcta en la 1
+            else if(level==2){
+                if(option==1){
+                    correctClick(part2Audio, "cocoPart2Leave");
+                }else{
+                    incorrectClick(part2Audio);
+                }
             }
-        }
-        //Si el nivel es el segundo, la opción correcta en la 1
-        else if (level == 2)
-        {
-            if (option == 1)
-            {
-                //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
-                //Activo la animación de Coco
-                cocoObj_AN.Play("cocoPart2Leave");
-                //Aumento el nivel
-                level++;
-                //Desactivo los botones
-                buttonOptionONE.SetActive(false);
-                buttonOptionTWO.SetActive(false);
-                buttonOptionTHREE.SetActive(false);
-                //devuelvo a la n
-                n = 1;
-                //reinicio el contador de errores
-                errorCount = 0;
+            //Si es el tercer nivel la opción correcta es la 3
+            else if(level==3){
+                if(option==3){
+                    correctClick(part3Audio, "cocoPart3Leave");
+                }else{
+                    incorrectClick(part3Audio);
+                }
 
             }
-            else
-            {
-                //Activo audio
-                incorrectAudio = incorrectSounds[Random.Range(0, 3)];
-                incorrectAudio.Play();
-                incorrectAudioSound.Play();
-                //Repito la instrucción
-                part2Audio.PlayDelayed(incorrectAudio.clip.length);
-                //Aumento contador de errores
-                errorCount++;
-            }
-        }
-        //Si es el tercer nivel la opción correcta es la 3
-        else if (level == 3)
-        {
-            if (option == 3)
-            {
-                //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
-                //Activo la animación de Coco
-                cocoObj_AN.Play("cocoPart3Leave");
-                //Aumento el nivel
-                level++;
-                //Desactivo los botones
-                buttonOptionONE.SetActive(false);
-                buttonOptionTWO.SetActive(false);
-                buttonOptionTHREE.SetActive(false);
-                //devuelvo a la n
-                n = 1;
-                //reinicio el contador de errores
-                errorCount = 0;
-            }
-            else
-            {
-                //Activo audio
-                incorrectAudio = incorrectSounds[Random.Range(0, 3)];
-                incorrectAudio.Play();
-                incorrectAudioSound.Play();
-                //Repito la instrucción
-                part3Audio.PlayDelayed(incorrectAudio.clip.length);
-                //Aumento contador de errores
-                errorCount++;
-            }
-        }
 
-        //Si ya llegó a los 3 errores
-        if (errorCount == 3)
-        {
-            Debug.Log("Se acabaron los intentos");
+            //Si ya llegó a los 3 errores
+            if (errorCount==3){
+                Debug.Log("Se acabaron los intentos");
+                 
             //Para que se muestre la pantalla de fin del juego:
             StartCoroutine(database.PushResult(subject, levelBD, (level - 1), errorCount, (int)totalGameTime));
             panelGameFinished.SetActive(true);
             //gameOver_OBJ.SetActive(true);
+            }
+        }else{
+            Debug.Log("Todavia no le puedes undir :D");
+
         }
+        
+    }
+
+    //Opcion correcta
+    private void correctClick(AudioSource instruction, string animationCoco){
+        //devuelvo a la n
+        n=1;
+        //Desactivo el audio de la instrucción
+        instruction.Stop();
+        //Activo audio correcto
+        correctAudio = correctSounds[ Random.Range(0, 5)];
+        correctAudio.Play();
+        correctAudioSound.Play();
+        //Activo la animación de Coco
+        cocoObj_AN.Play(animationCoco);
+        //Aumento el nivel
+        level++;
+        //Desactivo los botones
+        buttonOptionONE.SetActive(false);
+        buttonOptionTWO.SetActive(false);
+        buttonOptionTHREE.SetActive(false);
+        
+        //reinicio el contador de errores
+        errorCount=0;
+    }
+
+    //Opcion incorrecta
+    private void incorrectClick(AudioSource instruction){
+        //Activo audio
+        incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+        incorrectAudio.Play();
+        incorrectAudioSound.Play();
+        //Repito la instrucción
+        instruction.PlayDelayed(incorrectAudio.clip.length);
+        //Aumento contador de errores
+        errorCount++;
     }
 }
