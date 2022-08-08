@@ -14,13 +14,15 @@ public class AnswerControlCol : MonoBehaviour
     //Para los audios
     public SoundController audioSource;
 
-    public AudioClip[] sounds = new AudioClip[4];
+    public AudioClip[] sounds = new AudioClip[22];
 
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
 
     //Para los círculos rojos
     public GameObject[] IncorrectsCircles;
+
+    int c;
 
     //Para la base de datos
     //Database and Game Finished
@@ -51,7 +53,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             //Para que se desactiven los textos
             foreach (GameObject textCol in mouseMovement.TextsCol)
             {
@@ -142,6 +144,40 @@ public class AnswerControlCol : MonoBehaviour
         //(se compara answerCorrect con answerChild)
         if (isPressing)
         {
+            //Para que se reproduzcan los audios de los colores que el niño presionó
+            if (AnswerChild == "Green")
+            {
+                sounds[c] = sounds[14];
+            }
+            else if (AnswerChild == "Yellow")
+            {
+                sounds[c] = sounds[19];
+            }
+            else if (AnswerChild == "Purple")
+            {
+                sounds[c] = sounds[17];
+            }
+            else if (AnswerChild == "White")
+            {
+                sounds[c] = sounds[16];
+            }
+            else if (AnswerChild == "Red")
+            {
+                sounds[c] = sounds[15];
+            }
+            else if (AnswerChild == "Black")
+            {
+                sounds[c] = sounds[18];
+            }
+            else if (AnswerChild == "Blue")
+            {
+                sounds[c] = sounds[20];
+            }
+            else if (AnswerChild == "Orange")
+            {
+                sounds[c] = sounds[21];
+            }
+
             //Si las dos son iguales
             if (AnswerChild == AnswerCorrect)
             {
@@ -149,7 +185,7 @@ public class AnswerControlCol : MonoBehaviour
                 AnswerCorrects++;
                 Debug.Log("Correct");
                 //Se reproduce el sonido de correcto y el audio de Fantastic
-                AudioClip[] audios = new AudioClip[2] { sounds[10], sounds[11] };
+                AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[10], sounds[11] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
@@ -197,7 +233,7 @@ public class AnswerControlCol : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de Upsis
-                AudioClip[] audios = new AudioClip[2] { sounds[12], sounds[13] };
+                AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[12], sounds[13] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
