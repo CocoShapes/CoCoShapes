@@ -264,43 +264,103 @@ public class Controller_Level2_ColT : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.F1)){
                         audioCPress=yellowAudio;
                         pressColor="yellow";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                         
                 }
                 else if(Input.GetKeyDown(KeyCode.F2)){
                         audioCPress=blueAudio;
                         pressColor="blue";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F3)){
                         audioCPress=redAudio;
                         pressColor="red";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F4)){
                         audioCPress=greenCAudio;
                         pressColor="green";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F5)){
                         audioCPress=orangeCAudio;
                         pressColor="orange";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F6)){
                         audioCPress=purpleCAudio;
                         pressColor="purple";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F7)){
                         audioCPress=blackAudio;
                         pressColor="black";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
                 else if(Input.GetKeyDown(KeyCode.F8)){
                         audioCPress=whiteAudio;
                         pressColor="white";
+                        //Detengo instrucción si esta sonando
+                        audioColor.Stop();
+                        audioCPress.Play();
+                        //Activo color presionado
+                
+                        colorButtonPress();
+                        //Necesario indicar que ya no se esta presionando
+                        pressColor="";
                 }
-                //Detengo instrucción si esta sonando
-                audioColor.Stop();
-                //Activo color presionado
-                audioCPress.Play();
-                colorButtonPress();
-        //Necesario indicar que ya no se esta presionando
-        pressColor="";
+                
+                
+        
 
         
 
