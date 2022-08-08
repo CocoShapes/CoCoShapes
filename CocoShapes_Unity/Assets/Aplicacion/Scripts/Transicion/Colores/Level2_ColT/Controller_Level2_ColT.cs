@@ -117,6 +117,13 @@ public class Controller_Level2_ColT : MonoBehaviour
     private AudioSource greenAudio;
     private AudioSource orangeAudio;
     private AudioSource purpleAudio;
+    private AudioSource pressSecond;
+    private AudioSource audioCPress;
+    private AudioSource purpleCAudio;
+    private AudioSource orangeCAudio;
+    private AudioSource greenCAudio;
+    private AudioSource whiteAudio;
+    private AudioSource blackAudio;
 
     private AudioSource audioColor;
 
@@ -157,6 +164,15 @@ public class Controller_Level2_ColT : MonoBehaviour
         greenAudio = sounds[0];
         orangeAudio = sounds[1];
         purpleAudio = sounds[2];
+        pressSecond = sounds [3];
+        redAudio = sounds [4];
+        yellowAudio = sounds [5];
+        blueAudio = sounds [6];
+        purpleCAudio = sounds [7];
+        orangeCAudio = sounds [8];
+        greenCAudio = sounds [9];
+        whiteAudio = sounds [10];
+        blackAudio = sounds [11];
 
         //Audio de incorrecto
         incorrectSounds = incorrect_Obj.GetComponents<AudioSource>();
@@ -244,48 +260,49 @@ public class Controller_Level2_ColT : MonoBehaviour
             White --> F8*/
         //Es necesario verificar que haya presionado alguno de los botones
 
-        if (Input.GetKeyDown(KeyCode.F1) || Input.GetKeyDown(KeyCode.F2) || Input.GetKeyDown(KeyCode.F3)
-            || Input.GetKeyDown(KeyCode.F4) || Input.GetKeyDown(KeyCode.F5) || Input.GetKeyDown(KeyCode.F6)
-            || Input.GetKeyDown(KeyCode.F7) || Input.GetKeyDown(KeyCode.F8))
-        {
+                //Asigno variable
+                if(Input.GetKeyDown(KeyCode.F1)){
+                        audioCPress=yellowAudio;
+                        pressColor="yellow";
+                        
+                }
+                else if(Input.GetKeyDown(KeyCode.F2)){
+                        audioCPress=blueAudio;
+                        pressColor="blue";
+                }
+                else if(Input.GetKeyDown(KeyCode.F3)){
+                        audioCPress=redAudio;
+                        pressColor="red";
+                }
+                else if(Input.GetKeyDown(KeyCode.F4)){
+                        audioCPress=greenCAudio;
+                        pressColor="green";
+                }
+                else if(Input.GetKeyDown(KeyCode.F5)){
+                        audioCPress=orangeCAudio;
+                        pressColor="orange";
+                }
+                else if(Input.GetKeyDown(KeyCode.F6)){
+                        audioCPress=purpleCAudio;
+                        pressColor="purple";
+                }
+                else if(Input.GetKeyDown(KeyCode.F7)){
+                        audioCPress=blackAudio;
+                        pressColor="black";
+                }
+                else if(Input.GetKeyDown(KeyCode.F8)){
+                        audioCPress=whiteAudio;
+                        pressColor="white";
+                }
+                //Detengo instrucción si esta sonando
+                audioColor.Stop();
+                //Activo color presionado
+                audioCPress.Play();
+                colorButtonPress();
+        //Necesario indicar que ya no se esta presionando
+        pressColor="";
 
-            //Asigno variable
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                pressColor = "yellow";
-            }
-            else if (Input.GetKeyDown(KeyCode.F2))
-            {
-                pressColor = "blue";
-            }
-            else if (Input.GetKeyDown(KeyCode.F3))
-            {
-                pressColor = "red";
-            }
-            else if (Input.GetKeyDown(KeyCode.F4))
-            {
-                pressColor = "green";
-            }
-            else if (Input.GetKeyDown(KeyCode.F5))
-            {
-                pressColor = "orange";
-            }
-            else if (Input.GetKeyDown(KeyCode.F6))
-            {
-                pressColor = "purple";
-            }
-            else if (Input.GetKeyDown(KeyCode.F7))
-            {
-                pressColor = "black";
-            }
-            else if (Input.GetKeyDown(KeyCode.F8))
-            {
-                pressColor = "white";
-            }
-            colorButtonPress();
-            //Necesario indicar que ya no se esta presionando
-            pressColor = "";
-        }
+        
 
 
 
@@ -297,64 +314,89 @@ public class Controller_Level2_ColT : MonoBehaviour
     {
 
         //Si el estudiante presionó uno de los colores necesarios para la combinación
-        if (pressColor == reqColorComb1 || pressColor == reqColorComb2)
-        {
 
-            //Si presionó el amarillo y no lo ha presionado
+        if(pressColor == reqColorComb1 || pressColor == reqColorComb2){
+                      
 
-            if (pressColor == "yellow" && yellowPress == 0)
-            {
-                //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
+            //Si presionó el amarillo
+             
+             if(pressColor== "yellow"){
+                //Si no lo ha presionado antes
+                if(yellowPress==0){
+                    //Activo audio correcto
+                    correctAudio = correctSounds[ Random.Range(0, 5)];
+                    correctAudio.PlayDelayed(audioCPress.clip.length);
+                    correctAudioSound.PlayDelayed(audioCPress.clip.length);
 
-
-                //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor, 1);
-
-                //Aumento el numero de la combinación
-                combNumber++;
-                //Hago la animación de Coco
-                cocoOBJ_AN.Play("cocoDartThrowHappy");
-
+                
+                    //Cambio la imagen dependiendo del nivel
+                    throwDart(pressColor,1);
+                
+                    //Aumento el numero de la combinación
+                    combNumber++;
+                    //Hago la animación de Coco
+                    cocoOBJ_AN.Play("cocoDartThrowHappy");
+                }
+                //Si ya lo presionó
+                else{
+                    pressSecond.Play();
+                }
+                
+               
             }
 
-            else if (pressColor == "blue" && bluePress == 0)
-            {
+            else if(pressColor== "blue"){
+                //Si no lo ha presionado antes
+                if(bluePress==0){
                 //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
+                    correctAudio = correctSounds[ Random.Range(0, 5)];
+                    correctAudio.PlayDelayed(audioCPress.clip.length);
+                    correctAudioSound.PlayDelayed(audioCPress.clip.length);
 
-
-                //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor, 1);
-
-                //Aumento el numero de la combinación
-                combNumber++;
-                //Hago la animación de Coco
-                cocoOBJ_AN.Play("cocoDartThrowHappy");
-
+                    
+                    //Cambio la imagen dependiendo del nivel
+                    throwDart(pressColor,1);
+                    
+                    //Aumento el numero de la combinación
+                    combNumber++;
+                    //Hago la animación de Coco
+                    cocoOBJ_AN.Play("cocoDartThrowHappy");
+                }
+                //Si ya lo presionó
+                else{
+                    pressSecond.Play();
+                }
+               
             }
 
-            else if (pressColor == "red" && redPress == 0)
-            {
-                //Activo audio correcto
-                correctAudio = correctSounds[Random.Range(0, 5)];
-                correctAudio.Play();
-                correctAudioSound.Play();
+            else if(pressColor== "red"){
+                //Si no lo ha presionado antes
+                if(redPress==0){
+                    //Activo audio correcto
+                    correctAudio = correctSounds[ Random.Range(0, 5)];
+                    correctAudio.PlayDelayed(audioCPress.clip.length);
+                    correctAudioSound.PlayDelayed(audioCPress.clip.length);
 
-
-                //Cambio la imagen dependiendo del nivel
-                throwDart(pressColor, 1);
-
-                //Aumento el numero de la combinación
-                combNumber++;
-                //Hago la animación de Coco
-                cocoOBJ_AN.Play("cocoDartThrowHappy");
-
+                    
+                    //Cambio la imagen dependiendo del nivel
+                    throwDart(pressColor,1);
+                    
+                    //Aumento el numero de la combinación
+                    combNumber++;
+                    //Hago la animación de Coco
+                    cocoOBJ_AN.Play("cocoDartThrowHappy");
+                    }
+                //Si ya lo presionó
+                else{
+                    
+                    pressSecond.PlayDelayed(audioCPress.clip.length);
+                }
+             
             }
+
+            
+
+
 
 
             //Si no ha acabado los niveles y ya terminó la combinación, genera otro número
@@ -397,9 +439,11 @@ public class Controller_Level2_ColT : MonoBehaviour
             //Hago la animación de Coco
             cocoOBJ_AN.Play("cocoDartThrowSad");
             //Activo audio incorrecto
-            incorrectAudio = incorrectSounds[Random.Range(0, 3)];
-            incorrectAudio.Play();
-            incorrectAudioSound.Play();
+
+            incorrectAudio = incorrectSounds[ Random.Range(0, 3)];
+            incorrectAudio.PlayDelayed(audioCPress.clip.length);
+            incorrectAudioSound.PlayDelayed(audioCPress.clip.length);
+
 
             Debug.Log("INCORRECTO");
             //Aumento numero de errores
@@ -416,7 +460,7 @@ public class Controller_Level2_ColT : MonoBehaviour
             //Cambio la imagen dependiendo del nivel
             throwDart(pressColor, 0);
             //Activamos sonido de color otra vez
-            audioColor.PlayDelayed(incorrectAudio.clip.length);
+            audioColor.PlayDelayed(incorrectAudio.clip.length + audioCPress.clip.length);
 
 
         }
@@ -469,13 +513,12 @@ public class Controller_Level2_ColT : MonoBehaviour
         }
         //Activamos sonido de color
 
-        //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
-        if (level != 1)
-        {
-            audioColor.PlayDelayed(correctAudio.clip.length);
-        }
-        else
-        {
+
+            //Si es otro nivel diferente al 1 hay que esperar a que pase el audio
+        if( level!=1){
+            audioColor.PlayDelayed(correctAudio.clip.length + audioCPress.clip.length);
+        }else{
+
             audioColor.Play();
         }
 
@@ -618,5 +661,6 @@ public class Controller_Level2_ColT : MonoBehaviour
 
         return (randomNumber);
     }
-
 }
+
+
