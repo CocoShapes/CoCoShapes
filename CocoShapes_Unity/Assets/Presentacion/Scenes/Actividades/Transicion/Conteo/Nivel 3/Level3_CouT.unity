@@ -641,7 +641,7 @@ Transform:
   m_GameObject: {fileID: 36275373}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.03, y: -0.03, z: 1}
-  m_LocalScale: {x: 1.7368302, y: 1.3147968, z: 1.2985647}
+  m_LocalScale: {x: 1.7541986, y: 1.3279448, z: 1.3115503}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1176,7 +1176,7 @@ GameObject:
   - component: {fileID: 208473243}
   - component: {fileID: 208473242}
   m_Layer: 5
-  m_Name: 2
+  m_Name: button2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3318,7 +3318,7 @@ GameObject:
   - component: {fileID: 587338520}
   - component: {fileID: 587338519}
   m_Layer: 5
-  m_Name: 9
+  m_Name: button9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3748,7 +3748,7 @@ GameObject:
   - component: {fileID: 643088547}
   - component: {fileID: 643088546}
   m_Layer: 5
-  m_Name: 8
+  m_Name: button8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6526,7 +6526,7 @@ GameObject:
   - component: {fileID: 1258566281}
   - component: {fileID: 1258566280}
   m_Layer: 5
-  m_Name: 10
+  m_Name: button10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6822,7 +6822,7 @@ GameObject:
   - component: {fileID: 1274259511}
   - component: {fileID: 1274259510}
   m_Layer: 5
-  m_Name: 6
+  m_Name: button6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9427,7 +9427,7 @@ GameObject:
   - component: {fileID: 1729697380}
   - component: {fileID: 1729697379}
   m_Layer: 5
-  m_Name: 1
+  m_Name: button1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9559,7 +9559,7 @@ GameObject:
   - component: {fileID: 1730897085}
   - component: {fileID: 1730897084}
   m_Layer: 5
-  m_Name: 7
+  m_Name: button7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9773,7 +9773,7 @@ GameObject:
   - component: {fileID: 1755779803}
   - component: {fileID: 1755779802}
   m_Layer: 5
-  m_Name: 9
+  m_Name: butt9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11036,7 +11036,7 @@ GameObject:
   - component: {fileID: 1941511794}
   - component: {fileID: 1941511793}
   m_Layer: 5
-  m_Name: 3
+  m_Name: button3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11365,6 +11365,15 @@ MonoBehaviour:
   - {fileID: 465492908}
   - {fileID: 447127640}
   - {fileID: 1807095946}
+  button3: {fileID: 1941511791}
+  button2: {fileID: 208473240}
+  button1: {fileID: 1729697377}
+  button6: {fileID: 1274259508}
+  button9: {fileID: 587338517}
+  button7: {fileID: 1730897082}
+  button8: {fileID: 643088544}
+  button10: {fileID: 1258566278}
+  butt9: {fileID: 1755779800}
 --- !u!4 &2000280069
 Transform:
   m_ObjectHideFlags: 0

@@ -241,7 +241,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e31549be653caf046bc2836836ce95f0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 018f40c72c1498045935be8fc63e2eff, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -261,7 +261,7 @@ Transform:
   m_GameObject: {fileID: 239318772}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.17, y: 1.92, z: 0}
-  m_LocalScale: {x: 0.38449028, y: 0.57430005, z: 0.49380428}
+  m_LocalScale: {x: 0.317396, y: 0.3486852, z: 0.3576295}
   m_Children:
   - {fileID: 998982649}
   m_Father: {fileID: 0}
@@ -306,6 +306,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5dab614bd5889f84ab3d45d44a94a9a3, type: 3}
   - {fileID: 8300000, guid: 083278ea9e0a31f4586c2bafb73ecf53, type: 3}
   - {fileID: 8300000, guid: 45480ea4828a367458101574d1e332e2, type: 3}
+  - {fileID: 8300000, guid: b8e4625dd71a1db45bc9d5a0c04ad8a5, type: 3}
+  - {fileID: 8300000, guid: df21278f15953bb4bac5cdf49a5a6501, type: 3}
+  - {fileID: 8300000, guid: 27f5bc8f44305d648ae34a0158f5be5d, type: 3}
+  - {fileID: 8300000, guid: daf64261467d9f741a002bcd27ff5253, type: 3}
+  - {fileID: 8300000, guid: 00383e0669b1af949bea756ce737563c, type: 3}
+  - {fileID: 8300000, guid: 98bbb621a4a720342aa15ab117decc76, type: 3}
+  - {fileID: 8300000, guid: c9a71f67420729c4195a818ecab4397b, type: 3}
+  - {fileID: 8300000, guid: 921283ea240730d48858d437eb1ef882, type: 3}
   audioSource: {fileID: 1105955793}
   n: 0
   TextsCol:
@@ -1831,8 +1839,16 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 357ef5ed2bf52f1439b1ff9208ee68c8, type: 3}
   - {fileID: 8300000, guid: 573a1d3f57041cf42b5d6964ff9c29d4, type: 3}
   - {fileID: 8300000, guid: 5dab614bd5889f84ab3d45d44a94a9a3, type: 3}
-  - {fileID: 8300000, guid: 79d66af71f01bec4886a7550df91bf85, type: 3}
+  - {fileID: 8300000, guid: 083278ea9e0a31f4586c2bafb73ecf53, type: 3}
   - {fileID: 8300000, guid: 45480ea4828a367458101574d1e332e2, type: 3}
+  - {fileID: 8300000, guid: b8e4625dd71a1db45bc9d5a0c04ad8a5, type: 3}
+  - {fileID: 8300000, guid: df21278f15953bb4bac5cdf49a5a6501, type: 3}
+  - {fileID: 8300000, guid: 27f5bc8f44305d648ae34a0158f5be5d, type: 3}
+  - {fileID: 8300000, guid: daf64261467d9f741a002bcd27ff5253, type: 3}
+  - {fileID: 8300000, guid: 00383e0669b1af949bea756ce737563c, type: 3}
+  - {fileID: 8300000, guid: 98bbb621a4a720342aa15ab117decc76, type: 3}
+  - {fileID: 8300000, guid: c9a71f67420729c4195a818ecab4397b, type: 3}
+  - {fileID: 8300000, guid: 921283ea240730d48858d437eb1ef882, type: 3}
   isPressing: 0
   IncorrectsCircles:
   - {fileID: 2067531510}

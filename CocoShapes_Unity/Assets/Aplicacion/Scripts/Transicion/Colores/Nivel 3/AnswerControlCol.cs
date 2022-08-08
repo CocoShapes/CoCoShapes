@@ -14,7 +14,7 @@ public class AnswerControlCol : MonoBehaviour
     //Para los audios
     public SoundController audioSource;
 
-    public AudioClip[] sounds = new AudioClip[4];
+    public AudioClip[] sounds = new AudioClip[22];
 
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
@@ -31,6 +31,8 @@ public class AnswerControlCol : MonoBehaviour
     // public GameObject panelGameFinished;
     // private bool gameFinished = false;
     // private float totalGameTime;
+
+    int c;
 
     void Start()
     {
@@ -52,7 +54,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(5);
             //Para que se desactiven los textos
             foreach (GameObject textCol in mouseMovement.TextsCol)
             {
@@ -76,7 +78,7 @@ public class AnswerControlCol : MonoBehaviour
         //Para saber que tecla se presionó y así conocer si la respuesta es correcta o incorrecta
         //Butterfly (yellow)
         //Yellow (F1) o Y
-        if (Input.GetKeyDown(KeyCode.F1))
+        if (Input.GetKeyDown(KeyCode.Y))
         {
             AnswerChild = "Yellow";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -84,7 +86,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Flower(purple)
         //Purple (F6) o P
-        if (Input.GetKeyDown(KeyCode.F6))
+        if (Input.GetKeyDown(KeyCode.P))
         {
             AnswerChild = "Purple";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -92,7 +94,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Star(white)
         //White (F8) o W
-        if (Input.GetKeyDown(KeyCode.F8))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             AnswerChild = "White";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -100,7 +102,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Bird(red)
         //Red (F3) o R
-        if (Input.GetKeyDown(KeyCode.F3))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             AnswerChild = "Red";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -108,7 +110,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Cat(black)
         //Black (F7) O B
-        if (Input.GetKeyDown(KeyCode.F7))
+        if (Input.GetKeyDown(KeyCode.B))
         {
             AnswerChild = "Black";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -116,7 +118,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Green (F4)
         //Fish(green) o G
-        if (Input.GetKeyDown(KeyCode.F4))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             AnswerChild = "Green";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -125,7 +127,7 @@ public class AnswerControlCol : MonoBehaviour
         //Heart(blue)
         //Blue (F2) O U
         //Para BLUE como se repite por black
-        if (Input.GetKeyDown(KeyCode.F2))
+        if (Input.GetKeyDown(KeyCode.U))
         {
             AnswerChild = "Blue";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -133,7 +135,7 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Bear(orange)
         //Orange (F5) o O
-        if (Input.GetKeyDown(KeyCode.F5))
+        if (Input.GetKeyDown(KeyCode.O))
         {
             AnswerChild = "Orange";
             //Debug.Log("AnswerChild: " + AnswerChild);
@@ -141,16 +143,50 @@ public class AnswerControlCol : MonoBehaviour
         }
         //Se presionó una tecla y ahora se comparan si la respuesta es correcta
         //(se compara answerCorrect con answerChild)
+
         if (isPressing)
         {
+            //Para que se reproduzcan los audios de los colores que el niño presionó
+            if (AnswerChild == "Green")
+            {
+                sounds[c] = sounds[14];
+            }
+            else if (AnswerChild == "Yellow")
+            {
+                sounds[c] = sounds[19];
+            }
+            else if (AnswerChild == "Purple")
+            {
+                sounds[c] = sounds[17];
+            }
+            else if (AnswerChild == "White")
+            {
+                sounds[c] = sounds[16];
+            }
+            else if (AnswerChild == "Red")
+            {
+                sounds[c] = sounds[15];
+            }
+            else if (AnswerChild == "Black")
+            {
+                sounds[c] = sounds[18];
+            }
+            else if (AnswerChild == "Blue")
+            {
+                sounds[c] = sounds[20];
+            }
+            else if (AnswerChild == "Orange")
+            {
+                sounds[c] = sounds[21];
+            }
             //Si las dos son iguales
             if (AnswerChild == AnswerCorrect)
             {
                 //Se suma una respuesta correcta
                 AnswerCorrects++;
                 Debug.Log("Correct");
-                //Se reproduce el sonido de correcto y el audio de Fantastic
-                AudioClip[] audios = new AudioClip[2] { sounds[10], sounds[11] };
+                //Se reproduce el sonido del color, correcto y el audio de Fantastic
+                AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[10], sounds[11] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
@@ -197,8 +233,8 @@ public class AnswerControlCol : MonoBehaviour
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
-                //Se reproduce el sonido de incorrecto y el audio de Upsis
-                AudioClip[] audios = new AudioClip[2] { sounds[12], sounds[13] };
+                //Se reproduce el sonido del color, incorrecto y el audio de Upsis
+                AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[12], sounds[13] };
                 StartCoroutine(audioSource.PlayAudio(audios));
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;

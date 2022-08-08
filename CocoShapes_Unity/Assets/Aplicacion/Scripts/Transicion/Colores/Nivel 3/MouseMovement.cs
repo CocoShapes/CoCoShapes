@@ -17,7 +17,7 @@ public class MouseMovement : MonoBehaviour
     public GameObject[] Objects;
 
     //Para los audios
-    public AudioClip[] sounds = new AudioClip[10];
+    public AudioClip[] sounds = new AudioClip[22];
     public SoundController audioSource;
 
     //Para que se muestren aleatoriamente los audios
@@ -55,17 +55,17 @@ public class MouseMovement : MonoBehaviour
     void Update()
     {
         //Para el movimiento de la pantalla de la tablet (solo funciona en el Update)
-        rate = 1;
-        if (Input.touchCount > 0)
-        {
-            Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            gameObject.transform.position = pz2 / rate;
-        }
+        // rate = 1;
+        // if (Input.touchCount > 0)
+        // {
+        //     Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        //     gameObject.transform.position = pz2 / rate;
+        // }
 
         //Para el movimiento del mouse
-        // rate = 1;
-        // Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // gameObject.transform.position = pz / rate;
+        rate = 1;
+        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        gameObject.transform.position = pz / rate;
     }
 
     //Para que no se repitan las instrucciones (Texts) se eliminan

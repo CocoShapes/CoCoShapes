@@ -23,15 +23,29 @@ public class AnswerCouT : MonoBehaviour
     //Para las respuestas incorrectas
     public GameObject[] IncorrectsCircles;//Las instrucciones (son imágenes)
 
+    //Botones
+
+    public GameObject button3;
+    public GameObject button2;
+    public GameObject button1;
+
+    public GameObject button6;
+    public GameObject button9;
+    public GameObject button7;
+
+    public GameObject button8;
+    public GameObject button10;
+    public GameObject butt9;
+
     //Para la base de datos
     //Database and Game Finished
     // private DatabaseController database;
     // private string subject = "Count";
     // private int level = 3;
 
-    // public GameObject panelGameFinished;
+    //public GameObject panelGameFinished;
     // private bool gameFinished = false;
-    // private float totalGameTime;
+    //private float totalGameTime;
 
     void Start()
     {
@@ -48,6 +62,17 @@ public class AnswerCouT : MonoBehaviour
         if (AnswerCorrects == 3)
         {
             sceneControllerCouT.StopCoroutine(sceneControllerCouT.Screen1());
+            //Desactivo los botones
+            button3.SetActive(false);
+            button2.SetActive(false);
+            button1.SetActive(false);
+            button6.SetActive(false);
+            button9.SetActive(false);
+            button7.SetActive(false);
+            button8.SetActive(false);
+            button10.SetActive(false);
+            butt9.SetActive(false);
+
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
             //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
@@ -127,6 +152,16 @@ public class AnswerCouT : MonoBehaviour
         if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            //Desactivo los botones
+            button3.SetActive(false);
+            button2.SetActive(false);
+            button1.SetActive(false);
+            button6.SetActive(false);
+            button9.SetActive(false);
+            button7.SetActive(false);
+            button8.SetActive(false);
+            button10.SetActive(false);
+            butt9.SetActive(false);
             //Para que se muestre la pantalla de fin del juego:
             //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
             //panelGameFinished.SetActive(true);
