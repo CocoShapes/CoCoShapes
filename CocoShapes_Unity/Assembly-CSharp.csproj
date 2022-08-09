@@ -67,8 +67,9 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\ConstructMountain.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Figuras\Nivel 1\LaunchShape.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\LevelController_ExpT.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Admin\StudentList.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\PinController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\StudentList.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\GameControl.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -647,9 +648,6 @@
     </Reference>
     <Reference Include="Unity.TextMeshPro">
         <HintPath>/Users/juancamiloespinosa/Desktop/CoCoShapes/CocoShapes_Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>/Users/juancamiloespinosa/Desktop/CoCoShapes/CocoShapes_Unity/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
         <HintPath>/Users/juancamiloespinosa/Desktop/CoCoShapes/CocoShapes_Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
