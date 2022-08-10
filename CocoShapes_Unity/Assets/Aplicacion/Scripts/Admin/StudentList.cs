@@ -22,17 +22,15 @@ public class StudentList : MonoBehaviour
 
     private IEnumerator CreateList()
     {
-        float time = 0;
-        
         database = GameObject.Find("Database").GetComponent<DatabaseController>();
-
         StartCoroutine(database.GetAllStudents());
 
         gradeDropdown.ClearOptions();
+
+        database.root.documents.Clear();
         
-        while(time < 1f)
+        while(database.root.documents.Count == 0)
         {
-            time += Time.deltaTime;
             yield return null;
         }
         

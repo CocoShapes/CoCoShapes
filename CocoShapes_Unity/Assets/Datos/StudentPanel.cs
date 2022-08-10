@@ -33,16 +33,15 @@ public class StudentPanel : MonoBehaviour
 
     private IEnumerator callDatabase()
     {
-        float time = 0;
-        
         database = GameObject.Find("Database").GetComponent<DatabaseController>();
         content = GameObject.Find("Content");
 
+        database.root.documents.Clear();
+
         StartCoroutine(database.GetAllStudents());
 
-        while(time < 1f)
+        while(database.root.documents.Count == 0)
         {
-            time += Time.deltaTime;
             yield return null;
         }
 
@@ -68,6 +67,7 @@ public class StudentPanel : MonoBehaviour
 
                 panelDetails.transform.Find("NameResult").GetComponent<Text>().text = student.name + " " + student.lastName;
                 panelDetails.transform.Find("GradeResult").GetComponent<Text>().text = student.grade;
+                panelDetails.GetComponent<StudentDetails>().studentId = student._id;
 
                 foreach(Result result in student.results)
                 {
