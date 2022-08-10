@@ -92,4 +92,38 @@ public class DatabaseController : MonoBehaviour
         
         yield return request.SendWebRequest();
     }
+
+    public IEnumerator DeleteStudent(string _id)
+    {
+        string url = "https://data.mongodb-api.com/app/data-takdq/endpoint/data/v1/action/deleteOne";
+        string json = "{\"collection\":\"students\",\"database\":\"lafontaine\",\"dataSource\":\"maincluster\",\"filter\":{\"_id\":{\"$oid\":\"" + _id + "\"}}}";
+
+        var request = new UnityWebRequest(url, "POST");
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("api-key", apikey);
+
+        yield return request.SendWebRequest();
+    }
+
+    public IEnumerator UpdateStudent(string _id, string name, string lastName, string grade)
+    {
+        string url = "https://data.mongodb-api.com/app/data-takdq/endpoint/data/v1/action/updateOne";
+        string json = "{\"collection\":\"students\",\"database\":\"lafontaine\",\"dataSource\":\"maincluster\",\"filter\":{\"_id\":{\"$oid\":\"" + _id + "\"}},\"update\":{\"$set\":{\"name\":\"" + name + "\",\"lastName\":\"" + lastName + "\",\"grade\":\"" + grade + "\"}}}";
+        
+        var request = new UnityWebRequest(url, "POST");
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        
+        request.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("api-key", apikey);
+        
+        yield return request.SendWebRequest();
+    }
 }

@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +15,9 @@ public class Admin : MonoBehaviour
     public InputField lastNameInput;
     public Dropdown gradeDropdown;
     public Text txtRetroalimentation;
+
+    //Students Results Panel
+    public GameObject panelStudentsResults;
 
     //List Students UI Elements
     public GameObject panelListAllStudents;
@@ -55,11 +60,11 @@ public class Admin : MonoBehaviour
     public void AddStudent()
     {
         audioSource.Play();
-        string name = nameInput.text;
-        string lastName = lastNameInput.text;
+        string name = nameInput.text.Trim();
+        string lastName = lastNameInput.text.Trim();
         string grade = gradeDropdown.captionText.text;
 
-        if(name != "" && lastName != "" && grade != "")
+        if(name != "" && lastName != "" && !name.Any(char.IsDigit) && !lastName.Any(char.IsDigit))
         {
             StartCoroutine(database.AddStudent(name, lastName, grade));
             
@@ -69,13 +74,13 @@ public class Admin : MonoBehaviour
             nameInput.text = "";
             lastNameInput.text = "";
 
-            GameObject screen = GameObject.Find("Students Panel");
-            screen.SetActive(false);
-            screen.SetActive(true);
+            panelStudentsResults.SetActive(false);
+            panelStudentsResults.SetActive(true);
+            
         }else 
         {
             txtRetroalimentation.gameObject.SetActive(true);
-            txtRetroalimentation.text = "Please fill all the fields";
+            txtRetroalimentation.text = "Check that all fields are correct.";
         }
     }
 

@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Datos\DatabaseController.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\GameControl.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\UIFunctions.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\UIControllerCon1T.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\GameFinished\CanvasControl.cs" />
@@ -69,7 +70,6 @@
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Exploracion\LevelController_ExpT.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\PinController.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Admin\StudentList.cs" />
-     <Compile Include="Assets\Aplicacion\Scripts\Admin\GameControl.cs" />
     <Reference Include="UnityEngine">
         <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
