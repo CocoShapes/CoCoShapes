@@ -149,35 +149,34 @@ public class AnswerControlCol : MonoBehaviour
             {
                 sounds[c] = sounds[14];
             }
-            else if (AnswerChild == "Yellow")
-            {
-                sounds[c] = sounds[19];
-            }
-            else if (AnswerChild == "Purple")
-            {
-                sounds[c] = sounds[17];
-            }
-            else if (AnswerChild == "White")
-            {
-                sounds[c] = sounds[16];
-            }
-            else if (AnswerChild == "Red")
+            if (AnswerChild == "Red")
             {
                 sounds[c] = sounds[15];
             }
-            else if (AnswerChild == "Black")
+            if (AnswerChild == "White")
+            {
+                sounds[c] = sounds[16];
+            }
+            if (AnswerChild == "Purple")
+            {
+                sounds[c] = sounds[17];
+            }
+            if (AnswerChild == "Black")
             {
                 sounds[c] = sounds[18];
             }
-            else if (AnswerChild == "Blue")
+            if (AnswerChild == "Yellow")
+            {
+                sounds[c] = sounds[19];
+            }
+            if (AnswerChild == "Blue")
             {
                 sounds[c] = sounds[20];
             }
-            else if (AnswerChild == "Orange")
+            if (AnswerChild == "Orange")
             {
                 sounds[c] = sounds[21];
             }
-
             //Si las dos son iguales
             if (AnswerChild == AnswerCorrect)
             {
@@ -233,8 +232,16 @@ public class AnswerControlCol : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de Upsis
-                AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[12], sounds[13] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                if (AnswerIncorrects < 3)
+                {
+                    AudioClip[] audios = new AudioClip[4] { sounds[c], sounds[12], sounds[13], mouseMovement.soundsToPlay[0] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+                if (AnswerIncorrects == 3)
+                {
+                    AudioClip[] audios = new AudioClip[3] { sounds[c], sounds[12], sounds[13] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
             }
@@ -242,6 +249,7 @@ public class AnswerControlCol : MonoBehaviour
         //Para cuando se ha respondido 3 incorrectas
         if (AnswerIncorrects == 3)
         {
+            mouseMovement.StopCoroutine(mouseMovement.FindColors());
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
             StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));

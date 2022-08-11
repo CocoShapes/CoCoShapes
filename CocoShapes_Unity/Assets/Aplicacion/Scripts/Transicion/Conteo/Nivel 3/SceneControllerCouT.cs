@@ -59,6 +59,8 @@ public class SceneControllerCouT : MonoBehaviour
     public GameObject Screen23;
     public GameObject Screen33;
 
+    //Para que se reproduzcan los audios de los colores
+    public AudioClip[] soundsToPlay = new AudioClip[1];
 
     void Start()
     {
@@ -112,8 +114,7 @@ public class SceneControllerCouT : MonoBehaviour
         n = UnityEngine.Random.Range(0, Screens1.Length);
         Screens1[n].SetActive(true);
 
-        //Para que se reproduzcan los audios de los colores
-        AudioClip[] soundsToPlay = new AudioClip[1];
+
 
         GameObjectName = Screens1[n].name;//Para obtener el nombre de la escena que se está mostrando
 

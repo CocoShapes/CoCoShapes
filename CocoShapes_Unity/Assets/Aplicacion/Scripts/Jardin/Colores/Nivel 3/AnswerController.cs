@@ -29,6 +29,9 @@ public class AnswerController : MonoBehaviour
     //Para que se sepa si se presionó una tecla
     public bool isPressing;
 
+    //Para los audios de las instrucciones cuando es incorrecto
+    int c;
+
     //Para la base de datos
     //Database and Game Finished
     private DatabaseController database;
@@ -170,41 +173,57 @@ public class AnswerController : MonoBehaviour
                 if (AnswerCorrect == "Red")
                 {
                     RedIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[0];
                 }
                 if (AnswerCorrect == "Green")
                 {
                     GreenIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[1];
                 }
                 if (AnswerCorrect == "Yellow")
                 {
                     YellowIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[2];
                 }
                 if (AnswerCorrect == "Black")
                 {
                     BlackIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[3];
                 }
                 if (AnswerCorrect == "Orange")
                 {
                     OrangeIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[4];
                 }
                 if (AnswerCorrect == "Blue")
                 {
                     BlueIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[5];
                 }
                 if (AnswerCorrect == "Purple")
                 {
                     PurpleIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[6];
                 }
                 if (AnswerCorrect == "White")
                 {
                     WhiteIncorrect.SetActive(true);
+                    spinWheel.sounds[c] = spinWheel.sounds[7];
                 }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de KeepTrying
-                AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[11], spinWheel.sounds[12] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                if (AnswerIncorrects < 3)
+                {
+                    AudioClip[] audios = new AudioClip[3] { spinWheel.sounds[11], spinWheel.sounds[12], spinWheel.sounds[c] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+                if (AnswerIncorrects == 3)
+                {
+                    AudioClip[] audios = new AudioClip[2] { spinWheel.sounds[11], spinWheel.sounds[12] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
                 //Se reproduce la animación triste

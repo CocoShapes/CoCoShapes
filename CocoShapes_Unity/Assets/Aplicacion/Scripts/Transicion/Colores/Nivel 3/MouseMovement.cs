@@ -26,6 +26,8 @@ public class MouseMovement : MonoBehaviour
     //Instrucciones(imágenes)
     public GameObject[] TextsCol;
 
+    public AudioClip[] soundsToPlay = new AudioClip[1];
+
     void Start()
     {
         //Para iniciar la corrutina con el audio de la instrucción
@@ -55,17 +57,17 @@ public class MouseMovement : MonoBehaviour
     void Update()
     {
         //Para el movimiento de la pantalla de la tablet (solo funciona en el Update)
-        // rate = 1;
-        // if (Input.touchCount > 0)
-        // {
-        //     Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-        //     gameObject.transform.position = pz2 / rate;
-        // }
+        rate = 1;
+        if (Input.touchCount > 0)
+        {
+            Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            gameObject.transform.position = pz2 / rate;
+        }
 
         //Para el movimiento del mouse
-        rate = 1;
-        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        gameObject.transform.position = pz / rate;
+        // rate = 1;
+        // Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // gameObject.transform.position = pz / rate;
     }
 
     //Para que no se repitan las instrucciones (Texts) se eliminan
@@ -87,7 +89,7 @@ public class MouseMovement : MonoBehaviour
         //Para mostrar las instrucciones
         TextsCol[n].SetActive(true);//Para que se activen
 
-        AudioClip[] soundsToPlay = new AudioClip[1];
+
 
         //Para definir las respuestas correctas según la instrucción que aparezca
         String GameObjectName = TextsCol[n].name;//Para obtener el nombre del texto

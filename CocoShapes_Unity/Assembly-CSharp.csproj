@@ -40,6 +40,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Colores\Nivel 3\MouseMovement.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 3\SoundControl2.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\ShaderPropAnimator.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\GameControl.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 1\UIFunctions.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\Transicion\Conteo\Nivel 1\UIControllerCon1T.cs" />
      <Compile Include="Assets\Aplicacion\Scripts\GameFinished\CanvasControl.cs" />
@@ -129,6 +130,7 @@
      <Compile Include="Assets\Aplicacion\Scripts\Jardin\Conteo\Nivel 3\AnsController.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
      <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventCheck.cs" />
+     <Compile Include="Assets\Aplicacion\Scripts\Admin\SceneTransition.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

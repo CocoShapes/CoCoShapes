@@ -159,8 +159,17 @@ public class AnswerControlSha : MonoBehaviour
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de Upsis
-                AudioClip[] audios = new AudioClip[2] { sounds[2], sounds[3] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                if (AnswerIncorrects < 3)
+                {
+                    AudioClip[] audios = new AudioClip[3] { sounds[2], sounds[3], mouseMovementSha.soundsToPlay[0] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+                if (AnswerIncorrects == 3)
+                {
+                    AudioClip[] audios = new AudioClip[2] { sounds[2], sounds[3] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+
                 //Ya no se está presionando una tecla se sigue con otra
                 isPressing = false;
             }
@@ -168,6 +177,7 @@ public class AnswerControlSha : MonoBehaviour
         //Para cuando se hayan respondido 3 incorrectas
         if (AnswerIncorrects == 3)
         {
+            mouseMovementSha.StopCoroutine(mouseMovementSha.FindShapes());
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
             StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));

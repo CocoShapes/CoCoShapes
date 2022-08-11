@@ -26,6 +26,8 @@ public class MouseMovementSha : MonoBehaviour
     //Para que se muestren aleatoriamente los audios
     public int n;
 
+    public AudioClip[] soundsToPlay = new AudioClip[1];
+
     void Start()
     {
         //Para iniciar la corrutina con el audio de la instrucción
@@ -85,7 +87,7 @@ public class MouseMovementSha : MonoBehaviour
         //Para mostrar las instrucciones
         TextsSha[n].SetActive(true);//Para que se activen
 
-        AudioClip[] soundsToPlay = new AudioClip[1];
+
 
         //Para definir las respuestas correctas según la instrucción que aparezca
         String GameObjectName = TextsSha[n].name;//Para obtener el nombre del texto

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameControl : MonoBehaviour
 {
     public Image PlayButton;
-    public Image PauseButton; 
+    public Image PauseButton;
     public Image QuitButton;
 
     public GameObject QuitPanel;
@@ -40,20 +40,24 @@ public class GameControl : MonoBehaviour
 
     public void ConfirmQuit()
     {
+        Time.timeScale = 1;
         SequenceController sequence = GameObject.Find("SequenceController").GetComponent<SequenceController>();
         sequence.gamePlayed = true;
 
         string sceneName = SceneManager.GetActiveScene().name;
-        char lastCharacter = sceneName[sceneName.Length-1];
-        if(lastCharacter.ToString() == "J"){
+        char lastCharacter = sceneName[sceneName.Length - 1];
+        if (lastCharacter.ToString() == "J")
+        {
             sequence.gradeMap = "Garden";
-        }else {
+        }
+        else
+        {
             sequence.gradeMap = "Transition";
         }
-        
+
         SceneManager.LoadScene("Admin");
     }
-    
+
     public void CancelQuit()
     {
         Time.timeScale = 1;
