@@ -26,6 +26,8 @@ public class MouseMovementSha : MonoBehaviour
     //Para que se muestren aleatoriamente los audios
     public int n;
 
+    public AudioClip[] soundsToPlay = new AudioClip[1];
+
     void Start()
     {
         //Para iniciar la corrutina con el audio de la instrucción
@@ -65,17 +67,17 @@ public class MouseMovementSha : MonoBehaviour
     void Update()
     {
         //Para el movimiento de la pantalla de la tablet (solo funciona en el Update)
-        rate = 1;
-        if (Input.touchCount > 0)
-        {
-            Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
-            gameObject.transform.position = pz2 / rate;
-        }
+        // rate = 1;
+        // if (Input.touchCount > 0)
+        // {
+        //     Vector2 pz2 = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+        //     gameObject.transform.position = pz2 / rate;
+        // }
 
         //Para el movimiento del mouse
-        // rate = 1;
-        // Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        // gameObject.transform.position = pz / rate;
+        rate = 1;
+        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        gameObject.transform.position = pz / rate;
     }
     public IEnumerator FindShapes()
     {
@@ -85,7 +87,7 @@ public class MouseMovementSha : MonoBehaviour
         //Para mostrar las instrucciones
         TextsSha[n].SetActive(true);//Para que se activen
 
-        AudioClip[] soundsToPlay = new AudioClip[1];
+
 
         //Para definir las respuestas correctas según la instrucción que aparezca
         String GameObjectName = TextsSha[n].name;//Para obtener el nombre del texto

@@ -26,6 +26,9 @@ public class MouseMovement : MonoBehaviour
     //Instrucciones(imágenes)
     public GameObject[] TextsCol;
 
+    public AudioClip[] soundsToPlay = new AudioClip[1];
+
+
     void Start()
     {
         //Para iniciar la corrutina con el audio de la instrucción
@@ -87,7 +90,6 @@ public class MouseMovement : MonoBehaviour
         //Para mostrar las instrucciones
         TextsCol[n].SetActive(true);//Para que se activen
 
-        AudioClip[] soundsToPlay = new AudioClip[1];
 
         //Para definir las respuestas correctas según la instrucción que aparezca
         String GameObjectName = TextsCol[n].name;//Para obtener el nombre del texto

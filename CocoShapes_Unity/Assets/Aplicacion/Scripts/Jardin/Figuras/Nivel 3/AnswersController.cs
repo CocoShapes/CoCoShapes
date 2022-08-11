@@ -25,6 +25,9 @@ public class AnswersController : MonoBehaviour
     //Para los círculos rojos
     public GameObject[] IncorrectsCircles;
 
+    //Para los audios de los colores cuando es incorrecto
+    int c;
+
     //Para la base de datos
     //Database and Game Finished
     // private DatabaseController database;
@@ -181,30 +184,44 @@ public class AnswersController : MonoBehaviour
                 if (AnswerCorrect == "Circle")
                 {
                     IncorrectsCircles[0].SetActive(true);
+                    showText.sounds[c] = showText.sounds[0];
                 }
                 if (AnswerCorrect == "Rectangle")
                 {
                     IncorrectsCircles[1].SetActive(true);
+                    showText.sounds[c] = showText.sounds[1];
                 }
                 if (AnswerCorrect == "Square")
                 {
                     IncorrectsCircles[2].SetActive(true);
+                    showText.sounds[c] = showText.sounds[2];
                 }
                 if (AnswerCorrect == "Triangle")
                 {
                     IncorrectsCircles[3].SetActive(true);
+                    showText.sounds[c] = showText.sounds[3];
                 }
                 if (AnswerCorrect == "Star")
                 {
                     IncorrectsCircles[4].SetActive(true);
+                    showText.sounds[c] = showText.sounds[4];
                 }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 isPressing = false;
                 //Se reproduce el sonido de incorrecto y el audio de Upsis
-                AudioClip[] audios = new AudioClip[2] { showText.sounds[8], showText.sounds[9] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                if (AnswerIncorrects < 3)
+                {
+                    AudioClip[] audios = new AudioClip[3] { showText.sounds[8], showText.sounds[9], showText.sounds[c] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+                if (AnswerIncorrects == 3)
+                {
+                    AudioClip[] audios = new AudioClip[2] { showText.sounds[8], showText.sounds[9] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+
                 //Se reproduce la animación de triste
                 showText.animator.Play("TristeShaJ");
             }
@@ -214,6 +231,8 @@ public class AnswersController : MonoBehaviour
         if (AnswerIncorrects == 3)
         {
             Debug.Log("Game Over");
+            showText.animator.Play("QuietoShaJ");
+            showText.StopCoroutine(showText.Show());
 
             //Para que se muestre la pantalla de fin del juego:
             //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));

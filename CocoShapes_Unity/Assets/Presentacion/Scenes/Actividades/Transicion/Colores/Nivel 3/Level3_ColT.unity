@@ -325,6 +325,8 @@ MonoBehaviour:
   - {fileID: 1845269753}
   - {fileID: 1012573601}
   - {fileID: 1862420143}
+  soundsToPlay:
+  - {fileID: 0}
 --- !u!1 &309787416
 GameObject:
   m_ObjectHideFlags: 0

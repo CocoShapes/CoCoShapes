@@ -26,6 +26,9 @@ public class AnimationCar : MonoBehaviour
     //Para mostrar las instrucciones(son imágenes)
     public GameObject[] Instructions;
 
+    //Para los audios de los colores cuando es incorrecto
+    int c;
+
     //Para la base de datos
     //Database and Game Finished
     // private DatabaseController database;
@@ -121,25 +124,36 @@ public class AnimationCar : MonoBehaviour
                     //Se ejecuta la animación
                     animator.Play("Rail4IncorrectJ");
                     Instructions[0].GetComponent<SpriteRenderer>().color = Color.red;
+                    sounds[c] = sounds[0];
                 }
                 if (rollerCoster.GameObjectName == "Rail (7)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail7IncorrectJ");
                     Instructions[1].GetComponent<SpriteRenderer>().color = Color.red;
+                    sounds[c] = sounds[1];
                 }
                 if (rollerCoster.GameObjectName == "Rail (10)")
                 {
                     //Se ejecuta la animación
                     animator.Play("Rail10IncorrectJ");
                     Instructions[2].GetComponent<SpriteRenderer>().color = Color.red;
+                    sounds[c] = sounds[2];
                 }
                 //Se suma una respuesta incorrecta
                 AnswerIncorrects++;
                 Debug.Log("Incorrect");
                 //Se reproduce el sonido de incorrecto y el audio de upsis
-                AudioClip[] audios = new AudioClip[2] { sounds[6], sounds[7] };
-                StartCoroutine(audioSource.PlayAudio(audios));
+                if (AnswerIncorrects < 3)
+                {
+                    AudioClip[] audios = new AudioClip[3] { sounds[6], sounds[7], sounds[c] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
+                if (AnswerIncorrects == 3)
+                {
+                    AudioClip[] audios = new AudioClip[2] { sounds[6], sounds[7] };
+                    StartCoroutine(audioSource.PlayAudio(audios));
+                }
                 //Ya no se está presionando un botón se sigue con otra
                 isPressing = false;
             }
@@ -147,6 +161,7 @@ public class AnimationCar : MonoBehaviour
         //Para cuando se hayan respondido 3 incorrectas
         if (AnswerIncorrects == 3)
         {
+            StopCoroutine(rollerCoster.Rail());
             Debug.Log("Game Over");
             //Para que se muestre la pantalla de fin del juego:
             //StartCoroutine(database.PushResult(subject, level, AnswerCorrects, AnswerIncorrects, (int)totalGameTime));
