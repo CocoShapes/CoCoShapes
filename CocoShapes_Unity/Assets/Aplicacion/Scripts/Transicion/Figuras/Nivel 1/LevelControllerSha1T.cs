@@ -86,7 +86,7 @@ public class LevelControllerSha1T : MonoBehaviour
 
         assignResponses();
 
-        while (recorredTime < 12f)
+        while (recorredTime < audios[0].length + audios[1].length)
         {
             recorredTime += Time.deltaTime;
             yield return null;
@@ -185,6 +185,7 @@ public class LevelControllerSha1T : MonoBehaviour
             }
 
             correctAnswers++;
+            arrowError.SetActive(false);
 
             switch (correctAnswers)
             {
@@ -250,11 +251,12 @@ public class LevelControllerSha1T : MonoBehaviour
             }
 
             float recorredTime = 0;
-            while (recorredTime < audioToPlay[0].length)
+            while (recorredTime < audioToPlay[0].length + audioToPlay[1].length)
             {
                 recorredTime += Time.deltaTime;
                 yield return null;
             }
+            playNextShape();
         }
     }
 

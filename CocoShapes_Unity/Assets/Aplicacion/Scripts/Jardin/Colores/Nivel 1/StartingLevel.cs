@@ -10,7 +10,7 @@ public class StartingLevel : MonoBehaviour
     public Text txtColor;
     public Image imgMistake;
 
-    public AudioClip[] audios = new AudioClip[4]; //O = Red, 1 = Blue, 2 = Yellow, 3 = Instruction
+    public AudioClip[] audios = new AudioClip[7]; //O = Red, 1 = Blue, 2 = Yellow, 3 = Instruction, 4= Good Job, 5 = Wrong, 6 = error
     public AudioController audioSource;
 
     //GameObjects Variables
@@ -80,34 +80,71 @@ public class StartingLevel : MonoBehaviour
         }
     }
 
-    private void checkAnswer(){
+    private void checkAnswer(int positionAudio){
         homeRed.transform.Rotate(new Vector3(0, 0, 0));
         homeBlue.transform.Rotate(new Vector3(0, 0, 0));
         homeYellow.transform.Rotate(new Vector3(0, 0, 0));
         
         if(answerColor == txtColor.text){
-            List<string> colorsList = colors.ToList();
-            colorsList.RemoveAt(random);
-            colors = colorsList.ToArray();
-
-            score++;
-            txtColor.text = asignColor();
-            txtColor.color = Color.black;
+            StartCoroutine(GoodAnswer(positionAudio));
         } else {
-            mistakes++;
-            imgMistake.gameObject.SetActive(true);
-            switch(txtColor.text){
-                case "red":
-                    txtColor.color = Color.red;
-                    break;
-                case "blue":
-                    txtColor.color = Color.blue;
-                    break;
-                case "yellow":
-                    txtColor.color = Color.yellow;
-                    break;
-            }
+            StartCoroutine(WrongAnswer(positionAudio));
+            
         }
+    }
+
+    private IEnumerator GoodAnswer(int AudioIndex)
+    {
+        float recorredTime = 0f;
+
+        AudioClip[] correctAudios = new AudioClip[2]{audios[AudioIndex], audios[4]};
+        StartCoroutine(audioSource.playAudio(correctAudios));
+        
+        while(recorredTime < correctAudios[0].length + correctAudios[1].length + 0.5f)
+        {
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        List<string> colorsList = colors.ToList();
+        colorsList.RemoveAt(random);
+        colors = colorsList.ToArray();
+
+        score++;
+        txtColor.text = asignColor();
+        txtColor.color = Color.black;
+    }
+
+    private IEnumerator WrongAnswer(int AudioIndex)
+    {
+        float recorredTime = 0f;
+        AudioClip[] wrongAudios = new AudioClip[2]{audios[AudioIndex], audios[5]};
+        StartCoroutine(audioSource.playAudio(wrongAudios));
+        
+        while(recorredTime < wrongAudios[0].length + wrongAudios[1].length + 0.5f)
+        {
+            recorredTime += Time.deltaTime;
+            yield return null;
+        }
+        
+        AudioClip[] audioColor = new AudioClip[1];
+        mistakes++;
+        imgMistake.gameObject.SetActive(true);
+        switch(txtColor.text){
+            case "red":
+                audioColor[0] = audios[0];
+                txtColor.color = Color.red;
+                break;
+            case "blue":
+                audioColor[0] = audios[1];
+                txtColor.color = Color.blue;
+                break;
+            case "yellow":
+                audioColor[0] = audios[2];
+                txtColor.color = Color.yellow;
+                break;
+        }
+        StartCoroutine(audioSource.playAudio(audioColor));
     }
     
     void Start(){
@@ -149,11 +186,8 @@ public class StartingLevel : MonoBehaviour
 
             StartCoroutine(launchBall.launch());
 
-            AudioClip[] audiosToPlay = new AudioClip[] {audios[0]}; 
-            StartCoroutine(audioSource.playAudio(audiosToPlay));
-
             answerColor = "red";
-            checkAnswer();
+            checkAnswer(0);
         } else if(Input.GetKeyDown(KeyCode.F2)){
             //When recieve the color equal to Blue
             gameObjectBall.SetActive(true);
@@ -167,11 +201,8 @@ public class StartingLevel : MonoBehaviour
 
             StartCoroutine(launchBall.launch());
 
-            AudioClip[] audiosToPlay = new AudioClip[] {audios[1]};
-            StartCoroutine(audioSource.playAudio(audiosToPlay));
-
             answerColor = "blue";
-            checkAnswer();
+            checkAnswer(1);
         } else if(Input.GetKeyDown(KeyCode.F1)){
             //When recieve the color equal to Yellow
             gameObjectBall.SetActive(true);
@@ -185,16 +216,17 @@ public class StartingLevel : MonoBehaviour
 
             StartCoroutine(launchBall.launch());
 
-            AudioClip[] audiosToPlay = new AudioClip[] {audios[2]};
-            StartCoroutine(audioSource.playAudio(audiosToPlay));
-
             answerColor = "yellow";
-            checkAnswer();
+            checkAnswer(2);
+        }
+
+        if(Input.GetKeyDown(KeyCode.F4) || Input.GetKeyDown(KeyCode.F5) || Input.GetKeyDown(KeyCode.F6) || Input.GetKeyDown(KeyCode.F7) || Input.GetKeyDown(KeyCode.F8)){
+            StartCoroutine(WrongAnswer(6));
         }
 
         //To check if the player has lost
         if (mistakes >= 3 && !gameFinished){
-            txtColor.text = "keep trying!";
+            txtColor.text = "Game Over";
             imgMistake.gameObject.SetActive(false);
 
             PanelGameFinished.SetActive(true);
@@ -204,7 +236,7 @@ public class StartingLevel : MonoBehaviour
 
         //To check if the player has won
         if (colors.Length <= 0 && !gameFinished){
-            txtColor.text = "nice job!";
+            txtColor.text = "Game Over";
             cocoAnimator.Play("CelebracionFinal");
 
             PanelGameFinished.SetActive(true);

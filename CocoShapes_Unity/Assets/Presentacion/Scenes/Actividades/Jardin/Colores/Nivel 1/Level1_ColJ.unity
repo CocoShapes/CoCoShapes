@@ -984,6 +984,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5c75070d1e683435da069cfcaa56eab8, type: 3}
   - {fileID: 8300000, guid: 556fd0b6eff5746df83f36306d1f5fa1, type: 3}
   - {fileID: 8300000, guid: ce2cdd73f2a074f3bb1a4e5e102872de, type: 3}
+  - {fileID: 8300000, guid: ab191126d2b9d88478c2ae227baa930b, type: 3}
+  - {fileID: 8300000, guid: 375f57fe55bcb434fbd396ea38ac94fb, type: 3}
+  - {fileID: 8300000, guid: b68e55a33970c4a64b62eaf59d692bbb, type: 3}
   audioSource: {fileID: 2054116789}
   launchBall: {fileID: 818263845}
   answerColor: 

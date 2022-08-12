@@ -126,4 +126,9 @@ public class Admin : MonoBehaviour
             }
         }
     }
+
+    public void GoBackMaps(string grade)
+    {
+        GameObject.Find("SelectStudent").GetComponent<StudentList>().grade = grade;
+    }
 }

@@ -9,6 +9,5 @@ public class SceneTransition : MonoBehaviour
     {
         Animator animator = GetComponent<Animator>();
         animator.Play("FadeOut", -1, 0);
-        Debug.Log("FadeOut");
     }
 }
